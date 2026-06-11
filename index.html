@@ -10,8 +10,7 @@
 <body class="bg-slate-900 text-white font-sans antialiased h-screen flex flex-col">
 
     <header class="bg-slate-800 p-4 text-center shadow-lg border-b border-red-500 shrink-0">
-        <h1 class="text-2xl font-bold text-red-500">📺 Abdullah's All Channels TV</h1>
-        <p class="text-xs text-gray-400 mt-1">Automatic M3U List Player</p>
+        <h1 class="text-2xl font-bold text-red-500">📺 Abdullah's Sports Portal</h1>
     </header>
 
     <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
@@ -20,63 +19,34 @@
             <div id="player" class="w-full max-w-4xl aspect-video rounded-lg overflow-hidden shadow-2xl"></div>
         </div>
 
-        <div class="w-full md:w-80 bg-slate-800 p-4 flex flex-col border-t md:border-t-0 md:border-l border-slate-700 shrink-0 h-full">
-            <h3 class="font-semibold text-lg border-b border-slate-600 pb-2 mb-4 text-slate-300">All Channels (<span id="count">0</span>)</h3>
-            
-            <input type="text" id="search" oninput="filterChannels()" placeholder="Search channel..." class="w-full bg-slate-700 text-white p-2 rounded mb-3 text-sm focus:outline-none focus:ring-1 focus:ring-red-500">
-            
-            <div id="channel-list" class="space-y-2 overflow-y-auto flex-1 pr-1 pb-20">
+        <div class="w-full md:w-80 bg-slate-800 p-4 flex flex-col border-l border-slate-700 shrink-0 h-full">
+            <h3 class="font-semibold text-lg border-b border-slate-600 pb-2 mb-4 text-slate-300">Channels</h3>
+            <div id="channel-list" class="space-y-2 overflow-y-auto flex-1 pb-20">
                 </div>
         </div>
 
     </div>
 
     <script>
-        // Apnar M3U link ekhane bshano hoyeche, eta automatic shob pull korbe
-        const m3uUrl = "https://is.gd/stablesportstv";
+        // APA TO TO AMI APNAR MAIN CHANNELS GULO DIRECT BOSHIYE DIYECHHI JATE O ERROR NA DEY
+        const channels = [
+            {
+                name: "BD vs AUS | Tapmad Sports",
+                url: "https://premierleagpl23.akamaized.net/hls/live/2107108/tapmad-P2s6L_FiN@L-UrU/master.m3u8"
+            },
+            {
+                name: "Sports Stream 2",
+                url: "https://premierleagpl23.akamaized.net/key/live/2107108/tapmad-P2s6L_FiN@L-UrU/master.m3u8"
+            }
+        ];
 
         var player;
-        var channels = [];
 
-        async function loadM3U() {
-            try {
-                // GitHub Pages theke external link fetch korte ektu proxy lagte pare
-                const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(m3uUrl);
-                const response = await fetch(proxyUrl);
-                const data = await response.text();
-                parseM3U(data);
-            } catch (error) {
-                console.error("Error loading M3U:", error);
-            }
-        }
-
-        function parseM3U(data) {
-            const lines = data.split('\n');
-            let currentChannel = null;
-
-            for (let i = 0; i < lines.length; i++) {
-                let line = lines[i].trim();
-                if (line.startsWith('#EXTINF:')) {
-                    const nameMatch = line.split(',')[1];
-                    currentChannel = {
-                        name: nameMatch ? nameMatch.trim() : "Live Channel",
-                        url: ""
-                    };
-                } else if (line.startsWith('http') && currentChannel) {
-                    currentChannel.url = line;
-                    channels.push(currentChannel);
-                    currentChannel = null;
-                }
-            }
-            displayChannels(channels);
-        }
-
-        function displayChannels(list) {
+        function displayChannels() {
             const container = document.getElementById('channel-list');
             container.innerHTML = '';
-            document.getElementById('count').innerText = list.length;
 
-            list.forEach((channel) => {
+            channels.forEach((channel) => {
                 const btn = document.createElement('button');
                 btn.className = "w-full text-left bg-slate-700 hover:bg-red-600 p-3 rounded-md transition text-sm font-medium block truncate";
                 btn.innerHTML = `🎥 ${channel.name}`;
@@ -84,18 +54,12 @@
                 container.appendChild(btn);
             });
 
-            if (list.length > 0 && !player) {
-                playChannel(list[0].url);
+            // Auto play first channel
+            if (channels.length > 0 && !player) {
+                playChannel(channels[0].url);
             }
         }
 
-        function filterChannels() {
-            const query = document.getElementById('search').value.toLowerCase();
-            const filtered = channels.filter(c => c.name.toLowerCase().includes(query));
-            displayChannels(filtered);
-        }
-
-        // Play Video
         function playChannel(url) {
             if (player) { player.destroy(); }
             player = new Clappr.Player({
@@ -108,7 +72,7 @@
             });
         }
 
-        window.onload = loadM3U;
+        window.onload = displayChannels;
     </script>
 </body>
 </html>
