@@ -22,7 +22,7 @@ html,body{
   height:100%;
   min-height:100%;
   overflow:hidden;
-  background:#000;
+  background:transparent;
   color:#fff;
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif
 }
@@ -30,38 +30,35 @@ html,body{
 body{
   position:relative;
   min-height:100dvh;
+  background:transparent
 }
 
 /* BACKGROUND */
 #bgVideo{
   position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
-  min-width:100vw;
-  min-height:100vh;
+  top:-8%;
+  left:-8%;
+  width:116%;
+  height:116%;
+  min-width:116%;
+  min-height:116%;
   object-fit:cover;
   object-position:center;
   z-index:0;
-  background:#000;
+  background:transparent;
   pointer-events:none;
-  display:block;
-
-  /* একটু zoom */
-  transform:scale(1.12);
-  transform-origin:center;
+  display:block
 }
 
 .bg-overlay{
   position:fixed;
-  top:-5%;
-  left:-5%;
-  width:110%;
-  height:110%;
+  top:-10%;
+  left:-10%;
+  width:120%;
+  height:120%;
   z-index:1;
   background:rgba(0,0,0,.12);
-  pointer-events:none;
+  pointer-events:none
 }
 
 /* TOP */
@@ -126,7 +123,7 @@ body{
   fill:#fff
 }
 
-/* YOUTUBE */
+/* HIDDEN YOUTUBE */
 #yt{
   position:fixed;
   width:2px;
@@ -147,10 +144,7 @@ body{
   display:flex;
   align-items:flex-end;
   justify-content:center;
-  padding:
-    0
-    16px
-    calc(55px + env(safe-area-inset-bottom))
+  padding:0 16px calc(55px + env(safe-area-inset-bottom))
 }
 
 /* PLAYER */
@@ -567,7 +561,6 @@ body{
 
 <body>
 
-<!-- BACKGROUND VIDEO -->
 <video
   id="bgVideo"
   src="bg-video.mp4"
@@ -580,7 +573,6 @@ body{
 
 <div class="bg-overlay"></div>
 
-<!-- TOP -->
 <div class="top">
 
   <div class="bd">
@@ -598,13 +590,10 @@ body{
 
 </div>
 
-<!-- YOUTUBE -->
 <div id="yt"></div>
 
-<!-- DRAWER OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
 
-<!-- DRAWER -->
 <div class="drawer" id="drawer">
 
   <div class="drawer-head">
@@ -620,7 +609,6 @@ body{
 
 </div>
 
-<!-- PLAYER -->
 <div class="app">
 
   <section class="player" id="playerCard">
@@ -744,15 +732,24 @@ bgVideo.addEventListener("ended",()=>{
 
 });
 
-/*
-  Background শুরুতেই load/play করার চেষ্টা।
-  Browser autoplay allow করলে সাথে সাথে চলবে।
-*/
+/* দ্রুত background load */
 window.addEventListener("load",()=>{
 
   bgVideo.load();
 
+  const startBG=()=>{
+
+    playBackground();
+
+    document.removeEventListener("touchstart",startBG);
+    document.removeEventListener("click",startBG);
+
+  };
+
   playBackground();
+
+  document.addEventListener("touchstart",startBG,{once:true});
+  document.addEventListener("click",startBG,{once:true});
 
 });
 
@@ -793,7 +790,6 @@ function onYouTubeIframeAPIReady(){
       playsinline:1,
       rel:0,
 
-      /* subtitle/caption বন্ধ */
       cc_load_policy:0,
       iv_load_policy:3,
 
@@ -876,7 +872,7 @@ function togglePlay(){
 
 }
 
-/* CURRENT INDEX */
+/* INDEX */
 
 function getCurrentIndex(){
 
@@ -901,7 +897,6 @@ function nextSong(){
     const next=(current+1)%playlistItems.length;
 
     showTrack(next);
-
     player.playVideoAt(next);
 
   }
@@ -930,7 +925,6 @@ function previousSong(){
       playlistItems.length;
 
     showTrack(prev);
-
     player.playVideoAt(prev);
 
   }
@@ -1014,7 +1008,7 @@ function changeVolume(value){
 
 }
 
-/* IOS HIDE VOLUME */
+/* IOS */
 
 (function(){
 
@@ -1043,7 +1037,7 @@ function toggleDrawer(){
 
 }
 
-/* LOAD PLAYLIST */
+/* PLAYLIST */
 
 function loadPlaylist(){
 
@@ -1098,9 +1092,7 @@ function loadPlaylist(){
     item.onclick=()=>{
 
       showTrack(index);
-
       player.playVideoAt(index);
-
       toggleDrawer();
 
     };
@@ -1148,12 +1140,10 @@ function getDetails(id,index){
     ){
 
       if(data.title)
-        document.getElementById("title").textContent=
-          data.title;
+        document.getElementById("title").textContent=data.title;
 
       if(data.author_name)
-        document.getElementById("artist").textContent=
-          data.author_name;
+        document.getElementById("artist").textContent=data.author_name;
 
     }
 
