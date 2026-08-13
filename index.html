@@ -179,6 +179,7 @@ align-items:flex-end;
 justify-content:center;
 
 padding:0 16px 65px;
+touch-action: pan-y;
 }
 
 
@@ -202,7 +203,6 @@ display:flex;
 align-items:center;
 gap:14px;
 
-touch-action: pan-y;
 position:relative;
 overflow:hidden;
 }
@@ -633,7 +633,7 @@ margin-top:0.5px;
   </div>
 </div>
 
-<div class="app">
+<div class="app" id="appContainer">
 <section class="player" id="playerCard">
 
 <!-- THUMBNAIL -->
@@ -790,17 +790,27 @@ function forceUpdateUI(index){
   if(artistEl) document.getElementById("artist").textContent = artistEl.textContent;
 }
 
+/* IMPROVED SWIPE / SLIDE GESTURE SUPPORT */
 let touchStartX = 0;
 let touchEndX = 0;
-const playerCard = document.getElementById("playerCard");
+const appContainer = document.getElementById("appContainer");
 
-playerCard.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
-playerCard.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, {passive: true});
+appContainer.addEventListener('touchstart', e => { 
+  touchStartX = e.changedTouches[0].screenX; 
+}, {passive: true});
+
+appContainer.addEventListener('touchend', e => { 
+  touchEndX = e.changedTouches[0].screenX; 
+  handleSwipe(); 
+}, {passive: true});
 
 function handleSwipe() {
-  const swipeThreshold = 50;
-  if (touchEndX < touchStartX - swipeThreshold) nextSong();
-  if (touchEndX > touchStartX + swipeThreshold) previousSong();
+  const swipeThreshold = 40;
+  if (touchEndX < touchStartX - swipeThreshold) {
+    nextSong(); // Swipe Left -> Next Song
+  } else if (touchEndX > touchStartX + swipeThreshold) {
+    previousSong(); // Swipe Right -> Previous Song
+  }
 }
 
 function toggleDrawer(){
