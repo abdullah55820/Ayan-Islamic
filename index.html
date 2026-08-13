@@ -2,1244 +2,512 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,
-      maximum-scale=1,user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>My Music Player</title>
 
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
-
-<link rel="apple-touch-icon"
-      sizes="180x180"
-      href="logo.png">
-
-<link rel="icon"
-      type="image/png"
-      href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="icon" type="image/png" href="logo.png">
 
 <style>
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
   margin:0;
   width:100%;
   height:100%;
   overflow:hidden;
   background:#000;
   color:#fff;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Display",
-    "Segoe UI",
-    sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+  "Segoe UI",sans-serif;
 }
 
-body{
-  position:relative;
-  overflow-x:hidden !important;
-}
+body{position:relative}
 
-
-/* =========================================================
-   BACKGROUND VIDEO
-   ========================================================= */
-
+/* BACKGROUND */
 .bg-video{
   position:fixed;
-
   inset:0;
-
   width:100%;
   height:100%;
-
   object-fit:cover;
-  object-position:center center;
-
+  object-position:center;
   z-index:0;
-
-  display:block;
-
   background:#000;
-
   pointer-events:none;
-
-  /*
-    Important:
-    video remains visible while paused
-  */
+  display:block;
 }
-
-
-/* =========================================================
-   BACKGROUND OVERLAY
-   ========================================================= */
 
 .bg-overlay{
   position:fixed;
-
   inset:0;
-
   background:rgba(0,0,0,.12);
-
   z-index:1;
-
   pointer-events:none;
 }
 
+/* YOUTUBE */
+#yt{
+  position:fixed;
+  width:2px;
+  height:2px;
+  left:-10px;
+  bottom:-10px;
+  opacity:.01;
+  pointer-events:none;
+}
 
-/* =========================================================
-   TOP WIDGETS
-   ========================================================= */
-
+/* TOP */
 .top-widgets{
   position:fixed;
-
-  top:14px;
+  top:12px;
   left:50%;
-
   transform:translateX(-50%);
-
   z-index:20;
-
   display:flex;
-
   flex-direction:column;
-
   align-items:center;
-
-  gap:8px;
+  gap:7px;
 }
 
-
-/* =========================================================
-   BD TIME
-   ========================================================= */
-
-.bd-time{
+.bd-time,.playlist-toggle-btn{
   padding:5px 11px;
-
   border-radius:20px;
-
   background:rgba(0,0,0,.35);
-
   border:1px solid rgba(255,255,255,.18);
-
   color:rgba(255,255,255,.92);
-
   font-size:11px;
-
   font-weight:600;
-
-  letter-spacing:.3px;
-
   backdrop-filter:blur(14px);
-
   -webkit-backdrop-filter:blur(14px);
-
   display:flex;
-
   align-items:center;
-
   gap:6px;
 }
-
-
-.live-dot{
-  width:7px;
-  height:7px;
-
-  background:#ff3b30;
-
-  border-radius:50%;
-
-  display:inline-block;
-
-  box-shadow:0 0 8px #ff3b30;
-
-  animation:pulse 1.5s infinite;
-}
-
-
-@keyframes pulse{
-
-  0%{
-    opacity:1;
-    transform:scale(1);
-  }
-
-  50%{
-    opacity:.3;
-    transform:scale(.8);
-  }
-
-  100%{
-    opacity:1;
-    transform:scale(1);
-  }
-
-}
-
-
-/* =========================================================
-   PLAYLIST BUTTON
-   ========================================================= */
 
 .playlist-toggle-btn{
-
-  padding:5px 12px;
-
-  border-radius:20px;
-
-  background:rgba(0,0,0,.35);
-
-  border:1px solid rgba(255,255,255,.18);
-
-  color:rgba(255,255,255,.92);
-
-  font-size:11px;
-
-  font-weight:600;
-
-  backdrop-filter:blur(14px);
-
-  -webkit-backdrop-filter:blur(14px);
-
-  display:flex;
-
-  align-items:center;
-
-  gap:6px;
-
   cursor:pointer;
-
-  transition:
-    transform .2s,
-    background .2s;
 }
-
-
-.playlist-toggle-btn:active{
-  transform:scale(.95);
-}
-
 
 .playlist-toggle-btn svg{
   width:14px;
   height:14px;
-
   fill:#fff;
 }
 
-
-/* =========================================================
-   YOUTUBE PLAYER
-   ========================================================= */
-
-#yt{
-  position:fixed;
-
-  width:2px;
-  height:2px;
-
-  left:-10px;
-  bottom:-10px;
-
-  opacity:.01;
-
-  pointer-events:none;
+.live-dot{
+  width:7px;
+  height:7px;
+  background:#ff3b30;
+  border-radius:50%;
+  box-shadow:0 0 8px #ff3b30;
+  animation:pulse 1.5s infinite;
 }
 
+@keyframes pulse{
+  50%{opacity:.3;transform:scale(.8)}
+}
 
-/* =========================================================
-   APP
-   ========================================================= */
-
+/* PLAYER AREA */
 .app{
-
   position:relative;
-
   z-index:5;
-
   width:100%;
-
   height:100dvh;
-
   display:flex;
-
   align-items:flex-end;
-
   justify-content:center;
-
-  padding:
-    0
-    16px
-    65px;
+  padding:0 12px 60px;
 }
-
-
-/* =========================================================
-   MAIN PLAYER
-   ========================================================= */
 
 .player{
-
-  width:min(460px,94%);
-
-  min-height:126px;
-
-  padding:14px 16px;
-
-  border:1px solid rgba(255,255,255,.20);
-
+  width:min(460px,96%);
+  min-height:120px;
+  padding:13px 15px;
+  border:1px solid rgba(255,255,255,.2);
   border-radius:64px;
-
   background:rgba(255,255,255,.055);
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.55);
-
-  backdrop-filter:
-    blur(30px)
-    saturate(125%);
-
-  -webkit-backdrop-filter:
-    blur(30px)
-    saturate(125%);
-
+  box-shadow:0 20px 60px rgba(0,0,0,.55);
+  backdrop-filter:blur(30px) saturate(125%);
+  -webkit-backdrop-filter:blur(30px) saturate(125%);
   display:flex;
-
   align-items:center;
-
-  gap:11px;
-
+  gap:9px;
   position:relative;
-
   overflow:hidden;
-
-  /*
-    Only vertical scrolling allowed.
-    Horizontal swipe handled by JS.
-  */
   touch-action:pan-y;
 }
 
-
-/* =========================================================
-   COVER
-   ========================================================= */
-
+/* COVER */
 .cover-wrapper{
-
   position:relative;
-
-  width:84px;
-  height:84px;
-
+  width:80px;
+  height:80px;
   flex-shrink:0;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
   border-radius:50%;
-
   overflow:hidden;
-
-  border:
-    1px solid
-    rgba(255,255,255,.30);
-
-  box-shadow:
-    0 5px 20px rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.3);
+  box-shadow:0 5px 20px rgba(0,0,0,.35);
 }
-
 
 .cover{
-
   width:137%;
   height:137%;
-
   margin:-18.5%;
-
   border-radius:50%;
-
   object-fit:cover;
-
-  object-position:center;
-
   background:#222;
-
-  animation:
-    spin 8s linear infinite;
-
+  animation:spin 8s linear infinite;
   animation-play-state:paused;
-
-  user-select:none;
-
-  -webkit-user-drag:none;
 }
 
-
-.cover.spinning{
-  animation-play-state:running;
-}
-
+.cover.spinning{animation-play-state:running}
 
 @keyframes spin{
-
-  from{
-    transform:rotate(0deg);
-  }
-
-  to{
-    transform:rotate(360deg);
-  }
-
+  to{transform:rotate(360deg)}
 }
 
-
-/* =========================================================
-   CENTER HOLE
-   ========================================================= */
-
-.cover-wrapper::after{
-
+.cover-wrapper:after{
   content:"";
-
   position:absolute;
-
   width:16px;
   height:16px;
-
   background:rgba(15,15,15,.82);
-
-  border:
-    2px solid
-    rgba(255,255,255,.30);
-
+  border:2px solid rgba(255,255,255,.3);
   border-radius:50%;
-
   left:50%;
   top:50%;
-
   transform:translate(-50%,-50%);
-
-  z-index:2;
 }
 
-
-/* =========================================================
-   SONG INFO
-   ========================================================= */
-
+/* INFO */
 .middle{
-
   flex:1;
-
   min-width:0;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
 }
-
 
 .title{
-
-  font-size:16px;
-
+  font-size:15px;
   font-weight:700;
-
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
-
-  color:#fff;
-
-  letter-spacing:.2px;
 }
-
 
 .artist{
-
-  font-size:12px;
-
+  font-size:11px;
   color:rgba(255,255,255,.68);
-
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
-
-  margin-top:2px;
-
-  margin-bottom:8px;
+  margin:2px 0 8px;
 }
 
-
-/* =========================================================
-   SEEK BAR
-   ========================================================= */
-
+/* SEEK */
 .seek{
-
   position:relative;
-
   width:100%;
-
   height:5px;
-
   border-radius:10px;
-
-  background:rgba(255,255,255,.20);
-
-  cursor:pointer;
-
+  background:rgba(255,255,255,.2);
   margin-bottom:6px;
-
+  cursor:pointer;
   touch-action:none;
-
   user-select:none;
-
   -webkit-user-select:none;
-
-  /*
-    Important:
-    Isolated from player swipe
-  */
-  z-index:20;
 }
 
-
-.seek::before{
-
+.seek:before{
   content:"";
-
   position:absolute;
-
-  top:-12px;
-  bottom:-12px;
-
   left:-10px;
   right:-10px;
-
-  z-index:10;
+  top:-12px;
+  bottom:-12px;
 }
 
-
 .fill{
-
   position:absolute;
-
   left:0;
   top:0;
-
   height:100%;
-
   width:0;
-
   background:#fff;
-
   border-radius:10px;
-
   pointer-events:none;
 }
 
-
 .time-display{
-
-  font-size:11px;
-
+  font-size:10px;
   color:rgba(255,255,255,.65);
-
   font-variant-numeric:tabular-nums;
 }
 
-
-/* =========================================================
-   CONTROLS
-   ========================================================= */
-
+/* CONTROLS */
 .controls{
-
   display:flex;
-
   align-items:center;
-
-  gap:6px;
-
+  gap:4px;
   flex-shrink:0;
 }
 
-
-.btn{
-
+.btn,.skip-btn{
   width:30px;
   height:30px;
-
   border:0;
-
   background:transparent;
-
   color:#fff;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
-  cursor:pointer;
-
   padding:0;
-
-  transition:transform .1s;
+  cursor:pointer;
 }
 
-
-.btn svg{
-
+.btn svg,.skip-btn svg{
   width:19px;
   height:19px;
-
   fill:#fff;
 }
 
-
-.btn:active{
-  transform:scale(.90);
+.btn:active,.skip-btn:active,.play:active{
+  transform:scale(.9);
 }
-
-
-/* =========================================================
-   NEXT / PREVIOUS
-   ========================================================= */
-
-.skip-btn{
-
-  width:30px;
-  height:30px;
-
-  border:0;
-
-  background:transparent;
-
-  color:#fff;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  padding:0;
-
-  cursor:pointer;
-
-  flex-shrink:0;
-}
-
-
-.skip-btn svg{
-
-  width:19px;
-  height:19px;
-
-  fill:#fff;
-}
-
-
-.skip-btn:active{
-  transform:scale(.90);
-}
-
-
-/* =========================================================
-   PLAY
-   ========================================================= */
 
 .play{
-
-  width:45px;
-  height:45px;
-
-  border-radius:50%;
-
+  width:44px;
+  height:44px;
   border:0;
-
+  border-radius:50%;
   background:#fff;
-
   color:#000;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
-  box-shadow:
-    0 4px 15px rgba(0,0,0,.35);
-
+  box-shadow:0 4px 15px rgba(0,0,0,.35);
   cursor:pointer;
-
   flex-shrink:0;
 }
 
-
 .play svg{
-
   width:20px;
   height:20px;
-
   fill:#000;
-
-  margin-left:2px;
 }
 
-
-.play.playing svg{
-  margin-left:0;
-}
-
-
-.play:active{
-  transform:scale(.90);
-}
-
-
-/* =========================================================
-   VOLUME
-   ========================================================= */
-
+/* VOLUME */
 .vol-container{
-
   display:flex;
-
   align-items:center;
-
-  gap:4px;
-
-  background:rgba(0,0,0,.20);
-
-  border:
-    1px solid
-    rgba(255,255,255,.15);
-
-  padding:4px 6px;
-
+  gap:3px;
+  background:rgba(0,0,0,.2);
+  border:1px solid rgba(255,255,255,.15);
+  padding:3px 5px;
   border-radius:20px;
-
   backdrop-filter:blur(10px);
-
   -webkit-backdrop-filter:blur(10px);
 }
 
-
 .vol-slider-wrapper{
-
   width:0;
-
   overflow:hidden;
-
   opacity:0;
-
   display:flex;
-
   align-items:center;
-
-  transition:
-    width .28s
-    cubic-bezier(.2,.8,.2,1),
-    opacity .2s ease;
+  transition:width .25s,opacity .2s;
 }
 
-
 .vol-slider-wrapper.active{
-
   width:55px;
-
   opacity:1;
-
   margin-left:2px;
 }
 
-
 .vol-slider{
-
-  -webkit-appearance:none;
-
   appearance:none;
-
+  -webkit-appearance:none;
   width:55px;
-
-  height:3.5px;
-
-  background:rgba(255,255,255,.30);
-
+  height:3px;
+  background:rgba(255,255,255,.3);
   border-radius:10px;
-
   outline:none;
-
-  cursor:pointer;
 }
-
 
 .vol-slider::-webkit-slider-thumb{
-
-  -webkit-appearance:none;
-
   appearance:none;
-
+  -webkit-appearance:none;
   width:10px;
   height:10px;
-
   border-radius:50%;
-
   background:#fff;
-
-  cursor:pointer;
-
-  box-shadow:
-    0 0 5px rgba(0,0,0,.5);
 }
 
-
-/* =========================================================
-   DRAWER OVERLAY
-   ========================================================= */
-
+/* DRAWER */
 .drawer-overlay{
-
   position:fixed;
-
   inset:0;
-
   z-index:99;
-
-  background:transparent;
-
-  pointer-events:none;
-
   display:none;
 }
 
-
 .drawer-overlay.active{
-
   display:block;
-
-  pointer-events:auto;
 }
-
-
-/* =========================================================
-   PLAYLIST DRAWER
-   ========================================================= */
 
 .playlist-drawer{
-
   position:fixed;
-
   top:0;
-
-  right:-100%;
-
+  right:-190px;
   width:180px;
-
   height:100dvh;
-
-  background:rgba(20,20,20,.22);
-
-  backdrop-filter:
-    blur(25px)
-    saturate(150%);
-
-  -webkit-backdrop-filter:
-    blur(25px)
-    saturate(150%);
-
-  border-left:
-    1px solid
-    rgba(255,255,255,.15);
-
   z-index:100;
-
-  transition:
-    right .35s
-    cubic-bezier(.2,.8,.2,1);
-
-  display:flex;
-
-  flex-direction:column;
-
   padding:12px 6px;
-
-  box-shadow:
-    -10px 0 30px
-    rgba(0,0,0,.30);
-
-  visibility:hidden;
-
-  pointer-events:none;
+  background:rgba(20,20,20,.22);
+  backdrop-filter:blur(25px) saturate(150%);
+  -webkit-backdrop-filter:blur(25px) saturate(150%);
+  border-left:1px solid rgba(255,255,255,.15);
+  box-shadow:-10px 0 30px rgba(0,0,0,.3);
+  transition:right .35s cubic-bezier(.2,.8,.2,1);
+  display:flex;
+  flex-direction:column;
 }
 
-
-.playlist-drawer.open{
-
-  right:0;
-
-  visibility:visible;
-
-  pointer-events:auto;
-}
-
-
-/* =========================================================
-   DRAWER HEADER
-   ========================================================= */
+.playlist-drawer.open{right:0}
 
 .drawer-header{
-
   display:flex;
-
-  align-items:center;
-
   justify-content:space-between;
-
+  align-items:center;
   padding:6px 8px;
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.15);
-
+  border-bottom:1px solid rgba(255,255,255,.15);
   margin-bottom:8px;
-
   background:rgba(255,255,255,.08);
-
   border-radius:8px;
 }
 
-
 .drawer-title{
-
   font-size:11px;
-
   font-weight:700;
-
-  color:#fff;
 }
-
 
 .close-btn{
-
-  background:transparent;
-
+  background:none;
   border:0;
-
-  color:rgba(255,255,255,.9);
-
-  font-size:16px;
-
+  color:#fff;
+  font-size:18px;
   cursor:pointer;
-
-  padding:0 2px;
-
-  line-height:1;
 }
-
-
-/* =========================================================
-   SONG LIST
-   ========================================================= */
 
 .song-list{
-
   flex:1;
-
   overflow-y:auto;
-
   display:flex;
-
   flex-direction:column;
-
   gap:4px;
-
-  padding-right:2px;
 }
-
-
-.song-list::-webkit-scrollbar{
-  width:2px;
-}
-
-
-.song-list::-webkit-scrollbar-thumb{
-
-  background:
-    rgba(255,255,255,.3);
-
-  border-radius:3px;
-}
-
-
-/* =========================================================
-   SONG ITEM
-   ========================================================= */
 
 .song-item{
-
   display:flex;
-
   align-items:center;
-
   gap:6px;
-
   padding:4px 5px;
-
   border-radius:7px;
-
-  background:
-    rgba(255,255,255,.06);
-
-  border:
-    1px solid
-    rgba(255,255,255,.09);
-
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.09);
   cursor:pointer;
-
-  transition:
-    background .2s,
-    border-color .2s,
-    transform .1s;
 }
 
-
-.song-item:active{
-  transform:scale(.96);
-}
-
-
-.song-item:hover,
 .song-item.active{
-
-  background:
-    rgba(255,255,255,.18);
-
-  border-color:
-    rgba(255,255,255,.30);
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.3);
 }
-
 
 .song-item img{
-
   width:28px;
   height:28px;
-
   border-radius:5px;
-
   object-fit:cover;
-
-  flex-shrink:0;
-
-  box-shadow:
-    0 2px 5px
-    rgba(0,0,0,.3);
 }
 
-
 .song-item-info{
-
   flex:1;
-
   min-width:0;
 }
 
-
 .song-item-title{
-
   font-size:9.5px;
-
   font-weight:700;
-
-  color:#fff;
-
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
 }
-
 
 .song-item-artist{
-
   font-size:8px;
-
   color:rgba(255,255,255,.55);
-
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
-
-  margin-top:.5px;
 }
 
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
+/* MOBILE */
 @media(max-width:480px){
-
-  .app{
-
-    padding-bottom:60px;
-  }
-
-
   .player{
-
-    width:96%;
-
+    width:97%;
     min-height:116px;
-
-    padding:12px 13px;
-
-    border-radius:60px;
-
-    gap:8px;
+    padding:11px 12px;
+    gap:7px;
   }
-
 
   .cover-wrapper{
-
-    width:78px;
-    height:78px;
+    width:76px;
+    height:76px;
   }
 
-
-  .title{
-    font-size:15px;
-  }
-
-
-  .artist{
-    font-size:11px;
-  }
-
+  .title{font-size:14px}
+  .artist{font-size:10px}
 
   .play{
-
-    width:42px;
-    height:42px;
+    width:41px;
+    height:41px;
   }
 
-
-  .top-widgets{
-    top:10px;
-  }
-
-
-  .bd-time{
-
-    font-size:10px;
-
-    padding:4px 9px;
-  }
-
-
-  .playlist-toggle-btn{
-
-    font-size:10px;
-
-    padding:4px 9px;
-  }
-
-
-  .playlist-drawer{
-    width:180px;
-  }
-
+  .controls{gap:2px}
 }
 
-
-/* =========================================================
-   VERY SMALL SCREEN
-   ========================================================= */
-
 @media(max-width:360px){
-
   .player{
-
-    gap:5px;
-
-    padding-left:10px;
-
-    padding-right:10px;
+    padding-left:9px;
+    padding-right:9px;
+    gap:4px;
   }
-
 
   .cover-wrapper{
-
-    width:70px;
-    height:70px;
+    width:68px;
+    height:68px;
   }
 
-
-  .controls{
-    gap:2px;
-  }
-
-
-  .skip-btn,
-  .btn{
-
+  .skip-btn,.btn{
     width:26px;
     height:26px;
   }
 
-
   .play{
-
-    width:39px;
-    height:39px;
+    width:38px;
+    height:38px;
   }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =======================================================
-     BACKGROUND VIDEO
-     ======================================================= -->
-
+<!-- BACKGROUND VIDEO -->
 <video
   id="bgVideo"
   class="bg-video"
@@ -1251,2331 +519,696 @@ body{
   loop>
 </video>
 
-
-<!-- BACKGROUND OVERLAY -->
-
 <div class="bg-overlay"></div>
 
-
-<!-- =======================================================
-     TOP WIDGETS
-     ======================================================= -->
-
+<!-- TOP -->
 <div class="top-widgets">
 
   <div class="bd-time">
-
     <span>BD</span>
-
     <span class="live-dot"></span>
-
-    <span id="bdTimeVal">
-      --:--:-- --
-    </span>
-
+    <span id="bdTimeVal">--:--:-- --</span>
   </div>
 
-
-  <button
-    class="playlist-toggle-btn"
-    onclick="toggleDrawer()">
-
+  <button class="playlist-toggle-btn" id="playlistBtn">
     <svg viewBox="0 0 24 24">
-
-      <path
-        d="
-        M3 10h11v2H3zm0-4h11v2H3zm0
-        8h7v2H3zm13-1v8l6-4z">
-      </path>
-
+      <path d="M3 10h11v2H3zm0-4h11v2H3zm0 8h7v2H3zm13-1v8l6-4z"/>
     </svg>
-
-    <span>Playlist</span>
-
+    Playlist
   </button>
 
 </div>
 
-
-<!-- =======================================================
-     YOUTUBE PLAYER
-     ======================================================= -->
-
+<!-- YOUTUBE -->
 <div id="yt"></div>
 
+<!-- DRAWER -->
+<div class="drawer-overlay" id="overlay"></div>
 
-<!-- =======================================================
-     DRAWER OVERLAY
-     ======================================================= -->
-
-<div
-  class="drawer-overlay"
-  id="overlay"
-  onclick="toggleDrawer()">
-</div>
-
-
-<!-- =======================================================
-     PLAYLIST DRAWER
-     ======================================================= -->
-
-<div
-  class="playlist-drawer"
-  id="drawer">
+<div class="playlist-drawer" id="drawer">
 
   <div class="drawer-header">
-
-    <div class="drawer-title">
-      Playlist Songs
-    </div>
-
-    <button
-      class="close-btn"
-      onclick="toggleDrawer()">
-
-      &times;
-
-    </button>
-
+    <div class="drawer-title">Playlist Songs</div>
+    <button class="close-btn" id="closeDrawer">&times;</button>
   </div>
 
-
-  <div
-    class="song-list"
-    id="songList">
-
-    <div
-      style="
-      text-align:center;
-      color:rgba(255,255,255,.7);
-      font-size:10px;
-      margin-top:15px;">
-
+  <div class="song-list" id="songList">
+    <div style="text-align:center;font-size:10px;margin-top:15px">
       Loading...
-
     </div>
-
   </div>
 
 </div>
 
-
-<!-- =======================================================
-     APP
-     ======================================================= -->
-
+<!-- PLAYER -->
 <div class="app">
 
-<section
-  class="player"
-  id="playerCard">
+  <section class="player" id="playerCard">
 
-
-  <!-- COVER -->
-
-  <div class="cover-wrapper">
-
-    <img
-      id="cover"
-      class="cover"
-      src="logo.png"
-      alt="Album art">
-
-  </div>
-
-
-  <!-- SONG INFORMATION -->
-
-  <div class="middle">
-
-    <div
-      id="title"
-      class="title">
-
-      My Playlist
-
+    <div class="cover-wrapper">
+      <img id="cover" class="cover" src="logo.png" alt="">
     </div>
 
+    <div class="middle">
 
-    <div
-      id="artist"
-      class="artist">
+      <div id="title" class="title">My Playlist</div>
 
-      YouTube Music
+      <div id="artist" class="artist">YouTube Music</div>
 
-    </div>
+      <div class="seek" id="seek">
+        <div class="fill" id="fill"></div>
+      </div>
 
-
-    <!-- SEEK BAR -->
-
-    <div
-      class="seek"
-      id="seek">
-
-      <div
-        class="fill"
-        id="fill">
+      <div class="time-display">
+        <span id="current">0:00</span>
+        /
+        <span id="duration">0:00</span>
       </div>
 
     </div>
 
+    <div class="controls">
 
-    <!-- TIME -->
-
-    <div class="time-display">
-
-      <span id="current">
-        0:00
-      </span>
-
-      /
-
-      <span id="duration">
-        0:00
-      </span>
-
-    </div>
-
-  </div>
-
-
-  <!-- CONTROLS -->
-
-  <div class="controls">
-
-
-    <!-- PREVIOUS -->
-
-    <button
-      class="skip-btn"
-      onclick="previousSong()"
-      aria-label="Previous">
-
-      <svg viewBox="0 0 24 24">
-
-        <path
-          d="
-          M6 5v14h2V5H6zm3 7l9
-          7V5l-9 7z">
-        </path>
-
-      </svg>
-
-    </button>
-
-
-    <!-- PLAY -->
-
-    <button
-      class="play"
-      id="play"
-      onclick="togglePlay()"
-      aria-label="Play">
-
-      <svg
-        id="play-icon"
-        viewBox="0 0 24 24">
-
-        <path
-          d="M8 5v14l11-7z">
-        </path>
-
-      </svg>
-
-    </button>
-
-
-    <!-- NEXT -->
-
-    <button
-      class="skip-btn"
-      onclick="nextSong()"
-      aria-label="Next">
-
-      <svg viewBox="0 0 24 24">
-
-        <path
-          d="
-          M16 5v14h2V5h-2zM6 5v14l9-7-9-7z">
-        </path>
-
-      </svg>
-
-    </button>
-
-
-    <!-- VOLUME -->
-
-    <div class="vol-container">
-
-      <button
-        class="btn"
-        onclick="toggleVolume()"
-        aria-label="Volume">
-
+      <!-- PREVIOUS -->
+      <button class="skip-btn" id="prevBtn">
         <svg viewBox="0 0 24 24">
-
-          <path
-            d="
-            M3 9v6h4l5 5V4L7 9H3zm13.5
-            3c0-1.77-1.02-3.29-2.5-4.03v8.05
-            c1.48-.73 2.5-2.25
-            2.5-4.02zM14 3.23v2.06c2.89
-            .86 5 3.54 5 6.71s-2.11
-            5.85-5 6.71v2.06c4.01-.91
-            7-4.49 7-8.77s-2.99-7.86
-            -7-8.77z">
-          </path>
-
+          <path d="M6 5v14h2V5H6zm3 7l9 7V5l-9 7z"/>
         </svg>
-
       </button>
 
+      <!-- PLAY -->
+      <button class="play" id="playBtn">
+        <svg id="playIcon" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
 
-      <div
-        class="vol-slider-wrapper"
-        id="volWrapper">
+      <!-- NEXT -->
+      <button class="skip-btn" id="nextBtn">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 5v14h2V5h-2zM6 5v14l9  -7-9-7z"/>
+        </svg>
+      </button>
 
-        <input
-          type="range"
-          class="vol-slider"
-          id="volSlider"
-          min="0"
-          max="100"
-          value="100"
-          oninput="changeVolume(this.value)">
+      <!-- VOLUME -->
+      <div class="vol-container" id="volumeContainer">
+
+        <button class="btn" id="volumeBtn">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+        </button>
+
+        <div class="vol-slider-wrapper" id="volWrapper">
+          <input
+            type="range"
+            class="vol-slider"
+            id="volSlider"
+            min="0"
+            max="100"
+            value="100">
+        </div>
 
       </div>
 
     </div>
 
-
-  </div>
-
-</section>
+  </section>
 
 </div>
-
-
-<!-- =======================================================
-     YOUTUBE API
-     ======================================================= -->
 
 <script src="https://www.youtube.com/iframe_api"></script>
 
-
 <script>
+const PLAYLIST_ID="PLB9TgDHfMHmM";
 
-/* =========================================================
-   PLAYLIST
-   ========================================================= */
+let player=null;
+let playing=false;
+let playlistItems=[];
+let progressTimer=null;
+let isSeeking=false;
+let seekPointer=null;
+let swipeStartX=0;
+let swipeStartY=0;
+let volumeTimer=null;
 
-const PLAYLIST_ID =
-  "PLB9TgDHfMHmM";
+const bgVideo=document.getElementById("bgVideo");
+const seek=document.getElementById("seek");
+const playerCard=document.getElementById("playerCard");
 
+/* ---------------- BACKGROUND ---------------- */
 
-/* =========================================================
-   VARIABLES
-   ========================================================= */
-
-let player = null;
-
-let playing = false;
-
-let playlistItems = [];
-
-let progressTimer = null;
-
-
-/* =========================================================
-   BACKGROUND VIDEO
-   ========================================================= */
-
-const bgVideo =
-  document.getElementById("bgVideo");
-
-
-/*
-  Keep video muted.
-  This allows autoplay when browser permits it.
-*/
-
-bgVideo.muted = true;
-
-bgVideo.defaultMuted = true;
-
-bgVideo.loop = true;
-
-bgVideo.playsInline = true;
-
-
-/*
-  IMPORTANT FIX:
-
-  Do NOT set display:none.
-
-  Do NOT hide the video.
-
-  It remains visible while paused.
-*/
-
-
-/* =========================================================
-   SHOW FIRST VIDEO FRAME
-   ========================================================= */
-
-/*
-  Loading the video immediately helps prevent
-  black background on first visit.
-*/
-
-function prepareBackgroundVideo(){
-
-  if(!bgVideo)
-    return;
-
-
-  try{
-
-    bgVideo.load();
-
-  }
-
-  catch(e){}
-
-}
-
-
-prepareBackgroundVideo();
-
-
-/*
-  Once metadata is available, force video
-  to the beginning so its first frame is visible.
-*/
-
-bgVideo.addEventListener(
-  "loadedmetadata",
-  () => {
-
-    try{
-
-      bgVideo.currentTime = 0;
-
-    }
-
-    catch(e){}
-
-  }
-);
-
-
-/*
-  When enough data is available,
-  keep it paused at frame 0.
-*/
-
-bgVideo.addEventListener(
-  "canplay",
-  () => {
-
-    if(!playing){
-
-      try{
-
-        bgVideo.pause();
-
-      }
-
-      catch(e){}
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   PLAY BACKGROUND
-   ========================================================= */
+bgVideo.muted=true;
+bgVideo.loop=true;
+bgVideo.pause();
 
 function playBackground(){
-
-  if(!bgVideo)
-    return;
-
-
-  bgVideo.muted = true;
-
-  bgVideo.loop = true;
-
-
-  const p =
-    bgVideo.play();
-
-
-  if(
-    p &&
-    typeof p.catch === "function"
-  ){
-
-    p.catch(
-      () => {}
-    );
-
-  }
-
+  bgVideo.muted=true;
+  const p=bgVideo.play();
+  if(p) p.catch(()=>{});
 }
-
-
-/* =========================================================
-   PAUSE BACKGROUND
-   ========================================================= */
 
 function pauseBackground(){
-
-  if(!bgVideo)
-    return;
-
-
-  try{
-
-    bgVideo.pause();
-
-  }
-
-  catch(e){}
-
+  bgVideo.pause();
 }
 
+/*
+  Video stays on its current frame when paused.
+  It only moves while music is playing.
+*/
 
-/* =========================================================
-   BANGLADESH TIME
-   ========================================================= */
+/* ---------------- BD TIME ---------------- */
 
 function updateBDTime(){
-
-  const options = {
-
-    timeZone:"Asia/Dhaka",
-
-    hour:"2-digit",
-
-    minute:"2-digit",
-
-    second:"2-digit",
-
-    hour12:true
-
-  };
-
-
-  const timeString =
-    new Intl.DateTimeFormat(
-      "en-US",
-      options
-    ).format(new Date());
-
-
-  const el =
-    document.getElementById(
-      "bdTimeVal"
-    );
-
-
-  if(el){
-
-    el.textContent =
-      timeString;
-
-  }
-
+  document.getElementById("bdTimeVal").textContent=
+    new Intl.DateTimeFormat("en-US",{
+      timeZone:"Asia/Dhaka",
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit",
+      hour12:true
+    }).format(new Date());
 }
 
-
 updateBDTime();
+setInterval(updateBDTime,1000);
 
-
-setInterval(
-  updateBDTime,
-  1000
-);
-
-
-/* =========================================================
-   YOUTUBE API READY
-   ========================================================= */
+/* ---------------- YOUTUBE ---------------- */
 
 function onYouTubeIframeAPIReady(){
 
-  player =
-    new YT.Player(
-      "yt",
-      {
+  player=new YT.Player("yt",{
+    width:"2",
+    height:"2",
 
-        width:"2",
+    playerVars:{
+      autoplay:0,
+      controls:0,
+      disablekb:1,
+      fs:0,
+      modestbranding:1,
+      playsinline:1,
+      rel:0,
+      listType:"playlist",
+      list:PLAYLIST_ID
+    },
 
-        height:"2",
-
-        playerVars:{
-
-          autoplay:0,
-
-          controls:0,
-
-          disablekb:1,
-
-          fs:0,
-
-          modestbranding:1,
-
-          playsinline:1,
-
-          rel:0,
-
-          listType:"playlist",
-
-          list:PLAYLIST_ID
-
-        },
-
-        events:{
-
-          onReady:ready,
-
-          onStateChange:state
-
-        }
-
-      }
-    );
-
+    events:{
+      onReady:onReady,
+      onStateChange:onStateChange
+    }
+  });
 }
 
+function onReady(){
 
-/* =========================================================
-   PLAYER READY
-   ========================================================= */
+  progressTimer=setInterval(updateProgress,200);
 
-function ready(){
-
-  /*
-    Start progress updater.
-  */
-
-  if(!progressTimer){
-
-    progressTimer =
-      setInterval(
-        updateProgress,
-        200
-      );
-
-  }
-
-
-  /*
-    Keep background video visible
-    and paused.
-  */
+  setTimeout(loadPlaylist,1000);
 
   pauseBackground();
-
-
-  /*
-    Load playlist.
-  */
-
-  setTimeout(
-    loadPlaylistItems,
-    1000
-  );
-
-
-  /*
-    Try to get initial video information.
-  */
-
-  setTimeout(
-    updateInfo,
-    1200
-  );
-
 }
 
+/* ---------------- STATE ---------------- */
 
-/* =========================================================
-   PLAYER STATE
-   ========================================================= */
+function onStateChange(e){
 
-function state(e){
+  if(e.data===YT.PlayerState.PLAYING){
 
-  const cover =
-    document.getElementById(
-      "cover"
-    );
+    playing=true;
 
-
-  const playBtn =
-    document.getElementById(
-      "play"
-    );
-
-
-  const playIcon =
-    document.getElementById(
-      "play-icon"
-    );
-
-
-  /*
-    Update playlist highlight.
-  */
-
-  highlightActiveTrack();
-
-
-  /* =====================================================
-     PLAYING
-     ===================================================== */
-
-  if(
-    e.data ===
-    YT.PlayerState.PLAYING
-  ){
-
-    playing = true;
-
-
-    playBtn.classList.add(
-      "playing"
-    );
-
-
-    playIcon.innerHTML =
+    document.getElementById("playIcon").innerHTML=
       '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
 
-
-    cover.classList.add(
-      "spinning"
-    );
-
-
-    /*
-      MUSIC PLAY
-      =
-      BACKGROUND VIDEO PLAY
-    */
+    document.getElementById("cover")
+      .classList.add("spinning");
 
     playBackground();
-
-
     updateInfo();
+    highlightActive();
 
   }
 
-
-  /* =====================================================
-     PAUSED
-     ===================================================== */
-
   else if(
-    e.data ===
-    YT.PlayerState.PAUSED
+    e.data===YT.PlayerState.PAUSED ||
+    e.data===YT.PlayerState.ENDED
   ){
 
-    playing = false;
+    playing=false;
 
-
-    playBtn.classList.remove(
-      "playing"
-    );
-
-
-    playIcon.innerHTML =
+    document.getElementById("playIcon").innerHTML=
       '<path d="M8 5v14l11-7z"/>';
 
-
-    cover.classList.remove(
-      "spinning"
-    );
-
-
-    /*
-      MUSIC PAUSE
-      =
-      VIDEO PAUSE
-    */
+    document.getElementById("cover")
+      .classList.remove("spinning");
 
     pauseBackground();
 
   }
 
-
-  /* =====================================================
-     ENDED
-     ===================================================== */
-
-  else if(
-    e.data ===
-    YT.PlayerState.ENDED
-  ){
-
-    playing = false;
-
-
-    playBtn.classList.remove(
-      "playing"
-    );
-
-
-    playIcon.innerHTML =
-      '<path d="M8 5v14l11-7z"/>';
-
-
-    cover.classList.remove(
-      "spinning"
-    );
-
-
-    pauseBackground();
-
-  }
-
-
-  /* =====================================================
-     BUFFERING
-     ===================================================== */
-
-  else if(
-    e.data ===
-    YT.PlayerState.BUFFERING
-  ){
-
-    /*
-      Don't change playing to false here.
-      Background video continues while YouTube buffers.
-    */
-
-  }
-
+  highlightActive();
 }
 
+/* ---------------- PLAY ---------------- */
 
-/* =========================================================
-   PLAY / PAUSE
-   ========================================================= */
+document.getElementById("playBtn").onclick=()=>{
 
-function togglePlay(){
+  if(!player)return;
 
-  if(!player)
-    return;
+  if(playing) player.pauseVideo();
+  else player.playVideo();
 
+};
 
-  if(playing){
-
-    player.pauseVideo();
-
-  }
-
-  else{
-
-    player.playVideo();
-
-  }
-
-}
-
-
-/* =========================================================
-   VOLUME
-   ========================================================= */
-
-let volTimer = null;
-
-
-function resetVolTimer(){
-
-  if(volTimer){
-
-    clearTimeout(
-      volTimer
-    );
-
-  }
-
-
-  volTimer =
-    setTimeout(
-      () => {
-
-        const wrapper =
-          document.getElementById(
-            "volWrapper"
-          );
-
-
-        if(wrapper){
-
-          wrapper.classList.remove(
-            "active"
-          );
-
-        }
-
-      },
-      3000
-    );
-
-}
-
-
-function toggleVolume(){
-
-  const wrapper =
-    document.getElementById(
-      "volWrapper"
-    );
-
-
-  if(!wrapper)
-    return;
-
-
-  if(
-    wrapper.classList.contains(
-      "active"
-    )
-  ){
-
-    wrapper.classList.remove(
-      "active"
-    );
-
-
-    if(volTimer){
-
-      clearTimeout(
-        volTimer
-      );
-
-    }
-
-  }
-
-  else{
-
-    wrapper.classList.add(
-      "active"
-    );
-
-    resetVolTimer();
-
-  }
-
-}
-
-
-function changeVolume(val){
-
-  if(
-    player &&
-    typeof player.setVolume ===
-    "function"
-  ){
-
-    player.setVolume(
-      Number(val)
-    );
-
-  }
-
-
-  resetVolTimer();
-
-}
-
-
-/* =========================================================
-   CLOSE VOLUME OUTSIDE
-   ========================================================= */
-
-document.addEventListener(
-  "click",
-  (e) => {
-
-    const container =
-      document.querySelector(
-        ".vol-container"
-      );
-
-
-    if(
-      container &&
-      !container.contains(
-        e.target
-      )
-    ){
-
-      const wrapper =
-        document.getElementById(
-          "volWrapper"
-        );
-
-
-      if(wrapper){
-
-        wrapper.classList.remove(
-          "active"
-        );
-
-      }
-
-
-      if(volTimer){
-
-        clearTimeout(
-          volTimer
-        );
-
-      }
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   iPHONE / iPAD ONLY
-   HIDE VOLUME
-   ========================================================= */
-
-function hideVolumeOnIOS(){
-
-  const isIOS =
-    /iPad|iPhone|iPod/.test(
-      navigator.userAgent
-    ) ||
-    (
-      navigator.platform ===
-      "MacIntel" &&
-      navigator.maxTouchPoints > 1
-    );
-
-
-  /*
-    iPhone/iPad:
-      hidden
-
-    Android:
-      visible
-
-    Windows:
-      visible
-
-    Mac:
-      visible
-
-    Other:
-      visible
-  */
-
-  if(isIOS){
-
-    const volume =
-      document.querySelector(
-        ".vol-container"
-      );
-
-
-    if(volume){
-
-      volume.style.display =
-        "none";
-
-    }
-
-  }
-
-}
-
-
-hideVolumeOnIOS();
-
-
-/* =========================================================
-   NEXT SONG
-   ========================================================= */
+/* ---------------- NEXT / PREVIOUS ---------------- */
 
 function nextSong(){
 
-  if(
-    !player ||
-    playlistItems.length === 0
-  ){
-
-    return;
-
-  }
-
-
-  /*
-    Use YouTube's own playlist navigation.
-
-    This prevents accidentally restarting
-    the current track.
-  */
+  if(!player)return;
 
   player.nextVideo();
 
 }
 
-
-/* =========================================================
-   PREVIOUS SONG
-   ========================================================= */
-
 function previousSong(){
 
-  if(
-    !player ||
-    playlistItems.length === 0
-  ){
-
-    return;
-
-  }
-
+  if(!player)return;
 
   player.previousVideo();
 
 }
 
+document.getElementById("nextBtn").onclick=nextSong;
+document.getElementById("prevBtn").onclick=previousSong;
 
-/* =========================================================
-   PLAY SPECIFIC TRACK
-   ========================================================= */
+/* ---------------- VOLUME ---------------- */
 
-function playSpecificTrack(index){
+function isIOS(){
 
-  if(!player)
-    return;
-
-
-  if(
-    typeof player.playVideoAt ===
-    "function"
-  ){
-
-    player.playVideoAt(
-      index
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (
+      navigator.platform==="MacIntel" &&
+      navigator.maxTouchPoints>1
     );
-
-  }
-
-
-  toggleDrawer();
 
 }
 
-
-/* =========================================================
-   PLAYER SWIPE
-   ========================================================= */
-
-let touchStartX = 0;
-
-let touchStartY = 0;
-
-let touchStartTarget = null;
-
-
-const playerCard =
-  document.getElementById(
-    "playerCard"
-  );
-
-
-playerCard.addEventListener(
-  "touchstart",
-  (e) => {
-
-    /*
-      IMPORTANT:
-      If touch starts on seek bar,
-      player swipe is completely disabled.
-    */
-
-    if(
-      e.target.closest(".seek")
-    ){
-
-      touchStartX = 0;
-
-      touchStartY = 0;
-
-      touchStartTarget = "seek";
-
-      return;
-
-    }
-
-
-    touchStartTarget = "player";
-
-
-    const touch =
-      e.changedTouches[0];
-
-
-    touchStartX =
-      touch.screenX;
-
-
-    touchStartY =
-      touch.screenY;
-
-  },
-  {
-    passive:true
-  }
-);
-
-
-playerCard.addEventListener(
-  "touchend",
-  (e) => {
-
-    /*
-      Seek bar gets its own handling.
-    */
-
-    if(
-      touchStartTarget ===
-      "seek"
-    ){
-
-      touchStartTarget = null;
-
-      return;
-
-    }
-
-
-    if(
-      touchStartTarget !==
-      "player"
-    ){
-
-      return;
-
-    }
-
-
-    const touch =
-      e.changedTouches[0];
-
-
-    const touchEndX =
-      touch.screenX;
-
-
-    const touchEndY =
-      touch.screenY;
-
-
-    const dx =
-      touchEndX -
-      touchStartX;
-
-
-    const dy =
-      touchEndY -
-      touchStartY;
-
-
-    touchStartTarget = null;
-
-
-    /*
-      Must be clearly horizontal.
-    */
-
-    if(
-      Math.abs(dx) <=
-      Math.abs(dy)
-    ){
-
-      return;
-
-    }
-
-
-    const threshold = 50;
-
-
-    /*
-      LEFT = NEXT
-    */
-
-    if(
-      dx <=
-      -threshold
-    ){
-
-      nextSong();
-
-    }
-
-
-    /*
-      RIGHT = PREVIOUS
-    */
-
-    else if(
-      dx >=
-      threshold
-    ){
-
-      previousSong();
-
-    }
-
-  },
-  {
-    passive:true
-  }
-);
-
-
-/* =========================================================
-   DRAWER
-   ========================================================= */
-
-function toggleDrawer(){
-
-  const drawer =
-    document.getElementById(
-      "drawer"
-    );
-
-
-  const overlay =
-    document.getElementById(
-      "overlay"
-    );
-
-
-  if(
-    drawer.classList.contains(
-      "open"
-    )
-  ){
-
-    drawer.classList.remove(
-      "open"
-    );
-
-    overlay.classList.remove(
-      "active"
-    );
-
-  }
-
-  else{
-
-    drawer.classList.add(
-      "open"
-    );
-
-    overlay.classList.add(
-      "active"
-    );
-
-  }
-
+/*
+  Volume hidden ONLY on iPhone/iPad.
+  Android/Windows/Mac/other devices = visible.
+*/
+
+if(isIOS()){
+  document.getElementById("volumeContainer").style.display="none";
 }
 
+document.getElementById("volumeBtn").onclick=()=>{
 
-/* =========================================================
-   LOAD PLAYLIST
-   ========================================================= */
+  const w=document.getElementById("volWrapper");
 
-function loadPlaylistItems(){
+  w.classList.toggle("active");
 
-  if(
-    !player ||
-    typeof player.getPlaylist !==
-    "function"
-  ){
+  clearTimeout(volumeTimer);
 
-    return;
-
+  if(w.classList.contains("active")){
+    volumeTimer=setTimeout(()=>{
+      w.classList.remove("active");
+    },3000);
   }
 
+};
 
-  playlistItems =
-    player.getPlaylist();
+document.getElementById("volSlider").oninput=function(){
 
+  if(player) player.setVolume(Number(this.value));
 
-  const listContainer =
-    document.getElementById(
-      "songList"
-    );
+  clearTimeout(volumeTimer);
 
+};
 
-  if(
-    !playlistItems ||
-    playlistItems.length === 0
-  ){
+/* ---------------- PLAYLIST ---------------- */
 
-    listContainer.innerHTML =
-      `
-      <div
-        style="
-        text-align:center;
-        color:rgba(255,255,255,.7);
-        font-size:10px;
-        margin-top:15px;">
-        No tracks found
-      </div>
-      `;
+function loadPlaylist(){
+
+  if(!player || typeof player.getPlaylist!=="function")return;
+
+  playlistItems=player.getPlaylist()||[];
+
+  const list=document.getElementById("songList");
+
+  if(!playlistItems.length){
+
+    list.innerHTML=
+      '<div style="text-align:center;font-size:10px;margin-top:15px">No tracks found</div>';
 
     return;
-
   }
 
+  list.innerHTML="";
 
-  listContainer.innerHTML =
-    "";
+  playlistItems.forEach((id,index)=>{
 
+    const item=document.createElement("div");
 
-  playlistItems.forEach(
-    (id,index) => {
+    item.className="song-item";
+    item.dataset.index=index;
 
-      const item =
-        document.createElement(
-          "div"
-        );
-
-
-      item.className =
-        "song-item";
-
-
-      item.id =
-        "track-" + index;
-
-
-      item.onclick =
-        () =>
-          playSpecificTrack(
-            index
-          );
-
-
-      item.innerHTML =
-        `
-        <img
-          src="https://i.ytimg.com/vi/${id}/hqdefault.jpg"
-          alt="thumb">
-
-        <div class="song-item-info">
-
-          <div
-            class="song-item-title"
-            id="title-${index}">
-            Track #${index + 1}
-          </div>
-
-          <div
-            class="song-item-artist"
-            id="artist-${index}">
-            YouTube Music
-          </div>
-
+    item.innerHTML=`
+      <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg">
+      <div class="song-item-info">
+        <div class="song-item-title" id="st-${index}">
+          Track ${index+1}
         </div>
-        `;
+        <div class="song-item-artist" id="sa-${index}">
+          YouTube Music
+        </div>
+      </div>
+    `;
 
+    item.onclick=()=>{
+      player.playVideoAt(index);
+      closeDrawer();
+    };
 
-      listContainer.appendChild(
-        item
-      );
+    list.appendChild(item);
 
+    getDetails(id,index);
 
-      fetchSongDetails(
-        id,
-        index
-      );
+  });
 
-    }
-  );
-
-
-  highlightActiveTrack();
-
+  highlightActive();
   updateInfo();
-
 }
 
-
-/* =========================================================
-   FETCH SONG DETAILS
-   ========================================================= */
-
-function fetchSongDetails(
-  id,
-  index
-){
+function getDetails(id,index){
 
   fetch(
-    "https://noembed.com/embed?url=https://www.youtube.com/watch?v=" +
-    id
+    "https://noembed.com/embed?url=https://www.youtube.com/watch?v="+id
   )
+  .then(r=>r.json())
+  .then(data=>{
 
-  .then(
-    res =>
-      res.json()
-  )
+    if(!data)return;
 
-  .then(
-    data => {
+    const title=document.getElementById("st-"+index);
+    const artist=document.getElementById("sa-"+index);
 
-      if(
-        !data ||
-        !data.title
-      ){
+    if(title && data.title)
+      title.textContent=data.title;
 
-        return;
+    if(artist && data.author_name)
+      artist.textContent=data.author_name;
 
-      }
+    if(
+      player &&
+      player.getPlaylistIndex &&
+      player.getPlaylistIndex()===index
+    ){
+      if(data.title)
+        document.getElementById("title").textContent=data.title;
 
-
-      const titleEl =
-        document.getElementById(
-          "title-" + index
-        );
-
-
-      const artistEl =
-        document.getElementById(
-          "artist-" + index
-        );
-
-
-      if(titleEl){
-
-        titleEl.textContent =
-          data.title;
-
-      }
-
-
-      if(
-        artistEl &&
-        data.author_name
-      ){
-
-        artistEl.textContent =
-          data.author_name;
-
-      }
-
-
-      if(
-        player &&
-        typeof player.getPlaylistIndex ===
-        "function" &&
-        player.getPlaylistIndex() ===
-        index
-      ){
-
-        document.getElementById(
-          "title"
-        ).textContent =
-          data.title;
-
-
-        if(data.author_name){
-
-          document.getElementById(
-            "artist"
-          ).textContent =
-            data.author_name;
-
-        }
-
-      }
-
+      if(data.author_name)
+        document.getElementById("artist").textContent=data.author_name;
     }
-  )
 
-  .catch(
-    () => {}
-  );
+  })
+  .catch(()=>{});
 
 }
 
+/* ---------------- ACTIVE SONG ---------------- */
 
-/* =========================================================
-   HIGHLIGHT ACTIVE TRACK
-   ========================================================= */
+function highlightActive(){
 
-function highlightActiveTrack(){
+  if(!player || !player.getPlaylistIndex)return;
 
-  if(
-    !player ||
-    typeof player.getPlaylistIndex !==
-    "function"
-  ){
+  const index=player.getPlaylistIndex();
 
-    return;
-
-  }
-
-
-  const currentIndex =
-    player.getPlaylistIndex();
-
-
-  const items =
-    document.querySelectorAll(
-      ".song-item"
-    );
-
-
-  items.forEach(
-    (item,index) => {
-
-      if(
-        index ===
-        currentIndex
-      ){
-
-        item.classList.add(
-          "active"
-        );
-
-      }
-
-      else{
-
-        item.classList.remove(
-          "active"
-        );
-
-      }
-
-    }
-  );
+  document.querySelectorAll(".song-item").forEach((item,i)=>{
+    item.classList.toggle("active",i===index);
+  });
 
 }
 
-
-/* =========================================================
-   SONG INFORMATION
-   ========================================================= */
+/* ---------------- SONG INFO ---------------- */
 
 function updateInfo(){
 
-  if(
-    !player ||
-    typeof player.getVideoData !==
-    "function"
-  ){
-
-    return;
-
-  }
-
+  if(!player || !player.getVideoData)return;
 
   try{
 
-    const d =
-      player.getVideoData();
+    const data=player.getVideoData();
 
+    if(!data || !data.video_id)return;
 
-    if(
-      !d ||
-      !d.video_id
-    ){
+    document.getElementById("cover").src=
+      "https://i.ytimg.com/vi/"+data.video_id+"/hqdefault.jpg";
 
-      return;
+    if(data.title)
+      document.getElementById("title").textContent=data.title;
 
-    }
+    if(data.author)
+      document.getElementById("artist").textContent=data.author;
 
-
-    const cover =
-      document.getElementById(
-        "cover"
-      );
-
-
-    if(cover){
-
-      cover.src =
-        "https://i.ytimg.com/vi/" +
-        d.video_id +
-        "/hqdefault.jpg";
-
-    }
-
-
-    if(
-      d.title &&
-      d.title !== ""
-    ){
-
-      document.getElementById(
-        "title"
-      ).textContent =
-        d.title;
-
-    }
-
-
-    if(
-      d.author &&
-      d.author !== ""
-    ){
-
-      document.getElementById(
-        "artist"
-      ).textContent =
-        d.author;
-
-    }
-
-
-    highlightActiveTrack();
-
-  }
-
-  catch(e){}
+  }catch(e){}
 
 }
 
+/* ---------------- SEEK BAR ---------------- */
 
-/* =========================================================
-   SEEK BAR
-   ========================================================= */
+/*
+  IMPORTANT:
+  Pointer events are used only by the seek bar.
+  So dragging the seek bar NEVER triggers
+  the player's next/previous swipe.
+*/
 
-let isDragging = false;
+function seekPosition(x){
 
-let seekPointerId = null;
-
-let seekWasPlaying = false;
-
-
-const seekElement =
-  document.getElementById(
-    "seek"
-  );
-
-
-/* =========================================================
-   GET SEEK POSITION
-   ========================================================= */
-
-function getSeekPosition(
-  clientX
-){
-
-  const rect =
-    seekElement.getBoundingClientRect();
-
-
-  if(
-    !rect.width
-  ){
-
-    return 0;
-
-  }
-
+  const r=seek.getBoundingClientRect();
 
   return Math.max(
     0,
     Math.min(
       1,
-      (
-        clientX -
-        rect.left
-      ) /
-      rect.width
+      (x-r.left)/r.width
     )
   );
 
 }
 
+function showSeek(pos){
 
-/* =========================================================
-   UPDATE SEEK UI
-   ========================================================= */
+  document.getElementById("fill").style.width=
+    (pos*100)+"%";
 
-function updateSeekUI(
-  pos
-){
+  if(player && player.getDuration){
 
-  document.getElementById(
-    "fill"
-  ).style.width =
-    (
-      pos * 100
-    ) + "%";
+    const d=player.getDuration();
 
-
-  if(
-    player &&
-    typeof player.getDuration ===
-    "function"
-  ){
-
-    const duration =
-      player.getDuration();
-
-
-    if(duration){
-
-      document.getElementById(
-        "current"
-      ).textContent =
-        format(
-          pos * duration
-        );
-
+    if(d){
+      document.getElementById("current").textContent=
+        format(pos*d);
     }
 
   }
 
 }
 
+seek.addEventListener("pointerdown",e=>{
 
-/* =========================================================
-   START SEEK
-   ========================================================= */
+  if(!player || !player.getDuration)return;
 
-function startSeek(
-  clientX,
-  pointerId
-){
+  if(player.getDuration()<=0)return;
 
-  if(
-    !player ||
-    typeof player.getDuration !==
-    "function"
-  ){
+  e.preventDefault();
+  e.stopPropagation();
 
-    return;
+  isSeeking=true;
+  seekPointer=e.pointerId;
 
-  }
+  seek.setPointerCapture(e.pointerId);
 
+  showSeek(seekPosition(e.clientX));
 
-  const duration =
-    player.getDuration();
+});
 
+seek.addEventListener("pointermove",e=>{
 
-  if(
-    !duration ||
-    duration <= 0
-  ){
+  if(!isSeeking || e.pointerId!==seekPointer)return;
 
-    return;
+  e.preventDefault();
+  e.stopPropagation();
 
-  }
+  showSeek(seekPosition(e.clientX));
 
+});
 
-  isDragging = true;
+function finishSeek(e){
 
-  seekPointerId =
-    pointerId;
+  if(!isSeeking)return;
 
+  e.preventDefault();
+  e.stopPropagation();
 
-  seekWasPlaying =
-    playing;
+  const pos=seekPosition(e.clientX);
 
+  isSeeking=false;
+  seekPointer=null;
 
-  const pos =
-    getSeekPosition(
-      clientX
-    );
+  showSeek(pos);
 
+  if(player && player.getDuration){
 
-  updateSeekUI(
-    pos
-  );
+    const d=player.getDuration();
 
-}
-
-
-/* =========================================================
-   MOVE SEEK
-   ========================================================= */
-
-function moveSeek(
-  clientX
-){
-
-  if(!isDragging)
-    return;
-
-
-  const pos =
-    getSeekPosition(
-      clientX
-    );
-
-
-  updateSeekUI(
-    pos
-  );
-
-}
-
-
-/* =========================================================
-   FINISH SEEK
-   ========================================================= */
-
-function finishSeek(
-  clientX
-){
-
-  if(!isDragging)
-    return;
-
-
-  const pos =
-    getSeekPosition(
-      clientX
-    );
-
-
-  isDragging = false;
-
-  seekPointerId = null;
-
-
-  updateSeekUI(
-    pos
-  );
-
-
-  if(
-    player &&
-    typeof player.getDuration ===
-    "function"
-  ){
-
-    const duration =
-      player.getDuration();
-
-
-    if(
-      duration &&
-      duration > 0
-    ){
-
-      /*
-        IMPORTANT:
-        Only seek after the drag ends.
-
-        This prevents the old problem
-        where dragging the bar caused
-        the song to restart/change.
-      */
-
-      player.seekTo(
-        pos * duration,
-        true
-      );
-
-    }
+    if(d>0)
+      player.seekTo(pos*d,true);
 
   }
 
 }
 
+seek.addEventListener("pointerup",finishSeek);
+seek.addEventListener("pointercancel",finishSeek);
 
-/* =========================================================
-   POINTER DOWN
-   ========================================================= */
-
-seekElement.addEventListener(
-  "pointerdown",
-  (e) => {
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-
-    try{
-
-      seekElement.setPointerCapture(
-        e.pointerId
-      );
-
-    }
-
-    catch(err){}
-
-
-    startSeek(
-      e.clientX,
-      e.pointerId
-    );
-
-  }
-);
-
-
-/* =========================================================
-   POINTER MOVE
-   ========================================================= */
-
-seekElement.addEventListener(
-  "pointermove",
-  (e) => {
-
-    if(!isDragging)
-      return;
-
-
-    if(
-      seekPointerId !== null &&
-      e.pointerId !==
-      seekPointerId
-    ){
-
-      return;
-
-    }
-
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-
-    moveSeek(
-      e.clientX
-    );
-
-  }
-);
-
-
-/* =========================================================
-   POINTER UP
-   ========================================================= */
-
-seekElement.addEventListener(
-  "pointerup",
-  (e) => {
-
-    if(!isDragging)
-      return;
-
-
-    e.preventDefault();
-
-    e.stopPropagation();
-
-
-    finishSeek(
-      e.clientX
-    );
-
-  }
-);
-
-
-/* =========================================================
-   POINTER CANCEL
-   ========================================================= */
-
-seekElement.addEventListener(
-  "pointercancel",
-  (e) => {
-
-    if(!isDragging)
-      return;
-
-
-    finishSeek(
-      e.clientX
-    );
-
-  }
-);
-
-
-/* =========================================================
-   POINTER LEAVE
-   ========================================================= */
-
-seekElement.addEventListener(
-  "lostpointercapture",
-  () => {
-
-    /*
-      Don't seek to a random position here.
-
-      pointerup normally handles the final position.
-    */
-
-  }
-);
-
-
-/* =========================================================
-   PROGRESS
-   ========================================================= */
+/* ---------------- PROGRESS ---------------- */
 
 function updateProgress(){
 
-  /*
-    Never overwrite UI during drag.
-  */
+  if(isSeeking)return;
 
-  if(isDragging)
-    return;
-
-
-  if(
-    !player ||
-    typeof player.getCurrentTime !==
-    "function"
-  ){
-
-    return;
-
-  }
-
+  if(!player ||
+     !player.getCurrentTime ||
+     !player.getDuration)return;
 
   try{
 
-    const c =
-      player.getCurrentTime();
+    const current=player.getCurrentTime();
+    const duration=player.getDuration();
 
+    if(!duration || duration<=0)return;
 
-    const d =
-      player.getDuration();
+    document.getElementById("fill").style.width=
+      ((current/duration)*100)+"%";
 
+    document.getElementById("current").textContent=
+      format(current);
 
-    if(
-      !d ||
-      d <= 0
-    ){
+    document.getElementById("duration").textContent=
+      format(duration);
 
-      return;
-
-    }
-
-
-    const percentage =
-      Math.max(
-        0,
-        Math.min(
-          100,
-          (
-            c / d
-          ) * 100
-        )
-      );
-
-
-    document.getElementById(
-      "fill"
-    ).style.width =
-      percentage + "%";
-
-
-    document.getElementById(
-      "current"
-    ).textContent =
-      format(c);
-
-
-    document.getElementById(
-      "duration"
-    ).textContent =
-      format(d);
-
-  }
-
-  catch(e){}
+  }catch(e){}
 
 }
 
+function format(sec){
 
-/* =========================================================
-   FORMAT TIME
-   ========================================================= */
+  if(!sec || isNaN(sec))return "0:00";
 
-function format(s){
+  sec=Math.floor(sec);
 
-  if(
-    !s ||
-    isNaN(s)
-  ){
-
-    return "0:00";
-
-  }
-
-
-  s =
-    Math.floor(s);
-
-
-  return (
-    Math.floor(
-      s / 60
-    )
-    +
-    ":"
-    +
-    String(
-      s % 60
-    ).padStart(
-      2,
-      "0"
-    )
-  );
+  return Math.floor(sec/60)+":"+
+    String(sec%60).padStart(2,"0");
 
 }
 
-
-/* =========================================================
-   BACKGROUND VIDEO LOOP
-   ========================================================= */
-
-bgVideo.addEventListener(
-  "ended",
-  () => {
-
-    /*
-      loop=true should handle this.
-
-      This is a backup.
-    */
-
-    if(playing){
-
-      try{
-
-        bgVideo.currentTime =
-          0;
-
-        playBackground();
-
-      }
-
-      catch(e){}
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   PAGE VISIBILITY
-   ========================================================= */
-
-document.addEventListener(
-  "visibilitychange",
-  () => {
-
-    /*
-      Don't automatically stop music.
-
-      Only make sure background video
-      follows the current music state.
-    */
-
-    if(playing){
-
-      /*
-        Do not force play here because
-        browser policies may block it.
-      */
-
-    }
-
-    else{
-
-      pauseBackground();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   PREVENT IMAGE DRAG
-   ========================================================= */
-
-document.addEventListener(
-  "dragstart",
-  (e) => {
-
-    if(
-      e.target.tagName ===
-      "IMG"
-    ){
-
-      e.preventDefault();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   INITIAL VIDEO FRAME FIX
-   ========================================================= */
+/* ---------------- SWIPE ---------------- */
 
 /*
-  Some browsers don't paint a video frame until
-  the video has been loaded.
-
-  This ensures the video is visible before music.
+  Swipe is handled ONLY if the touch
+  did NOT start on the seek bar.
 */
 
-window.addEventListener(
-  "load",
-  () => {
+playerCard.addEventListener("touchstart",e=>{
 
-    if(!bgVideo)
-      return;
-
-
-    bgVideo.muted = true;
-
-    bgVideo.loop = true;
-
-
-    /*
-      Ask browser to preload the video.
-    */
-
-    try{
-
-      bgVideo.load();
-
-    }
-
-    catch(e){}
-
+  if(e.target.closest(".seek")){
+    swipeStartX=null;
+    swipeStartY=null;
+    return;
   }
-);
 
+  if(e.touches.length!==1)return;
+
+  swipeStartX=e.touches[0].clientX;
+  swipeStartY=e.touches[0].clientY;
+
+},{passive:true});
+
+playerCard.addEventListener("touchend",e=>{
+
+  if(swipeStartX===null)return;
+
+  const x=e.changedTouches[0].clientX;
+  const y=e.changedTouches[0].clientY;
+
+  const dx=x-swipeStartX;
+  const dy=y-swipeStartY;
+
+  swipeStartX=null;
+  swipeStartY=null;
+
+  if(Math.abs(dx)<50)return;
+  if(Math.abs(dx)<=Math.abs(dy))return;
+
+  if(dx<0) nextSong();
+  else previousSong();
+
+},{passive:true});
+
+/* ---------------- DRAWER ---------------- */
+
+function openDrawer(){
+
+  document.getElementById("drawer")
+    .classList.add("open");
+
+  document.getElementById("overlay")
+    .classList.add("active");
+
+}
+
+function closeDrawer(){
+
+  document.getElementById("drawer")
+    .classList.remove("open");
+
+  document.getElementById("overlay")
+    .classList.remove("active");
+
+}
+
+document.getElementById("playlistBtn").onclick=openDrawer;
+document.getElementById("closeDrawer").onclick=closeDrawer;
+document.getElementById("overlay").onclick=closeDrawer;
+
+/* ---------------- BACKGROUND LOOP ---------------- */
+
+bgVideo.addEventListener("ended",()=>{
+
+  bgVideo.currentTime=0;
+
+  if(playing) playBackground();
+
+});
+
+/* ---------------- PAGE VISIBILITY ---------------- */
+
+document.addEventListener("visibilitychange",()=>{
+
+  if(!playing) pauseBackground();
+
+});
+
+/* ---------------- IMAGE DRAG ---------------- */
+
+document.addEventListener("dragstart",e=>{
+
+  if(e.target.tagName==="IMG")
+    e.preventDefault();
+
+});
 </script>
 
 </body>
