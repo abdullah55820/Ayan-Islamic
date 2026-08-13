@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
 
 <title>My Music Player</title>
 
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
 
-<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-<link rel="icon" type="image/png" href="logo.png">
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="logo.png"
+>
+
+<link
+  rel="icon"
+  type="image/png"
+  href="logo.png"
+>
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,
@@ -24,30 +43,38 @@ body{
   width:100%;
   height:100%;
   overflow:hidden;
+
   background:#000;
   color:#fff;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Segoe UI",
+    sans-serif;
 }
 
 body{
-  position:relative
+  position:relative;
 }
 
-/* =========================
+
+/* =====================================================
    BACKGROUND VIDEO
-========================= */
+===================================================== */
 
 #bgVideo{
+
   position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:calc(-1 * env(safe-area-inset-bottom));
+
+  inset:0;
 
   width:100%;
-  height:calc(100% + env(safe-area-inset-bottom));
+  height:100%;
 
   object-fit:cover;
+
   object-position:center;
 
   z-index:0;
@@ -58,37 +85,49 @@ body{
 
   pointer-events:none;
 
-  /* Helps mobile browsers */
+  user-select:none;
+  -webkit-user-select:none;
+
   transform:translateZ(0);
   -webkit-transform:translateZ(0);
 
-  /* Prevent weird video selection */
-  user-select:none;
-  -webkit-user-select:none;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
 }
 
+
+/*
+  Dark overlay.
+  চাইলে 0 করে দিতে পারো।
+*/
+
 .bg-overlay{
+
   position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:calc(-1 * env(safe-area-inset-bottom));
+
+  inset:0;
 
   z-index:1;
 
   background:rgba(0,0,0,.12);
 
-  pointer-events:none
+  pointer-events:none;
 }
 
-/* =========================
+
+/* =====================================================
    TOP
-========================= */
+===================================================== */
 
 .top{
+
   position:fixed;
 
-  top:calc(10px + env(safe-area-inset-top));
+  top:
+    calc(
+      10px +
+      env(safe-area-inset-top)
+    );
 
   left:50%;
 
@@ -97,17 +136,23 @@ body{
   z-index:20;
 
   display:flex;
+
   flex-direction:column;
+
   align-items:center;
 
-  gap:8px
+  gap:8px;
 }
+
 
 .bd,
 .playlist-btn{
-  border:1px solid rgba(255,255,255,.18);
 
-  background:rgba(0,0,0,.35);
+  border:1px solid
+    rgba(255,255,255,.18);
+
+  background:
+    rgba(0,0,0,.35);
 
   color:#fff;
 
@@ -116,21 +161,26 @@ body{
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
 
-  font-weight:600
+  font-weight:600;
 }
 
+
 .bd{
+
   padding:5px 11px;
 
   font-size:11px;
 
   display:flex;
+
   align-items:center;
 
-  gap:6px
+  gap:6px;
 }
 
+
 .dot{
+
   width:7px;
   height:7px;
 
@@ -138,43 +188,54 @@ body{
 
   background:#ff3b30;
 
-  box-shadow:0 0 8px #ff3b30;
+  box-shadow:
+    0 0 8px #ff3b30;
 
-  animation:pulse 1.5s infinite
+  animation:pulse 1.5s infinite;
 }
+
 
 @keyframes pulse{
+
   50%{
     opacity:.3;
-    transform:scale(.8)
+    transform:scale(.8);
   }
+
 }
 
+
 .playlist-btn{
+
   padding:5px 12px;
 
   font-size:11px;
 
   display:flex;
+
   align-items:center;
 
   gap:6px;
 
-  cursor:pointer
+  cursor:pointer;
 }
 
+
 .playlist-btn svg{
+
   width:14px;
   height:14px;
 
-  fill:#fff
+  fill:#fff;
 }
 
-/* =========================
+
+/* =====================================================
    HIDDEN YOUTUBE
-========================= */
+===================================================== */
 
 #yt{
+
   position:fixed;
 
   width:2px;
@@ -185,37 +246,46 @@ body{
 
   opacity:.01;
 
-  pointer-events:none
+  pointer-events:none;
 }
 
-/* =========================
+
+/* =====================================================
    APP
-========================= */
+===================================================== */
 
 .app{
+
   position:relative;
 
   z-index:5;
 
   width:100%;
+
   height:100dvh;
 
   display:flex;
 
   align-items:flex-end;
+
   justify-content:center;
 
   padding:
     0
     16px
-    calc(55px + env(safe-area-inset-bottom))
+    calc(
+      55px +
+      env(safe-area-inset-bottom)
+    );
 }
 
-/* =========================
+
+/* =====================================================
    PLAYER
-========================= */
+===================================================== */
 
 .player{
+
   width:min(460px,96%);
 
   min-height:126px;
@@ -223,6 +293,7 @@ body{
   padding:14px 16px;
 
   display:flex;
+
   align-items:center;
 
   gap:10px;
@@ -231,25 +302,37 @@ body{
 
   overflow:hidden;
 
-  border:1px solid rgba(255,255,255,.2);
+  border:
+    1px solid
+    rgba(255,255,255,.2);
 
   border-radius:64px;
 
-  background:rgba(255,255,255,.055);
+  background:
+    rgba(255,255,255,.055);
 
-  box-shadow:0 20px 60px rgba(0,0,0,.55);
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.55);
 
-  backdrop-filter:blur(30px) saturate(125%);
-  -webkit-backdrop-filter:blur(30px) saturate(125%);
+  backdrop-filter:
+    blur(30px)
+    saturate(125%);
 
-  touch-action:pan-y
+  -webkit-backdrop-filter:
+    blur(30px)
+    saturate(125%);
+
+  touch-action:pan-y;
 }
 
-/* =========================
+
+/* =====================================================
    COVER
-========================= */
+===================================================== */
 
 .cover-wrap{
+
   width:84px;
   height:84px;
 
@@ -261,12 +344,18 @@ body{
 
   position:relative;
 
-  border:1px solid rgba(255,255,255,.3);
+  border:
+    1px solid
+    rgba(255,255,255,.3);
 
-  box-shadow:0 5px 20px rgba(0,0,0,.35)
+  box-shadow:
+    0 5px 20px
+    rgba(0,0,0,.35);
 }
 
+
 .cover{
+
   width:137%;
   height:137%;
 
@@ -278,22 +367,30 @@ body{
 
   background:#222;
 
-  animation:spin 8s linear infinite;
+  animation:
+    spin 8s linear infinite;
 
-  animation-play-state:paused
+  animation-play-state:paused;
 }
+
 
 .cover.spin{
-  animation-play-state:running
+
+  animation-play-state:running;
 }
+
 
 @keyframes spin{
+
   to{
-    transform:rotate(360deg)
+    transform:rotate(360deg);
   }
+
 }
 
+
 .cover-wrap:after{
+
   content:"";
 
   position:absolute;
@@ -304,25 +401,34 @@ body{
   left:50%;
   top:50%;
 
-  transform:translate(-50%,-50%);
+  transform:
+    translate(-50%,-50%);
 
   border-radius:50%;
 
-  background:rgba(15,15,15,.82);
+  background:
+    rgba(15,15,15,.82);
 
-  border:2px solid rgba(255,255,255,.3)
+  border:
+    2px solid
+    rgba(255,255,255,.3);
 }
 
-/* =========================
+
+/* =====================================================
    INFO
-========================= */
+===================================================== */
 
 .middle{
+
   flex:1;
-  min-width:0
+
+  min-width:0;
 }
 
+
 .title{
+
   font-size:16px;
 
   font-weight:700;
@@ -331,28 +437,33 @@ body{
 
   overflow:hidden;
 
-  text-overflow:ellipsis
+  text-overflow:ellipsis;
 }
 
+
 .artist{
+
   margin:2px 0 8px;
 
   font-size:12px;
 
-  color:rgba(255,255,255,.68);
+  color:
+    rgba(255,255,255,.68);
 
   white-space:nowrap;
 
   overflow:hidden;
 
-  text-overflow:ellipsis
+  text-overflow:ellipsis;
 }
 
-/* =========================
+
+/* =====================================================
    SEEK
-========================= */
+===================================================== */
 
 .seek{
+
   position:relative;
 
   width:100%;
@@ -360,7 +471,8 @@ body{
 
   border-radius:10px;
 
-  background:rgba(255,255,255,.2);
+  background:
+    rgba(255,255,255,.2);
 
   cursor:pointer;
 
@@ -368,10 +480,12 @@ body{
 
   touch-action:none;
 
-  user-select:none
+  user-select:none;
 }
 
+
 .seek:before{
+
   content:"";
 
   position:absolute;
@@ -380,49 +494,60 @@ body{
   bottom:-12px;
 
   left:-10px;
-  right:-10px
+  right:-10px;
 }
 
+
 .fill{
+
   position:absolute;
 
   left:0;
   top:0;
 
   height:100%;
+
   width:0;
 
   border-radius:10px;
 
   background:#fff;
 
-  pointer-events:none
+  pointer-events:none;
 }
+
 
 .time{
+
   font-size:11px;
 
-  color:rgba(255,255,255,.65);
+  color:
+    rgba(255,255,255,.65);
 
-  font-variant-numeric:tabular-nums
+  font-variant-numeric:
+    tabular-nums;
 }
 
-/* =========================
+
+/* =====================================================
    CONTROLS
-========================= */
+===================================================== */
 
 .controls{
+
   display:flex;
 
   align-items:center;
 
   gap:5px;
 
-  flex-shrink:0
+  flex-shrink:0;
 }
+
 
 .btn,
 .skip{
+
   width:30px;
   height:30px;
 
@@ -440,24 +565,30 @@ body{
 
   justify-content:center;
 
-  cursor:pointer
+  cursor:pointer;
 }
+
 
 .btn svg,
 .skip svg{
+
   width:19px;
   height:19px;
 
-  fill:#fff
+  fill:#fff;
 }
+
 
 .btn:active,
 .skip:active,
 .play:active{
-  transform:scale(.9)
+
+  transform:scale(.9);
 }
 
+
 .play{
+
   width:45px;
   height:45px;
 
@@ -477,23 +608,29 @@ body{
 
   flex-shrink:0;
 
-  box-shadow:0 4px 15px rgba(0,0,0,.35);
+  box-shadow:
+    0 4px 15px
+    rgba(0,0,0,.35);
 
-  cursor:pointer
+  cursor:pointer;
 }
 
+
 .play svg{
+
   width:20px;
   height:20px;
 
-  fill:#000
+  fill:#000;
 }
 
-/* =========================
+
+/* =====================================================
    VOLUME
-========================= */
+===================================================== */
 
 .volume{
+
   display:flex;
 
   align-items:center;
@@ -504,15 +641,22 @@ body{
 
   border-radius:20px;
 
-  background:rgba(0,0,0,.2);
+  background:
+    rgba(0,0,0,.2);
 
-  border:1px solid rgba(255,255,255,.15);
+  border:
+    1px solid
+    rgba(255,255,255,.15);
 
   backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px)
+
+  -webkit-backdrop-filter:
+    blur(10px);
 }
 
+
 .vol-wrap{
+
   width:0;
 
   opacity:0;
@@ -523,32 +667,39 @@ body{
 
   display:flex;
 
-  align-items:center
+  align-items:center;
 }
 
+
 .vol-wrap.active{
+
   width:55px;
 
   opacity:1;
 
-  margin-left:2px
+  margin-left:2px;
 }
 
+
 .vol{
+
   width:55px;
   height:3.5px;
 
   appearance:none;
   -webkit-appearance:none;
 
-  background:rgba(255,255,255,.3);
+  background:
+    rgba(255,255,255,.3);
 
   border-radius:10px;
 
-  outline:0
+  outline:0;
 }
 
+
 .vol::-webkit-slider-thumb{
+
   appearance:none;
   -webkit-appearance:none;
 
@@ -557,34 +708,42 @@ body{
 
   border-radius:50%;
 
-  background:#fff
+  background:#fff;
 }
 
-/* =========================
+
+/* =====================================================
    DRAWER
-========================= */
+===================================================== */
 
 .overlay{
+
   position:fixed;
 
   inset:0;
 
   z-index:90;
 
-  display:none
+  display:none;
 }
+
 
 .overlay.show{
-  display:block
+
+  display:block;
 }
 
+
 .drawer{
+
   position:fixed;
 
   top:0;
+
   right:-190px;
 
   width:180px;
+
   height:100dvh;
 
   z-index:100;
@@ -595,31 +754,47 @@ body{
 
   pointer-events:none;
 
-  background:rgba(20,20,20,.22);
+  background:
+    rgba(20,20,20,.22);
 
-  border-left:1px solid rgba(255,255,255,.15);
+  border-left:
+    1px solid
+    rgba(255,255,255,.15);
 
-  backdrop-filter:blur(25px) saturate(150%);
-  -webkit-backdrop-filter:blur(25px) saturate(150%);
+  backdrop-filter:
+    blur(25px)
+    saturate(150%);
 
-  box-shadow:-10px 0 30px rgba(0,0,0,.3);
+  -webkit-backdrop-filter:
+    blur(25px)
+    saturate(150%);
 
-  transition:right .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow:
+    -10px 0 30px
+    rgba(0,0,0,.3);
+
+  transition:
+    right .35s
+    cubic-bezier(.2,.8,.2,1);
 
   display:flex;
 
-  flex-direction:column
+  flex-direction:column;
 }
 
+
 .drawer.open{
+
   right:0;
 
   visibility:visible;
 
-  pointer-events:auto
+  pointer-events:auto;
 }
 
+
 .drawer-head{
+
   display:flex;
 
   align-items:center;
@@ -630,20 +805,27 @@ body{
 
   margin-bottom:8px;
 
-  border-bottom:1px solid rgba(255,255,255,.15);
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.15);
 
-  background:rgba(255,255,255,.08);
+  background:
+    rgba(255,255,255,.08);
 
-  border-radius:8px
+  border-radius:8px;
 }
+
 
 .drawer-title{
+
   font-size:11px;
 
-  font-weight:700
+  font-weight:700;
 }
 
+
 .close{
+
   border:0;
 
   background:transparent;
@@ -652,10 +834,12 @@ body{
 
   font-size:18px;
 
-  cursor:pointer
+  cursor:pointer;
 }
 
+
 .song-list{
+
   flex:1;
 
   overflow-y:auto;
@@ -664,10 +848,12 @@ body{
 
   flex-direction:column;
 
-  gap:4px
+  gap:4px;
 }
 
+
 .song{
+
   display:flex;
 
   align-items:center;
@@ -678,20 +864,29 @@ body{
 
   border-radius:7px;
 
-  background:rgba(255,255,255,.06);
+  background:
+    rgba(255,255,255,.06);
 
-  border:1px solid rgba(255,255,255,.09);
+  border:
+    1px solid
+    rgba(255,255,255,.09);
 
-  cursor:pointer
+  cursor:pointer;
 }
+
 
 .song.active{
-  background:rgba(255,255,255,.18);
 
-  border-color:rgba(255,255,255,.3)
+  background:
+    rgba(255,255,255,.18);
+
+  border-color:
+    rgba(255,255,255,.3);
 }
 
+
 .song img{
+
   width:28px;
   height:28px;
 
@@ -699,16 +894,20 @@ body{
 
   object-fit:cover;
 
-  flex-shrink:0
+  flex-shrink:0;
 }
+
 
 .song-info{
+
   flex:1;
 
-  min-width:0
+  min-width:0;
 }
 
+
 .song-title{
+
   font-size:9.5px;
 
   font-weight:700;
@@ -717,28 +916,33 @@ body{
 
   overflow:hidden;
 
-  text-overflow:ellipsis
+  text-overflow:ellipsis;
 }
 
+
 .song-artist{
+
   font-size:8px;
 
-  color:rgba(255,255,255,.55);
+  color:
+    rgba(255,255,255,.55);
 
   white-space:nowrap;
 
   overflow:hidden;
 
-  text-overflow:ellipsis
+  text-overflow:ellipsis;
 }
 
-/* =========================
+
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media(max-width:480px){
 
   .player{
+
     width:96%;
 
     min-height:116px;
@@ -747,86 +951,127 @@ body{
 
     border-radius:60px;
 
-    gap:8px
+    gap:8px;
   }
+
 
   .cover-wrap{
+
     width:78px;
-    height:78px
+    height:78px;
   }
+
 
   .title{
-    font-size:15px
+
+    font-size:15px;
   }
+
 
   .artist{
-    font-size:11px
+
+    font-size:11px;
   }
 
+
   .play{
+
     width:42px;
-    height:42px
+    height:42px;
   }
+
 }
+
 
 @media(max-width:360px){
 
   .player{
+
     gap:4px;
 
     padding-left:9px;
-    padding-right:9px
+
+    padding-right:9px;
   }
+
 
   .cover-wrap{
+
     width:70px;
-    height:70px
+    height:70px;
   }
 
+
   .controls{
-    gap:1px
+
+    gap:1px;
   }
+
 
   .btn,
   .skip{
+
     width:27px;
-    height:27px
+    height:27px;
   }
 
+
   .play{
+
     width:39px;
-    height:39px
+    height:39px;
   }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
+
 <!-- =====================================================
      BACKGROUND VIDEO
-     autoplay + muted + playsinline = mobile autoplay
+
+     IMPORTANT:
+     This video is completely independent
+     from YouTube music player.
 ===================================================== -->
 
 <video
+
   id="bgVideo"
+
   src="bg-video.mp4"
-  class="bg-video"
-  muted
+
+  poster="logo.png"
+
   autoplay
+
+  muted
+
   loop
+
   playsinline
+
   webkit-playsinline
+
   preload="auto"
-  x5-playsinline
-  x5-video-player-type="h5"
-  x5-video-player-fullscreen="false">
-</video>
+
+  disablepictureinpicture
+
+  disableremoteplayback
+
+></video>
+
 
 <div class="bg-overlay"></div>
 
 
-<!-- TOP -->
+<!-- =====================================================
+     TOP
+===================================================== -->
 
 <div class="top">
 
@@ -845,11 +1090,17 @@ body{
 
   <button
     class="playlist-btn"
-    onclick="toggleDrawer()">
+    onclick="toggleDrawer()"
+  >
 
     <svg viewBox="0 0 24 24">
 
-      <path d="M3 10h11v2H3zm0-4h11v2H3zm0 8h7v2H3zm13-1v8l6-4z"/>
+      <path
+        d="
+        M3 10h11v2H3zm0-4h11v2H3zm0
+        8h7v2H3zm13-1v8l6-4z
+        "
+      />
 
     </svg>
 
@@ -860,25 +1111,32 @@ body{
 </div>
 
 
-<!-- HIDDEN YOUTUBE -->
+<!-- =====================================================
+     YOUTUBE
+===================================================== -->
 
 <div id="yt"></div>
 
 
-<!-- DRAWER OVERLAY -->
+<!-- =====================================================
+     DRAWER OVERLAY
+===================================================== -->
 
 <div
   class="overlay"
   id="overlay"
-  onclick="toggleDrawer()">
-</div>
+  onclick="toggleDrawer()"
+></div>
 
 
-<!-- DRAWER -->
+<!-- =====================================================
+     DRAWER
+===================================================== -->
 
 <div
   class="drawer"
-  id="drawer">
+  id="drawer"
+>
 
   <div class="drawer-head">
 
@@ -886,12 +1144,12 @@ body{
       Playlist Songs
     </div>
 
+
     <button
       class="close"
-      onclick="toggleDrawer()">
-
+      onclick="toggleDrawer()"
+    >
       ×
-
     </button>
 
   </div>
@@ -899,14 +1157,16 @@ body{
 
   <div
     class="song-list"
-    id="songList">
+    id="songList"
+  >
 
     <div
       style="
         text-align:center;
         font-size:10px;
         margin-top:15px
-      ">
+      "
+    >
 
       Loading...
 
@@ -917,13 +1177,16 @@ body{
 </div>
 
 
-<!-- APP -->
+<!-- =====================================================
+     PLAYER
+===================================================== -->
 
 <div class="app">
 
   <section
     class="player"
-    id="playerCard">
+    id="playerCard"
+  >
 
 
     <!-- COVER -->
@@ -934,7 +1197,8 @@ body{
         id="cover"
         class="cover"
         src="logo.png"
-        alt="Album">
+        alt="Album"
+      >
 
     </div>
 
@@ -945,19 +1209,17 @@ body{
 
       <div
         id="title"
-        class="title">
-
+        class="title"
+      >
         My Playlist
-
       </div>
 
 
       <div
         id="artist"
-        class="artist">
-
+        class="artist"
+      >
         YouTube Music
-
       </div>
 
 
@@ -965,12 +1227,13 @@ body{
 
       <div
         class="seek"
-        id="seek">
+        id="seek"
+      >
 
         <div
           class="fill"
-          id="fill">
-        </div>
+          id="fill"
+        ></div>
 
       </div>
 
@@ -1004,11 +1267,17 @@ body{
       <button
         class="skip"
         onclick="previousSong()"
-        aria-label="Previous">
+        aria-label="Previous"
+      >
 
         <svg viewBox="0 0 24 24">
 
-          <path d="M6 5v14h2V5H6zm3 7l9 7V5l-9 7z"/>
+          <path
+            d="
+            M6 5v14h2V5H6zm3
+            7l9 7V5l-9 7z
+            "
+          />
 
         </svg>
 
@@ -1020,13 +1289,17 @@ body{
       <button
         class="play"
         id="play"
-        onclick="togglePlay()">
+        onclick="togglePlay()"
+      >
 
         <svg
           id="playIcon"
-          viewBox="0 0 24 24">
+          viewBox="0 0 24 24"
+        >
 
-          <path d="M8 5v14l11-7z"/>
+          <path
+            d="M8 5v14l11-7z"
+          />
 
         </svg>
 
@@ -1038,11 +1311,17 @@ body{
       <button
         class="skip"
         onclick="nextSong()"
-        aria-label="Next">
+        aria-label="Next"
+      >
 
         <svg viewBox="0 0 24 24">
 
-          <path d="M16 5v14h2V5h-2zM6 5v14l9 7-9-7z"/>
+          <path
+            d="
+            M16 5v14h2V5h-2z
+            M6 5v14l9 7-9-7z
+            "
+          />
 
         </svg>
 
@@ -1055,11 +1334,22 @@ body{
 
         <button
           class="btn"
-          onclick="toggleVolume()">
+          onclick="toggleVolume()"
+        >
 
           <svg viewBox="0 0 24 24">
 
-            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            <path
+              d="
+              M3 9v6h4l5 5V4L7 9H3zm13.5
+              3c0-1.77-1.02-3.29-2.5-4.03v8.05
+              c1.48-.73 2.5-2.25 2.5-4.02z
+              M14 3.23v2.06c2.89.86 5 3.54
+              5 6.71s-2.11 5.85-5 6.71v2.06
+              c4.01-.91 7-4.49 7-8.77s-2.99
+              -7.86-7-8.77z
+              "
+            />
 
           </svg>
 
@@ -1068,7 +1358,8 @@ body{
 
         <div
           class="vol-wrap"
-          id="volWrap">
+          id="volWrap"
+        >
 
           <input
             class="vol"
@@ -1077,7 +1368,8 @@ body{
             min="0"
             max="100"
             value="100"
-            oninput="changeVolume(this.value)">
+            oninput="changeVolume(this.value)"
+          >
 
         </div>
 
@@ -1090,7 +1382,9 @@ body{
 </div>
 
 
-<!-- YOUTUBE API -->
+<!-- =====================================================
+     YOUTUBE API
+===================================================== -->
 
 <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -1101,7 +1395,8 @@ body{
    PLAYLIST
 ===================================================== */
 
-const PLAYLIST_ID = "PLB9TgDHfMHmM";
+const PLAYLIST_ID =
+  "PLB9TgDHfMHmM";
 
 
 /* =====================================================
@@ -1146,41 +1441,90 @@ const artist =
 
 
 /* =====================================================
-   BACKGROUND VIDEO AUTOPLAY
+   BACKGROUND VIDEO
+   COMPLETELY INDEPENDENT
 ===================================================== */
 
+
 /*
-   Try immediately.
-   muted + playsinline allows autoplay on most browsers.
+  This function ONLY controls BG video.
+
+  It does NOT check music state.
 */
 
-function playBackground(){
+function startBackground(){
 
   if(!bgVideo)
     return;
 
+
   bgVideo.muted = true;
 
-  bgVideo.setAttribute("muted","");
 
-  bgVideo.setAttribute("playsinline","");
+  /*
+    Important for iPhone/iPad.
+  */
 
-  bgVideo.setAttribute("webkit-playsinline","");
+  bgVideo.setAttribute(
+    "muted",
+    ""
+  );
 
-  const promise = bgVideo.play();
+  bgVideo.setAttribute(
+    "playsinline",
+    ""
+  );
 
-  if(promise){
+  bgVideo.setAttribute(
+    "webkit-playsinline",
+    ""
+  );
 
-    promise.catch(()=>{
 
-      /*
-        Browser blocked autoplay.
+  /*
+    If video has not started yet,
+    make sure it starts from beginning.
+  */
 
-        We try again after the page becomes
-        visible or receives interaction.
-      */
+  if(
+    bgVideo.readyState >= 2 &&
+    bgVideo.paused
+  ){
 
-    });
+    const promise =
+      bgVideo.play();
+
+
+    if(promise){
+
+      promise.catch(
+        ()=>{}
+      );
+
+    }
+
+  }else if(
+    bgVideo.paused
+  ){
+
+    /*
+      Browser may still be loading.
+    */
+
+    bgVideo.load();
+
+
+    const promise =
+      bgVideo.play();
+
+
+    if(promise){
+
+      promise.catch(
+        ()=>{}
+      );
+
+    }
 
   }
 
@@ -1188,14 +1532,14 @@ function playBackground(){
 
 
 /*
-   Try as early as possible.
+  Start immediately.
 */
 
-playBackground();
+startBackground();
 
 
 /*
-   When DOM is loaded.
+  DOM ready.
 */
 
 document.addEventListener(
@@ -1204,46 +1548,42 @@ document.addEventListener(
 
     bgVideo.muted = true;
 
-    bgVideo.load();
-
-    playBackground();
+    startBackground();
 
   }
 );
 
 
 /*
-   When whole page is loaded.
+  Window loaded.
 */
 
 window.addEventListener(
   "load",
   ()=>{
 
-    bgVideo.muted = true;
-
-    playBackground();
+    startBackground();
 
   }
 );
 
 
 /*
-   iOS Safari sometimes needs pageshow.
+  iOS pageshow.
 */
 
 window.addEventListener(
   "pageshow",
   ()=>{
 
-    playBackground();
+    startBackground();
 
   }
 );
 
 
 /*
-   If user returns to the tab.
+  When page becomes visible again.
 */
 
 document.addEventListener(
@@ -1251,10 +1591,11 @@ document.addEventListener(
   ()=>{
 
     if(
-      document.visibilityState === "visible"
+      document.visibilityState ===
+      "visible"
     ){
 
-      playBackground();
+      startBackground();
 
     }
 
@@ -1263,72 +1604,119 @@ document.addEventListener(
 
 
 /*
-   If video somehow pauses while music is
-   still playing, try to restart it.
+  IMPORTANT:
+
+  We do NOT pause BG video when music pauses.
+*/
+
+
+/*
+  If browser pauses background video
+  for some reason, try to restart it.
+
+  This has NOTHING to do with music.
 */
 
 bgVideo.addEventListener(
   "pause",
   ()=>{
 
-    if(playing){
-
-      setTimeout(
-        playBackground,
-        50
-      );
-
-    }
+    setTimeout(
+      ()=>{
+        startBackground();
+      },
+      100
+    );
 
   }
 );
 
 
 /*
-   Video ended.
+  Extra fallback for mobile browsers.
+*/
 
-   Loop should handle this, but we also
-   manually restart as a fallback.
+bgVideo.addEventListener(
+  "canplay",
+  ()=>{
+
+    startBackground();
+
+  }
+);
+
+
+/*
+  When enough data is available.
+*/
+
+bgVideo.addEventListener(
+  "loadeddata",
+  ()=>{
+
+    startBackground();
+
+  }
+);
+
+
+/*
+  Loop fallback.
+
+  Native loop is already enabled.
 */
 
 bgVideo.addEventListener(
   "ended",
   ()=>{
 
-    bgVideo.currentTime = 0;
+    try{
 
-    playBackground();
+      bgVideo.currentTime = 0;
+
+    }catch(e){}
+
+
+    startBackground();
 
   }
 );
 
 
 /*
-   First user interaction fallback.
+  First user interaction fallback.
 
-   This is especially useful for browsers
-   that block autoplay.
+  If browser completely blocked autoplay,
+  this starts it on the first interaction.
+
+  Normally autoplay should already have started.
 */
+
+function backgroundUserStart(){
+
+  startBackground();
+
+}
+
 
 [
   "touchstart",
   "touchend",
-  "click",
-  "pointerdown"
-].forEach(eventName=>{
+  "pointerdown",
+  "click"
+].forEach(
+  eventName => {
 
-  document.addEventListener(
-    eventName,
-    ()=>{
-      playBackground();
-    },
-    {
-      once:false,
-      passive:true
-    }
-  );
+    document.addEventListener(
+      eventName,
+      backgroundUserStart,
+      {
+        passive:true
+      }
+    );
 
-});
+  }
+);
 
 
 /* =====================================================
@@ -1344,15 +1732,22 @@ function updateBDTime(){
     new Intl.DateTimeFormat(
       "en-US",
       {
-        timeZone:"Asia/Dhaka",
 
-        hour:"2-digit",
+        timeZone:
+          "Asia/Dhaka",
 
-        minute:"2-digit",
+        hour:
+          "2-digit",
 
-        second:"2-digit",
+        minute:
+          "2-digit",
 
-        hour12:true
+        second:
+          "2-digit",
+
+        hour12:
+          true
+
       }
     ).format(
       new Date()
@@ -1360,7 +1755,9 @@ function updateBDTime(){
 
 }
 
+
 updateBDTime();
+
 
 setInterval(
   updateBDTime,
@@ -1369,51 +1766,60 @@ setInterval(
 
 
 /* =====================================================
-   YOUTUBE
+   YOUTUBE API
 ===================================================== */
 
 function onYouTubeIframeAPIReady(){
 
-  player = new YT.Player(
-    "yt",
-    {
+  player =
+    new YT.Player(
+      "yt",
+      {
 
-      width:"2",
+        width:"2",
 
-      height:"2",
+        height:"2",
 
-      playerVars:{
-        autoplay:0,
+        playerVars:{
 
-        controls:0,
+          autoplay:0,
 
-        disablekb:1,
+          controls:0,
 
-        fs:0,
+          disablekb:1,
 
-        modestbranding:1,
+          fs:0,
 
-        playsinline:1,
+          modestbranding:1,
 
-        rel:0,
+          playsinline:1,
 
-        cc_load_policy:0,
+          rel:0,
 
-        iv_load_policy:3,
+          cc_load_policy:0,
 
-        listType:"playlist",
+          iv_load_policy:3,
 
-        list:PLAYLIST_ID
-      },
+          listType:
+            "playlist",
 
-      events:{
-        onReady:onReady,
+          list:
+            PLAYLIST_ID
 
-        onStateChange:onStateChange
+        },
+
+        events:{
+
+          onReady:
+            onReady,
+
+          onStateChange:
+            onStateChange
+
+        }
+
       }
-
-    }
-  );
+    );
 
 }
 
@@ -1430,6 +1836,7 @@ function onReady(){
       200
     );
 
+
   setTimeout(
     loadPlaylist,
     800
@@ -1443,6 +1850,11 @@ function onReady(){
 ===================================================== */
 
 function onStateChange(e){
+
+
+  /*
+    MUSIC PLAYING
+  */
 
   if(
     e.data ===
@@ -1470,23 +1882,23 @@ function onStateChange(e){
 
 
     /*
-       Music started.
-       Keep background video playing.
-    */
+      IMPORTANT:
 
-    playBackground();
+      We do NOT start/stop BG here.
+
+      BG is completely independent.
+    */
 
   }
 
 
+  /*
+    MUSIC PAUSED
+  */
+
   else if(
-
     e.data ===
-    YT.PlayerState.PAUSED ||
-
-    e.data ===
-    YT.PlayerState.ENDED
-
+    YT.PlayerState.PAUSED
   ){
 
     playing = false;
@@ -1505,28 +1917,53 @@ function onStateChange(e){
 
 
     /*
-       Stop background when music pauses.
-    */
+      IMPORTANT:
 
-    bgVideo.pause();
+      BG VIDEO CONTINUES PLAYING.
+    */
 
   }
 
 
-  if(
+  /*
+    MUSIC ENDED
+  */
+
+  else if(
     e.data ===
     YT.PlayerState.ENDED
   ){
+
+    playing = false;
+
+
+    document.getElementById(
+      "playIcon"
+    ).innerHTML =
+
+      '<path d="M8 5v14l11-7z"/>';
+
+
+    cover.classList.remove(
+      "spin"
+    );
+
 
     setTimeout(
       updateInfo,
       50
     );
 
+
     setTimeout(
       highlightActive,
       50
     );
+
+
+    /*
+      BG VIDEO STILL CONTINUES.
+    */
 
   }
 
@@ -1534,7 +1971,7 @@ function onStateChange(e){
 
 
 /* =====================================================
-   PLAY / PAUSE
+   MUSIC PLAY / PAUSE
 ===================================================== */
 
 function togglePlay(){
@@ -1551,12 +1988,6 @@ function togglePlay(){
 
     player.playVideo();
 
-    /*
-       Also start background immediately.
-    */
-
-    playBackground();
-
   }
 
 }
@@ -1571,8 +2002,11 @@ function getCurrentIndex(){
   if(
     !player ||
     !player.getPlaylistIndex
-  )
+  ){
+
     return 0;
+
+  }
 
 
   const index =
@@ -1587,7 +2021,7 @@ function getCurrentIndex(){
 
 
 /* =====================================================
-   NEXT
+   NEXT SONG
 ===================================================== */
 
 function nextSong(){
@@ -1605,7 +2039,9 @@ function nextSong(){
   ){
 
     const next =
-      (current + 1) %
+      (
+        current + 1
+      ) %
       playlistItems.length;
 
 
@@ -1628,6 +2064,7 @@ function nextSong(){
     100
   );
 
+
   setTimeout(
     highlightActive,
     100
@@ -1637,7 +2074,7 @@ function nextSong(){
 
 
 /* =====================================================
-   PREVIOUS
+   PREVIOUS SONG
 ===================================================== */
 
 function previousSong(){
@@ -1681,6 +2118,7 @@ function previousSong(){
     updateInfo,
     100
   );
+
 
   setTimeout(
     highlightActive,
@@ -1781,9 +2219,11 @@ function toggleVolume(){
     volTimer =
       setTimeout(
         ()=>{
+
           wrap.classList.remove(
             "active"
           );
+
         },
         3000
       );
@@ -1924,6 +2364,7 @@ function loadPlaylist(){
   ){
 
     list.innerHTML =
+
       `
       <div
         style="
@@ -1996,8 +2437,6 @@ function loadPlaylist(){
         player.playVideoAt(
           index
         );
-
-        playBackground();
 
         toggleDrawer();
 
@@ -2200,7 +2639,7 @@ function highlightActive(){
 
 
 /* =====================================================
-   SEEK POSITION
+   SEEK
 ===================================================== */
 
 function seekPosition(x){
@@ -2220,10 +2659,6 @@ function seekPosition(x){
 
 }
 
-
-/* =====================================================
-   SEEK UI
-===================================================== */
 
 function updateSeekUI(pos){
 
@@ -2247,7 +2682,9 @@ function updateSeekUI(pos){
       document.getElementById(
         "current"
       ).textContent =
-        format(pos * d);
+        format(
+          pos * d
+        );
 
     }
 
@@ -2257,7 +2694,7 @@ function updateSeekUI(pos){
 
 
 /* =====================================================
-   SEEK DOWN
+   SEEK POINTER DOWN
 ===================================================== */
 
 seek.addEventListener(
@@ -2293,7 +2730,7 @@ seek.addEventListener(
 
 
 /* =====================================================
-   SEEK MOVE
+   SEEK POINTER MOVE
 ===================================================== */
 
 seek.addEventListener(
@@ -2318,7 +2755,7 @@ seek.addEventListener(
 
 
 /* =====================================================
-   SEEK UP
+   SEEK POINTER UP
 ===================================================== */
 
 seek.addEventListener(
@@ -2474,21 +2911,28 @@ function format(seconds){
   if(
     !seconds ||
     isNaN(seconds)
-  )
+  ){
+
     return "0:00";
+
+  }
 
 
   seconds =
     Math.floor(seconds);
 
 
-  return(
+  return (
 
     Math.floor(
       seconds / 60
-    ) +
+    )
 
-    ":" +
+    +
+
+    ":"
+
+    +
 
     String(
       seconds % 60
