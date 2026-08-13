@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>My Music Player</title>
+<title>Abdullah TV - Music Player</title>
 
 <!-- FAST NETWORK CONNECT TO YOUTUBE -->
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
-<link rel="preload" as="image" href="background.jpg">
 
 <!-- iOS / iPhone Home Screen Icon -->
 <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
@@ -35,23 +34,32 @@ overflow-x:hidden !important;
 }
 
 
-/* BACKGROUND - ALWAYS CLEAR */
+/* BACKGROUND VIDEO - FULLSCREEN COVER */
 
 .bg{
 position:fixed;
 inset:0;
-background-image:url("background.jpg");
-background-position:center center;
-background-size:cover;
-background-repeat:no-repeat;
 z-index:0;
+overflow:hidden;
+}
+
+.bg video{
+width:100%;
+height:100%;
+object-fit:cover;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%, -50%);
+pointer-events:none;
 }
 
 .bg:after{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.15);
+background:rgba(0,0,0,.35);
+z-index:1;
 }
 
 
@@ -174,27 +182,25 @@ padding:0 16px 65px;
 }
 
 
-/* PLAYER MAIN CARD */
+/* PLAYER MAIN CARD - BLUR GLASS BACKGROUND */
 
 .player{
 width:min(440px, 94%);
-height:120px;
+padding:15px 18px;
 
-padding:14px 18px;
+border:1px solid rgba(255, 255, 255, 0.15);
+border-radius:40px;
 
-border:1px solid rgba(255,255,255,.18);
-border-radius:60px;
+background:rgba(255, 255, 255, 0.08);
 
-background:rgba(55, 30, 25, 0.8);
+box-shadow:0 20px 50px rgba(0,0,0,.5);
 
-box-shadow:0 20px 50px rgba(0,0,0,.6);
-
-backdrop-filter:blur(30px) saturate(140%);
--webkit-backdrop-filter:blur(30px) saturate(140%);
+backdrop-filter:blur(25px) saturate(180%);
+-webkit-backdrop-filter:blur(25px) saturate(180%);
 
 display:flex;
 align-items:center;
-gap:12px;
+gap:14px;
 
 touch-action: pan-y;
 position:relative;
@@ -207,8 +213,8 @@ overflow:hidden;
 .cover-wrapper{
 position:relative;
 
-width:84px;
-height:84px;
+width:75px;
+height:75px;
 
 flex-shrink:0;
 
@@ -244,8 +250,8 @@ content:"";
 
 position:absolute;
 
-width:16px;
-height:16px;
+width:14px;
+height:14px;
 
 background:rgba(20,20,20,.85);
 
@@ -283,7 +289,7 @@ justify-content:center;
 }
 
 .title{
-font-size:16px;
+font-size:15px;
 font-weight:700;
 
 white-space:nowrap;
@@ -295,7 +301,7 @@ letter-spacing:0.2px;
 }
 
 .artist{
-font-size:12px;
+font-size:11px;
 
 color:rgba(255,255,255,.65);
 
@@ -314,15 +320,13 @@ margin-bottom:8px;
 position:relative;
 
 width:100%;
-height:5px;
+height:4.5px;
 
 border-radius:10px;
 
 background:rgba(255,255,255,.2);
 
 cursor:pointer;
-
-margin-bottom:6px;
 
 touch-action:none;
 }
@@ -352,16 +356,8 @@ border-radius:10px;
 pointer-events:none;
 }
 
-.time-display{
-font-size:11px;
 
-color:rgba(255,255,255,.65);
-
-font-variant-numeric:tabular-nums;
-}
-
-
-/* CONTROLS AREA */
+/* CONTROLS AREA WITH NEXT & PREV */
 
 .controls{
 display:flex;
@@ -371,8 +367,8 @@ flex-shrink:0;
 }
 
 .btn{
-width:28px;
-height:28px;
+width:30px;
+height:30px;
 
 border:0;
 background:transparent;
@@ -390,69 +386,9 @@ transition:transform .1s;
 }
 
 .btn svg{
-width:20px;
-height:20px;
-fill:#fff;
-}
-
-
-/* INLINE VOLUME BAR (INSIDE PLAYER BOX) */
-
-.vol-container{
-display:flex;
-align-items:center;
-gap:4px;
-background:rgba(0, 0, 0, 0.25);
-border:1px solid rgba(255, 255, 255, 0.15);
-padding:4px 6px;
-border-radius:20px;
-backdrop-filter:blur(10px);
--webkit-backdrop-filter:blur(10px);
-}
-
-.vol-slider-wrapper{
-width:0;
-overflow:hidden;
-opacity:0;
-display:flex;
-align-items:center;
-transition:width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
-}
-
-.vol-slider-wrapper.active{
-width:55px;
-opacity:1;
-margin-left:2px;
-}
-
-.vol-slider{
--webkit-appearance:none;
-appearance:none;
-width:55px;
-height:3.5px;
-background:rgba(255, 255, 255, 0.3);
-border-radius:10px;
-outline:none;
-cursor:pointer;
-}
-
-.vol-slider::-webkit-slider-thumb{
--webkit-appearance:none;
-appearance:none;
-width:10px;
-height:10px;
-border-radius:50%;
-background:#ffffff;
-cursor:pointer;
-box-shadow:0 0 5px rgba(0,0,0,0.5);
-}
-
-
-/* HIDE VOLUME ON IPHONE / IOS DEVICES ONLY */
-@supports (-webkit-touch-callout: none) {
-  .vol-container {
-    display: none !important;
-  }
+width:22px;
+height:22px;
+fill:rgba(255,255,255,0.85);
 }
 
 
@@ -465,7 +401,7 @@ height:44px;
 border-radius:50%;
 border:0;
 
-background:#ffffff;
+background:rgba(255, 255, 255, 0.9);
 color:#000;
 
 display:flex;
@@ -650,66 +586,16 @@ overflow:hidden;
 text-overflow:ellipsis;
 margin-top:0.5px;
 }
-
-
-/* MOBILE RESPONSIVENESS */
-
-@media(max-width:480px){
-
-.app{
-padding-bottom:60px;
-}
-
-.player{
-height:116px;
-padding:12px 14px;
-border-radius:58px;
-gap:10px;
-}
-
-.cover-wrapper{
-width:78px;
-height:78px;
-}
-
-.title{
-font-size:15px;
-}
-
-.artist{
-font-size:11px;
-}
-
-.play{
-width:42px;
-height:42px;
-}
-
-.top-widgets{
-top:10px;
-}
-
-.bd-time{
-font-size:10px;
-padding:4px 9px;
-}
-
-.playlist-toggle-btn{
-font-size:10px;
-padding:4px 9px;
-}
-
-.playlist-drawer{
-width:170px;
-}
-
-}
 </style>
 </head>
 <body>
 
-<!-- BACKGROUND IMAGE -->
-<div class="bg"></div>
+<!-- BACKGROUND VIDEO -->
+<div class="bg">
+  <video autoplay loop muted playsinline id="bgVideo">
+    <source src="Bg-video.mp4" type="video/mp4">
+  </video>
+</div>
 
 <!-- TOP HEADER WIDGETS -->
 <div class="top-widgets">
@@ -747,9 +633,7 @@ width:170px;
   </div>
 </div>
 
-
 <div class="app">
-
 <section class="player" id="playerCard">
 
 <!-- THUMBNAIL -->
@@ -766,34 +650,27 @@ width:170px;
   <div class="seek" id="seek">
     <div class="fill" id="fill"></div>
   </div>
-
-  <!-- TIME -->
-  <div class="time-display">
-    <span id="current">0:00</span> / <span id="duration">0:00</span>
-  </div>
 </div>
 
-<!-- CONTROLS -->
+<!-- CONTROLS WITH PREV, PLAY, NEXT -->
 <div class="controls">
+  <!-- PREVIOUS BUTTON -->
+  <button class="btn" onclick="previousSong()" aria-label="Previous">
+    <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+  </button>
+
+  <!-- PLAY BUTTON -->
   <button class="play" id="play" onclick="togglePlay()" aria-label="Play">
     <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
   </button>
 
-  <!-- INLINE VOLUME CONTROL -->
-  <div class="vol-container">
-    <button class="btn" onclick="toggleVolume()" aria-label="Volume">
-      <svg viewBox="0 0 24 24">
-        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-      </svg>
-    </button>
-    <div class="vol-slider-wrapper" id="volWrapper">
-      <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="100" oninput="changeVolume(this.value)">
-    </div>
-  </div>
+  <!-- NEXT BUTTON -->
+  <button class="btn" onclick="nextSong()" aria-label="Next">
+    <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+  </button>
 </div>
 
 </section>
-
 </div>
 <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -888,45 +765,6 @@ function togglePlay(){
     player.playVideo();
   }
 }
-
-
-/* INLINE VOLUME CONTROL WITH 3-SECOND AUTO-HIDE */
-let volTimer = null;
-
-function resetVolTimer() {
-  if (volTimer) clearTimeout(volTimer);
-  volTimer = setTimeout(() => {
-    document.getElementById("volWrapper").classList.remove("active");
-  }, 3000); // 3 Seconds
-}
-
-function toggleVolume(){
-  const wrapper = document.getElementById("volWrapper");
-  
-  if (wrapper.classList.contains("active")) {
-    wrapper.classList.remove("active");
-    if (volTimer) clearTimeout(volTimer);
-  } else {
-    wrapper.classList.add("active");
-    resetVolTimer();
-  }
-}
-
-function changeVolume(val){
-  if(player && typeof player.setVolume === 'function'){
-    player.setVolume(val);
-  }
-  resetVolTimer();
-}
-
-// Close volume slider when touching outside
-document.addEventListener('click', (e) => {
-  const container = document.querySelector('.vol-container');
-  if(container && !container.contains(e.target)){
-    document.getElementById("volWrapper").classList.remove("active");
-    if (volTimer) clearTimeout(volTimer);
-  }
-});
 
 
 /* NEXT & PREVIOUS */
@@ -1100,6 +938,7 @@ function updateInfo(){
   }catch(e){}
 }
 
+
 /* SEEK BAR */
 let isDragging = false;
 const seekElement = document.getElementById("seek");
@@ -1114,15 +953,11 @@ function handleSeek(e) {
   document.getElementById("fill").style.width = (pos * 100) + "%";
   
   const duration = player.getDuration();
-  if (duration) {
-    document.getElementById("current").textContent = format(pos * duration);
-    if (!isDragging) {
-      player.seekTo(pos * duration, true);
-    }
+  if (duration && !isDragging) {
+    player.seekTo(pos * duration, true);
   }
 }
 
-// Mouse Events
 seekElement.addEventListener('mousedown', (e) => {
   isDragging = true;
   handleSeek(e);
@@ -1143,7 +978,6 @@ window.addEventListener('mouseup', (e) => {
   }
 });
 
-// Touch Events
 seekElement.addEventListener('touchstart', (e) => {
   isDragging = true;
   handleSeek(e);
@@ -1161,11 +995,9 @@ window.addEventListener('touchend', (e) => {
     isDragging = false;
     const rect = seekElement.getBoundingClientRect();
     const touch = e.changedTouches[0];
-    if (touch) {
+    if (touch && player && typeof player.getDuration === 'function') {
       const pos = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
-      if (player && typeof player.getDuration === 'function') {
-        player.seekTo(pos * player.getDuration(), true);
-      }
+      player.seekTo(pos * player.getDuration(), true);
     }
   }
 });
@@ -1178,15 +1010,7 @@ function updateProgress(){
     const d=player.getDuration();
     if(!d)return;
     document.getElementById("fill").style.width=Math.max(0,Math.min(100,(c/d)*100))+"%";
-    document.getElementById("current").textContent=format(c);
-    document.getElementById("duration").textContent=format(d);
   }catch(e){}
-}
-
-function format(s){
-  if(!s || isNaN(s)) return "0:00";
-  s=Math.floor(s);
-  return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
 }
 
 </script>
