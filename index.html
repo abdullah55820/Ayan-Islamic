@@ -20,42 +20,33 @@ html,body{
   margin:0;
   width:100%;
   height:100%;
-  min-height:100%;
   overflow:hidden;
-  background:transparent;
+  background:#000;
   color:#fff;
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif
 }
 
 body{
-  position:relative;
-  min-height:100dvh;
-  background:transparent
+  position:relative
 }
 
 /* BACKGROUND */
 #bgVideo{
   position:fixed;
-  top:-8%;
-  left:-8%;
-  width:116%;
-  height:116%;
-  min-width:116%;
-  min-height:116%;
+  inset:0;
+  width:100%;
+  height:100%;
   object-fit:cover;
   object-position:center;
   z-index:0;
-  background:transparent;
+  background:#000;
   pointer-events:none;
   display:block
 }
 
 .bg-overlay{
   position:fixed;
-  top:-10%;
-  left:-10%;
-  width:120%;
-  height:120%;
+  inset:0;
   z-index:1;
   background:rgba(0,0,0,.12);
   pointer-events:none
@@ -64,7 +55,7 @@ body{
 /* TOP */
 .top{
   position:fixed;
-  top:calc(10px + env(safe-area-inset-top));
+  top:10px;
   left:50%;
   transform:translateX(-50%);
   z-index:20;
@@ -72,6 +63,21 @@ body{
   flex-direction:column;
   align-items:center;
   gap:8px
+}
+
+/* TOP BLUR */
+.top:before{
+  content:"";
+  position:absolute;
+  top:calc(-10px - env(safe-area-inset-top));
+  left:-50vw;
+  width:100vw;
+  height:calc(58px + env(safe-area-inset-top));
+  background:rgba(0,0,0,.08);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  z-index:-1;
+  pointer-events:none
 }
 
 .bd,.playlist-btn{
@@ -140,11 +146,10 @@ body{
   z-index:5;
   width:100%;
   height:100dvh;
-  min-height:100%;
   display:flex;
   align-items:flex-end;
   justify-content:center;
-  padding:0 16px calc(55px + env(safe-area-inset-bottom))
+  padding:0 16px 60px
 }
 
 /* PLAYER */
@@ -561,6 +566,7 @@ body{
 
 <body>
 
+<!-- BACKGROUND VIDEO -->
 <video
   id="bgVideo"
   src="bg-video.mp4"
@@ -573,6 +579,7 @@ body{
 
 <div class="bg-overlay"></div>
 
+<!-- TOP -->
 <div class="top">
 
   <div class="bd">
@@ -590,10 +597,13 @@ body{
 
 </div>
 
+<!-- YOUTUBE -->
 <div id="yt"></div>
 
+<!-- DRAWER OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
 
+<!-- DRAWER -->
 <div class="drawer" id="drawer">
 
   <div class="drawer-head">
@@ -609,6 +619,7 @@ body{
 
 </div>
 
+<!-- PLAYER -->
 <div class="app">
 
   <section class="player" id="playerCard">
@@ -639,7 +650,7 @@ body{
       <!-- PREVIOUS -->
       <button class="skip" onclick="previousSong()" aria-label="Previous">
         <svg viewBox="0 0 24 24">
-          <path d="M6 5h2v14H6zm3 7l9-7v14l-9-7z"/>
+          <path d="M6 5v14h2V5H6zm3 7l9 7V5l-9 7z"/>
         </svg>
       </button>
 
@@ -653,7 +664,7 @@ body{
       <!-- NEXT -->
       <button class="skip" onclick="nextSong()" aria-label="Next">
         <svg viewBox="0 0 24 24">
-          <path d="M16 5h2v14h-2zM6 5l9 7-9 7V5z"/>
+          <path d="M16 5v14h2V5h-2zM6 5v14l9 7-9-7z"/>
         </svg>
       </button>
 
@@ -688,6 +699,10 @@ body{
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
+/* =========================
+   SETTINGS
+========================= */
+
 const PLAYLIST_ID="PLB9TgDHfMHmM";
 
 let player=null;
@@ -702,10 +717,13 @@ let volTimer=null;
 const bgVideo=document.getElementById("bgVideo");
 const seek=document.getElementById("seek");
 
-/* BACKGROUND */
+/* =========================
+   BACKGROUND VIDEO
+========================= */
 
 bgVideo.muted=true;
 bgVideo.loop=true;
+bgVideo.playsInline=true;
 
 function playBackground(){
 
@@ -713,47 +731,27 @@ function playBackground(){
 
   const p=bgVideo.play();
 
-  if(p)p.catch(()=>{});
-
-}
-
-function pauseBackground(){
-  bgVideo.pause();
-}
-
-bgVideo.addEventListener("ended",()=>{
-
-  if(playing){
-
-    bgVideo.currentTime=0;
-    playBackground();
-
+  if(p){
+    p.catch(()=>{});
   }
 
-});
+}
 
-/* দ্রুত background load */
+/* Site open হওয়ার সাথে সাথে চালানোর চেষ্টা */
 window.addEventListener("load",()=>{
 
   bgVideo.load();
-
-  const startBG=()=>{
-
-    playBackground();
-
-    document.removeEventListener("touchstart",startBG);
-    document.removeEventListener("click",startBG);
-
-  };
-
   playBackground();
-
-  document.addEventListener("touchstart",startBG,{once:true});
-  document.addEventListener("click",startBG,{once:true});
 
 });
 
-/* BD TIME */
+/* iPhone autoplay restriction fallback */
+document.addEventListener("touchstart",playBackground,{once:true});
+document.addEventListener("click",playBackground,{once:true});
+
+/* =========================
+   BD TIME
+========================= */
 
 function updateBDTime(){
 
@@ -772,7 +770,9 @@ function updateBDTime(){
 updateBDTime();
 setInterval(updateBDTime,1000);
 
-/* YOUTUBE */
+/* =========================
+   YOUTUBE API
+========================= */
 
 function onYouTubeIframeAPIReady(){
 
@@ -789,10 +789,8 @@ function onYouTubeIframeAPIReady(){
       modestbranding:1,
       playsinline:1,
       rel:0,
-
       cc_load_policy:0,
       iv_load_policy:3,
-
       listType:"playlist",
       list:PLAYLIST_ID
     },
@@ -814,7 +812,9 @@ function onReady(){
 
 }
 
-/* PLAYER STATE */
+/* =========================
+   PLAYER STATE
+========================= */
 
 function onStateChange(e){
 
@@ -830,8 +830,6 @@ function onStateChange(e){
     updateInfo();
     highlightActive();
 
-    playBackground();
-
   }
 
   else if(
@@ -846,80 +844,79 @@ function onStateChange(e){
 
     document.getElementById("cover").classList.remove("spin");
 
-    pauseBackground();
-
   }
 
   if(e.data===YT.PlayerState.ENDED){
 
-    setTimeout(updateInfo,100);
-    setTimeout(highlightActive,100);
+    setTimeout(updateInfo,50);
+    setTimeout(highlightActive,50);
 
   }
 
 }
 
-/* PLAY / PAUSE */
+/* =========================
+   PLAY / PAUSE
+========================= */
 
 function togglePlay(){
 
   if(!player)return;
 
-  if(playing)
+  if(playing){
     player.pauseVideo();
-  else
+  }else{
     player.playVideo();
+    playBackground();
+  }
 
 }
 
-/* INDEX */
+/* =========================
+   NEXT / PREVIOUS
+========================= */
 
 function getCurrentIndex(){
 
   if(!player || !player.getPlaylistIndex)
     return 0;
 
-  const i=player.getPlaylistIndex();
-
-  return i<0?0:i;
+  return player.getPlaylistIndex();
 
 }
-
-/* NEXT */
 
 function nextSong(){
 
   if(!player)return;
 
+  const current=getCurrentIndex();
+
   if(playlistItems.length){
 
-    const current=getCurrentIndex();
     const next=(current+1)%playlistItems.length;
 
     showTrack(next);
     player.playVideoAt(next);
 
-  }
-  else{
+  }else{
 
     player.nextVideo();
 
   }
 
-  setTimeout(updateInfo,150);
-  setTimeout(highlightActive,150);
+  setTimeout(updateInfo,100);
+  setTimeout(highlightActive,100);
 
 }
-
-/* PREVIOUS */
 
 function previousSong(){
 
   if(!player)return;
 
+  const current=getCurrentIndex();
+
   if(playlistItems.length){
 
-    const current=getCurrentIndex();
     const prev=
       (current-1+playlistItems.length)%
       playlistItems.length;
@@ -927,19 +924,20 @@ function previousSong(){
     showTrack(prev);
     player.playVideoAt(prev);
 
-  }
-  else{
+  }else{
 
     player.previousVideo();
 
   }
 
-  setTimeout(updateInfo,150);
-  setTimeout(highlightActive,150);
+  setTimeout(updateInfo,100);
+  setTimeout(highlightActive,100);
 
 }
 
-/* SHOW TRACK */
+/* =========================
+   SHOW TRACK
+========================= */
 
 function showTrack(index){
 
@@ -956,11 +954,29 @@ function showTrack(index){
   const artist=
     document.querySelector(`#artist-${index}`);
 
-  document.getElementById("title").textContent=
-    title?title.textContent:"Loading...";
+  if(title){
 
-  document.getElementById("artist").textContent=
-    artist?artist.textContent:"YouTube Music";
+    document.getElementById("title").textContent=
+      title.textContent;
+
+  }else{
+
+    document.getElementById("title").textContent=
+      "Loading...";
+
+  }
+
+  if(artist){
+
+    document.getElementById("artist").textContent=
+      artist.textContent;
+
+  }else{
+
+    document.getElementById("artist").textContent=
+      "YouTube Music";
+
+  }
 
   document.querySelectorAll(".song").forEach((el,i)=>{
 
@@ -970,7 +986,9 @@ function showTrack(index){
 
 }
 
-/* VOLUME */
+/* =========================
+   VOLUME
+========================= */
 
 function toggleVolume(){
 
@@ -994,8 +1012,11 @@ function toggleVolume(){
 
 function changeVolume(value){
 
-  if(player && player.setVolume)
+  if(player && player.setVolume){
+
     player.setVolume(Number(value));
+
+  }
 
   clearTimeout(volTimer);
 
@@ -1008,7 +1029,9 @@ function changeVolume(value){
 
 }
 
-/* IOS */
+/* =========================
+   HIDE VOLUME ON IOS
+========================= */
 
 (function(){
 
@@ -1019,12 +1042,17 @@ function changeVolume(value){
       navigator.maxTouchPoints>1
     );
 
-  if(ios)
+  if(ios){
+
     document.querySelector(".volume").style.display="none";
+
+  }
 
 })();
 
-/* DRAWER */
+/* =========================
+   PLAYLIST DRAWER
+========================= */
 
 function toggleDrawer(){
 
@@ -1037,7 +1065,9 @@ function toggleDrawer(){
 
 }
 
-/* PLAYLIST */
+/* =========================
+   LOAD PLAYLIST
+========================= */
 
 function loadPlaylist(){
 
@@ -1107,7 +1137,9 @@ function loadPlaylist(){
 
 }
 
-/* DETAILS */
+/* =========================
+   SONG DETAILS
+========================= */
 
 function getDetails(id,index){
 
@@ -1152,7 +1184,9 @@ function getDetails(id,index){
 
 }
 
-/* CURRENT INFO */
+/* =========================
+   CURRENT SONG INFO
+========================= */
 
 function updateInfo(){
 
@@ -1173,12 +1207,13 @@ function updateInfo(){
     if(data.author)
       document.getElementById("artist").textContent=data.author;
 
-  }
-  catch(e){}
+  }catch(e){}
 
 }
 
-/* ACTIVE */
+/* =========================
+   ACTIVE SONG
+========================= */
 
 function highlightActive(){
 
@@ -1197,7 +1232,9 @@ function highlightActive(){
 
 }
 
-/* SEEK */
+/* =========================
+   SEEK BAR
+========================= */
 
 function seekPosition(x){
 
@@ -1222,9 +1259,12 @@ function updateSeekUI(pos){
 
     const d=player.getDuration();
 
-    if(d)
+    if(d){
+
       document.getElementById("current").textContent=
         format(pos*d);
+
+    }
 
   }
 
@@ -1272,8 +1312,14 @@ seek.addEventListener("pointerup",e=>{
 
   const duration=player.getDuration();
 
-  if(duration)
-    player.seekTo(pos*duration,true);
+  if(duration){
+
+    player.seekTo(
+      pos*duration,
+      true
+    );
+
+  }
 
 });
 
@@ -1287,12 +1333,20 @@ seek.addEventListener("pointercancel",e=>{
 
   const duration=player.getDuration();
 
-  if(duration)
-    player.seekTo(pos*duration,true);
+  if(duration){
+
+    player.seekTo(
+      pos*duration,
+      true
+    );
+
+  }
 
 });
 
-/* PROGRESS */
+/* =========================
+   PROGRESS
+========================= */
 
 function updateProgress(){
 
@@ -1325,8 +1379,7 @@ function updateProgress(){
     document.getElementById("duration").textContent=
       format(duration);
 
-  }
-  catch(e){}
+  }catch(e){}
 
 }
 
@@ -1345,7 +1398,9 @@ function format(seconds){
 
 }
 
-/* SWIPE */
+/* =========================
+   SWIPE
+========================= */
 
 const card=document.getElementById("playerCard");
 
@@ -1370,14 +1425,21 @@ card.addEventListener("touchend",e=>{
 
   if(Math.abs(dx)<=Math.abs(dy))return;
 
-  if(dx<-50)
+  if(dx<-50){
+
     nextSong();
-  else if(dx>50)
+
+  }else if(dx>50){
+
     previousSong();
+
+  }
 
 },{passive:true});
 
-/* OUTSIDE VOLUME */
+/* =========================
+   OUTSIDE VOLUME CLICK
+========================= */
 
 document.addEventListener("click",e=>{
 
