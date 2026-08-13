@@ -21,7 +21,6 @@ html,body{
 
 body{position:relative}
 
-/* BACKGROUND */
 #bgVideo{
   position:fixed;inset:0;
   width:100%;height:100%;
@@ -30,17 +29,16 @@ body{position:relative}
   z-index:0;
   background:#000;
   pointer-events:none;
-  display:block;
+  display:block
 }
 
 .bg-overlay{
   position:fixed;inset:0;
   z-index:1;
   background:rgba(0,0,0,.12);
-  pointer-events:none;
+  pointer-events:none
 }
 
-/* TOP */
 .top{
   position:fixed;
   top:10px;left:50%;
@@ -93,7 +91,6 @@ body{position:relative}
 
 .playlist-btn svg{width:14px;height:14px;fill:#fff}
 
-/* HIDDEN YOUTUBE */
 #yt{
   position:fixed;
   width:2px;height:2px;
@@ -102,7 +99,6 @@ body{position:relative}
   pointer-events:none
 }
 
-/* APP */
 .app{
   position:relative;
   z-index:5;
@@ -114,7 +110,6 @@ body{position:relative}
   padding:0 16px 60px
 }
 
-/* PLAYER */
 .player{
   width:min(460px,96%);
   min-height:126px;
@@ -124,21 +119,15 @@ body{position:relative}
   gap:10px;
   position:relative;
   overflow:hidden;
-
   border:1px solid rgba(255,255,255,.2);
   border-radius:64px;
-
   background:rgba(255,255,255,.055);
-
   box-shadow:0 20px 60px rgba(0,0,0,.55);
-
   backdrop-filter:blur(30px) saturate(125%);
   -webkit-backdrop-filter:blur(30px) saturate(125%);
-
   touch-action:pan-y
 }
 
-/* COVER */
 .cover-wrap{
   width:84px;height:84px;
   flex-shrink:0;
@@ -176,11 +165,7 @@ body{position:relative}
   border:2px solid rgba(255,255,255,.3)
 }
 
-/* INFO */
-.middle{
-  flex:1;
-  min-width:0
-}
+.middle{flex:1;min-width:0}
 
 .title{
   font-size:16px;
@@ -199,7 +184,6 @@ body{position:relative}
   text-overflow:ellipsis
 }
 
-/* SEEK */
 .seek{
   position:relative;
   width:100%;
@@ -234,7 +218,6 @@ body{position:relative}
   font-variant-numeric:tabular-nums
 }
 
-/* CONTROLS */
 .controls{
   display:flex;
   align-items:center;
@@ -282,7 +265,6 @@ body{position:relative}
   fill:#000
 }
 
-/* VOLUME */
 .volume{
   display:flex;
   align-items:center;
@@ -327,7 +309,6 @@ body{position:relative}
   background:#fff
 }
 
-/* DRAWER */
 .overlay{
   position:fixed;inset:0;
   z-index:90;
@@ -344,16 +325,12 @@ body{position:relative}
   padding:12px 6px;
   visibility:hidden;
   pointer-events:none;
-
   background:rgba(20,20,20,.22);
   border-left:1px solid rgba(255,255,255,.15);
-
   backdrop-filter:blur(25px) saturate(150%);
   -webkit-backdrop-filter:blur(25px) saturate(150%);
-
   box-shadow:-10px 0 30px rgba(0,0,0,.3);
   transition:right .35s cubic-bezier(.2,.8,.2,1);
-
   display:flex;
   flex-direction:column
 }
@@ -440,7 +417,6 @@ body{position:relative}
   text-overflow:ellipsis
 }
 
-/* MOBILE */
 @media(max-width:480px){
   .player{
     width:96%;
@@ -468,7 +444,6 @@ body{position:relative}
 
 <body>
 
-<!-- BACKGROUND VIDEO -->
 <video
   id="bgVideo"
   src="bg-video.mp4"
@@ -477,12 +452,12 @@ body{position:relative}
   loop
   playsinline
   webkit-playsinline
+  autoplay
   preload="auto">
 </video>
 
 <div class="bg-overlay"></div>
 
-<!-- TOP -->
 <div class="top">
 
   <div class="bd">
@@ -500,13 +475,10 @@ body{position:relative}
 
 </div>
 
-<!-- YOUTUBE -->
 <div id="yt"></div>
 
-<!-- DRAWER OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
 
-<!-- DRAWER -->
 <div class="drawer" id="drawer">
 
   <div class="drawer-head">
@@ -522,7 +494,6 @@ body{position:relative}
 
 </div>
 
-<!-- PLAYER -->
 <div class="app">
 
   <section class="player" id="playerCard">
@@ -550,28 +521,24 @@ body{position:relative}
 
     <div class="controls">
 
-      <!-- PREVIOUS -->
       <button class="skip" onclick="previousSong()" aria-label="Previous">
         <svg viewBox="0 0 24 24">
           <path d="M6 5v14h2V5H6zm3 7l9 7V5l-9 7z"/>
         </svg>
       </button>
 
-      <!-- PLAY -->
       <button class="play" id="play" onclick="togglePlay()">
         <svg id="playIcon" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z"/>
         </svg>
       </button>
 
-      <!-- NEXT -->
       <button class="skip" onclick="nextSong()" aria-label="Next">
         <svg viewBox="0 0 24 24">
-          <path d="M16 5v14h2V5h-2zM6 5v14l9 7-9-7z"/>
+          <path d="M6 5v14l10-7L6 5zm10 0v14h2V5h-2z"/>
         </svg>
       </button>
 
-      <!-- VOLUME -->
       <div class="volume">
 
         <button class="btn" onclick="toggleVolume()">
@@ -602,10 +569,6 @@ body{position:relative}
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-/* =========================
-   SETTINGS
-========================= */
-
 const PLAYLIST_ID = "PLB9TgDHfMHmM";
 
 let player = null;
@@ -620,31 +583,11 @@ let volTimer = null;
 const bgVideo = document.getElementById("bgVideo");
 const seek = document.getElementById("seek");
 
-/* =========================
-   BACKGROUND VIDEO
-========================= */
+/* BACKGROUND VIDEO */
 
-/*
-  Load the first video frame immediately.
-  It stays paused until music starts.
-*/
-bgVideo.pause();
 bgVideo.muted = true;
 bgVideo.loop = true;
-
-bgVideo.addEventListener("loadeddata",()=>{
-  try{
-    bgVideo.currentTime = 0;
-  }catch(e){}
-});
-
-/* Keep looping */
-bgVideo.addEventListener("ended",()=>{
-  if(playing){
-    bgVideo.currentTime = 0;
-    playBackground();
-  }
-});
+bgVideo.playsInline = true;
 
 function playBackground(){
   bgVideo.muted = true;
@@ -656,9 +599,21 @@ function pauseBackground(){
   bgVideo.pause();
 }
 
-/* =========================
-   BD TIME
-========================= */
+bgVideo.addEventListener("ended",()=>{
+  bgVideo.currentTime = 0;
+  if(playing) playBackground();
+});
+
+window.addEventListener("load",()=>{
+  bgVideo.load();
+  playBackground();
+});
+
+document.addEventListener("touchstart",()=>{
+  if(!playing && bgVideo.paused) playBackground();
+},{once:true,passive:true});
+
+/* BD TIME */
 
 function updateBDTime(){
   document.getElementById("bdTime").textContent =
@@ -674,9 +629,7 @@ function updateBDTime(){
 updateBDTime();
 setInterval(updateBDTime,1000);
 
-/* =========================
-   YOUTUBE API
-========================= */
+/* YOUTUBE API */
 
 function onYouTubeIframeAPIReady(){
 
@@ -708,13 +661,9 @@ function onReady(){
   progressTimer = setInterval(updateProgress,200);
 
   setTimeout(loadPlaylist,800);
-
-  pauseBackground();
 }
 
-/* =========================
-   PLAYER STATE
-========================= */
+/* PLAYER STATE */
 
 function onStateChange(e){
 
@@ -729,7 +678,6 @@ function onStateChange(e){
 
     updateInfo();
     highlightActive();
-
     playBackground();
   }
 
@@ -754,21 +702,20 @@ function onStateChange(e){
   }
 }
 
-/* =========================
-   PLAY / PAUSE
-========================= */
+/* PLAY / PAUSE */
 
 function togglePlay(){
+
   if(!player)return;
 
-  playing
-    ? player.pauseVideo()
-    : player.playVideo();
+  if(playing){
+    player.pauseVideo();
+  }else{
+    player.playVideo();
+  }
 }
 
-/* =========================
-   NEXT / PREVIOUS
-========================= */
+/* NEXT / PREVIOUS */
 
 function getCurrentIndex(){
   if(!player || !player.getPlaylistIndex)return 0;
@@ -780,15 +727,12 @@ function nextSong(){
   if(!player)return;
 
   const current = getCurrentIndex();
+
   const next = playlistItems.length
     ? (current + 1) % playlistItems.length
     : current + 1;
 
-  /*
-    Update thumbnail/title BEFORE YouTube changes track.
-  */
   showTrack(next);
-
   player.nextVideo();
 
   setTimeout(updateInfo,50);
@@ -800,24 +744,19 @@ function previousSong(){
   if(!player)return;
 
   const current = getCurrentIndex();
+
   const prev = playlistItems.length
     ? (current - 1 + playlistItems.length) % playlistItems.length
     : Math.max(0,current - 1);
 
-  /*
-    Update immediately.
-  */
   showTrack(prev);
-
   player.previousVideo();
 
   setTimeout(updateInfo,50);
   setTimeout(highlightActive,50);
 }
 
-/* =========================
-   SHOW TRACK IMMEDIATELY
-========================= */
+/* SHOW TRACK */
 
 function showTrack(index){
 
@@ -855,9 +794,7 @@ function showTrack(index){
   });
 }
 
-/* =========================
-   VOLUME
-========================= */
+/* VOLUME */
 
 function toggleVolume(){
 
@@ -888,7 +825,8 @@ function changeVolume(value){
   },3000);
 }
 
-/* Hide ONLY iPhone/iPad */
+/* HIDE VOLUME ON IOS */
+
 (function(){
 
   const ios =
@@ -904,9 +842,7 @@ function changeVolume(value){
 
 })();
 
-/* =========================
-   PLAYLIST DRAWER
-========================= */
+/* DRAWER */
 
 function toggleDrawer(){
 
@@ -918,9 +854,7 @@ function toggleDrawer(){
   overlay.classList.toggle("show",open);
 }
 
-/* =========================
-   LOAD PLAYLIST
-========================= */
+/* LOAD PLAYLIST */
 
 function loadPlaylist(){
 
@@ -975,9 +909,7 @@ function loadPlaylist(){
   showTrack(getCurrentIndex());
 }
 
-/* =========================
-   SONG DETAILS
-========================= */
+/* SONG DETAILS */
 
 function getDetails(id,index){
 
@@ -1001,10 +933,6 @@ function getDetails(id,index){
     if(data.author_name && artist)
       artist.textContent=data.author_name;
 
-    /*
-      If this is currently playing,
-      immediately update main player too.
-    */
     if(
       player &&
       player.getPlaylistIndex &&
@@ -1021,9 +949,7 @@ function getDetails(id,index){
   .catch(()=>{});
 }
 
-/* =========================
-   CURRENT SONG INFO
-========================= */
+/* CURRENT SONG INFO */
 
 function updateInfo(){
 
@@ -1047,9 +973,7 @@ function updateInfo(){
   }catch(e){}
 }
 
-/* =========================
-   ACTIVE SONG
-========================= */
+/* ACTIVE SONG */
 
 function highlightActive(){
 
@@ -1062,9 +986,7 @@ function highlightActive(){
   });
 }
 
-/* =========================
-   SEEK BAR
-========================= */
+/* SEEK */
 
 function seekPosition(x){
 
@@ -1072,10 +994,7 @@ function seekPosition(x){
 
   return Math.max(
     0,
-    Math.min(
-      1,
-      (x-r.left)/r.width
-    )
+    Math.min(1,(x-r.left)/r.width)
   );
 }
 
@@ -1095,11 +1014,6 @@ function updateSeekUI(pos){
   }
 }
 
-/*
-  IMPORTANT:
-  Dragging the bar NEVER changes the song.
-  It only changes the current time.
-*/
 seek.addEventListener("pointerdown",e=>{
 
   if(!player || !player.getDuration())return;
@@ -1110,9 +1024,7 @@ seek.addEventListener("pointerdown",e=>{
 
   seek.setPointerCapture(e.pointerId);
 
-  updateSeekUI(
-    seekPosition(e.clientX)
-  );
+  updateSeekUI(seekPosition(e.clientX));
 });
 
 seek.addEventListener("pointermove",e=>{
@@ -1121,9 +1033,7 @@ seek.addEventListener("pointermove",e=>{
 
   e.preventDefault();
 
-  updateSeekUI(
-    seekPosition(e.clientX)
-  );
+  updateSeekUI(seekPosition(e.clientX));
 });
 
 seek.addEventListener("pointerup",e=>{
@@ -1160,9 +1070,7 @@ seek.addEventListener("pointercancel",e=>{
   }
 });
 
-/* =========================
-   PROGRESS
-========================= */
+/* PROGRESS */
 
 function updateProgress(){
 
@@ -1206,9 +1114,7 @@ function format(seconds){
   );
 }
 
-/* =========================
-   SWIPE
-========================= */
+/* SWIPE */
 
 const card=document.getElementById("playerCard");
 
@@ -1241,9 +1147,7 @@ card.addEventListener("touchend",e=>{
 
 },{passive:true});
 
-/* =========================
-   OUTSIDE VOLUME CLICK
-========================= */
+/* OUTSIDE VOLUME CLICK */
 
 document.addEventListener("click",e=>{
 
@@ -1258,29 +1162,6 @@ document.addEventListener("click",e=>{
   }
 
 });
-
-/* =========================
-   INITIAL BACKGROUND LOAD
-========================= */
-
-/*
-  This makes the browser load the video
-  as soon as the website opens.
-*/
-window.addEventListener("load",()=>{
-
-  bgVideo.load();
-
-  /*
-    Keep it paused.
-    The first loaded frame remains visible
-    when the browser supports paused-video
-    rendering.
-  */
-  bgVideo.pause();
-
-});
-
 </script>
 
 </body>
