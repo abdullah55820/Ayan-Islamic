@@ -675,14 +675,12 @@ margin-top:0.5px;
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-
 /* PLAYLIST */
 const PLAYLIST_ID="PLB9TgDHfMHmM";
 
 let player=null;
 let playing=false;
 let playlistItems = [];
-
 
 /* BANGLADESH LIVE TIME */
 function updateBDTime(){
@@ -699,7 +697,6 @@ function updateBDTime(){
 
 updateBDTime();
 setInterval(updateBDTime,1000);
-
 
 /* YOUTUBE API */
 function onYouTubeIframeAPIReady(){
@@ -724,19 +721,17 @@ function onYouTubeIframeAPIReady(){
   });
 }
 
-
-/* INSTANT READY */
 function ready(){
   loadPlaylistItems();
   setInterval(updateProgress, 250);
 }
 
-
-/* PLAYER STATE */
+/* PLAYER STATE & VIDEO SYNC */
 function state(e){
   const cover=document.getElementById("cover");
   const playBtn=document.getElementById("play");
   const playIcon=document.getElementById("play-icon");
+  const bgVideo = document.getElementById("bgVideo");
 
   highlightActiveTrack();
 
@@ -745,6 +740,9 @@ function state(e){
     playBtn.classList.add("playing");
     playIcon.innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
     cover.classList.add("spinning");
+    
+    if(bgVideo.paused) bgVideo.play();
+    
     updateInfo();
   }
   else if(e.data===YT.PlayerState.PAUSED || e.data===YT.PlayerState.ENDED){
@@ -752,11 +750,11 @@ function state(e){
     playBtn.classList.remove("playing");
     playIcon.innerHTML='<path d="M8 5v14l11-7z"/>';
     cover.classList.remove("spinning");
+    
+    if(!bgVideo.paused) bgVideo.pause();
   }
 }
 
-
-/* PLAY / PAUSE */
 function togglePlay(){
   if(!player)return;
   if(playing){
@@ -766,13 +764,10 @@ function togglePlay(){
   }
 }
 
-
-/* NEXT & PREVIOUS */
 function nextSong(){
   if(!player || playlistItems.length === 0)return;
   let currentIdx = (typeof player.getPlaylistIndex === 'function') ? player.getPlaylistIndex() : 0;
   let nextIdx = (currentIdx + 1) % playlistItems.length;
-  
   forceUpdateUI(nextIdx);
   player.nextVideo();
 }
@@ -781,7 +776,6 @@ function previousSong(){
   if(!player || playlistItems.length === 0)return;
   let currentIdx = (typeof player.getPlaylistIndex === 'function') ? player.getPlaylistIndex() : 0;
   let prevIdx = (currentIdx - 1 + playlistItems.length) % playlistItems.length;
-  
   forceUpdateUI(prevIdx);
   player.previousVideo();
 }
@@ -789,51 +783,29 @@ function previousSong(){
 function forceUpdateUI(index){
   if(!playlistItems[index]) return;
   const videoId = playlistItems[index];
-  
   document.getElementById("cover").src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-  
   const titleEl = document.getElementById(`title-${index}`);
   const artistEl = document.getElementById(`artist-${index}`);
-  
-  if(titleEl) {
-    document.getElementById("title").textContent = titleEl.textContent;
-  }
-  if(artistEl) {
-    document.getElementById("artist").textContent = artistEl.textContent;
-  }
+  if(titleEl) document.getElementById("title").textContent = titleEl.textContent;
+  if(artistEl) document.getElementById("artist").textContent = artistEl.textContent;
 }
 
-
-/* TOUCH / SWIPE GESTURE SUPPORT */
 let touchStartX = 0;
 let touchEndX = 0;
 const playerCard = document.getElementById("playerCard");
 
-playerCard.addEventListener('touchstart', e => {
-  touchStartX = e.changedTouches[0].screenX;
-}, {passive: true});
-
-playerCard.addEventListener('touchend', e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-}, {passive: true});
+playerCard.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+playerCard.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, {passive: true});
 
 function handleSwipe() {
   const swipeThreshold = 50;
-  if (touchEndX < touchStartX - swipeThreshold) {
-    nextSong();
-  }
-  if (touchEndX > touchStartX + swipeThreshold) {
-    previousSong();
-  }
+  if (touchEndX < touchStartX - swipeThreshold) nextSong();
+  if (touchEndX > touchStartX + swipeThreshold) previousSong();
 }
 
-
-/* DRAWER & PLAYLIST FUNCTIONS */
 function toggleDrawer(){
   const drawer = document.getElementById("drawer");
   const overlay = document.getElementById("overlay");
-  
   if(drawer.classList.contains("open")){
     drawer.classList.remove("open");
     overlay.classList.remove("active");
@@ -845,35 +817,22 @@ function toggleDrawer(){
 
 function loadPlaylistItems(){
   if(!player || typeof player.getPlaylist !== 'function') return;
-  
   playlistItems = player.getPlaylist();
   const listContainer = document.getElementById("songList");
-  
   if(!playlistItems || playlistItems.length === 0){
     listContainer.innerHTML = '<div style="text-align:center; color:rgba(255,255,255,0.7); font-size:10px; margin-top:15px;">No tracks found</div>';
     return;
   }
-  
   listContainer.innerHTML = "";
-  
   playlistItems.forEach((id, index) => {
     const item = document.createElement("div");
     item.className = "song-item";
     item.id = `track-${index}`;
     item.onclick = () => playSpecificTrack(index);
-    
-    item.innerHTML = `
-      <img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="thumb">
-      <div class="song-item-info">
-        <div class="song-item-title" id="title-${index}">Track #${index + 1}</div>
-        <div class="song-item-artist" id="artist-${index}">YouTube Music</div>
-      </div>
-    `;
-    
+    item.innerHTML = `<img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="thumb"><div class="song-item-info"><div class="song-item-title" id="title-${index}">Track #${index + 1}</div><div class="song-item-artist" id="artist-${index}">YouTube Music</div></div>`;
     listContainer.appendChild(item);
     fetchSongDetails(id, index);
   });
-  
   highlightActiveTrack();
   updateInfo();
 }
@@ -885,17 +844,14 @@ function fetchSongDetails(id, index){
       if(data && data.title) {
         const titleEl = document.getElementById(`title-${index}`);
         const artistEl = document.getElementById(`artist-${index}`);
-        
         if(titleEl) titleEl.textContent = data.title;
         if(artistEl && data.author_name) artistEl.textContent = data.author_name;
-        
         if(player && typeof player.getPlaylistIndex === 'function' && player.getPlaylistIndex() === index) {
           document.getElementById("title").textContent = data.title;
           if(data.author_name) document.getElementById("artist").textContent = data.author_name;
         }
       }
-    })
-    .catch(() => {});
+    }).catch(() => {});
 }
 
 function playSpecificTrack(index){
@@ -907,100 +863,24 @@ function playSpecificTrack(index){
 
 function highlightActiveTrack(){
   if(!player || typeof player.getPlaylistIndex !== 'function') return;
-  
   const currentIndex = player.getPlaylistIndex();
   const items = document.querySelectorAll(".song-item");
-  
   items.forEach((item, index) => {
-    if(index === currentIndex){
-      item.classList.add("active");
-    } else {
-      item.classList.remove("active");
-    }
+    if(index === currentIndex) item.classList.add("active");
+    else item.classList.remove("active");
   });
 }
 
-
-/* SONG INFORMATION & PROGRESS */
 function updateInfo(){
   if(!player || typeof player.getVideoData !== 'function')return;
   try{
     const d = player.getVideoData();
     if(!d || !d.video_id)return;
-    
     document.getElementById("cover").src = "https://i.ytimg.com/vi/" + d.video_id + "/hqdefault.jpg";
-    if(d.title && d.title !== "") {
-      document.getElementById("title").textContent = d.title;
-    }
-    if(d.author && d.author !== "") {
-      document.getElementById("artist").textContent = d.author;
-    }
+    if(d.title && d.title !== "") document.getElementById("title").textContent = d.title;
+    if(d.author && d.author !== "") document.getElementById("artist").textContent = d.author;
   }catch(e){}
 }
-
-
-/* SEEK BAR */
-let isDragging = false;
-const seekElement = document.getElementById("seek");
-
-function handleSeek(e) {
-  if (!player || typeof player.getDuration !== 'function') return;
-  
-  const rect = seekElement.getBoundingClientRect();
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const pos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-  
-  document.getElementById("fill").style.width = (pos * 100) + "%";
-  
-  const duration = player.getDuration();
-  if (duration && !isDragging) {
-    player.seekTo(pos * duration, true);
-  }
-}
-
-seekElement.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  handleSeek(e);
-});
-
-window.addEventListener('mousemove', (e) => {
-  if (isDragging) handleSeek(e);
-});
-
-window.addEventListener('mouseup', (e) => {
-  if (isDragging) {
-    isDragging = false;
-    const rect = seekElement.getBoundingClientRect();
-    const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    if (player && typeof player.getDuration === 'function') {
-      player.seekTo(pos * player.getDuration(), true);
-    }
-  }
-});
-
-seekElement.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  handleSeek(e);
-}, { passive: false });
-
-window.addEventListener('touchmove', (e) => {
-  if (isDragging) {
-    if (e.cancelable) e.preventDefault();
-    handleSeek(e);
-  }
-}, { passive: false });
-
-window.addEventListener('touchend', (e) => {
-  if (isDragging) {
-    isDragging = false;
-    const rect = seekElement.getBoundingClientRect();
-    const touch = e.changedTouches[0];
-    if (touch && player && typeof player.getDuration === 'function') {
-      const pos = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
-      player.seekTo(pos * player.getDuration(), true);
-    }
-  }
-});
 
 function updateProgress(){
   if (isDragging) return;
@@ -1013,7 +893,21 @@ function updateProgress(){
   }catch(e){}
 }
 
+let isDragging = false;
+const seekElement = document.getElementById("seek");
+function handleSeek(e) {
+  if (!player || typeof player.getDuration !== 'function') return;
+  const rect = seekElement.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const pos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+  document.getElementById("fill").style.width = (pos * 100) + "%";
+  const duration = player.getDuration();
+  if (duration && !isDragging) player.seekTo(pos * duration, true);
+}
+seekElement.addEventListener('mousedown', (e) => { isDragging = true; handleSeek(e); });
+window.addEventListener('mousemove', (e) => { if (isDragging) handleSeek(e); });
+window.addEventListener('mouseup', (e) => { if (isDragging) { isDragging = false; const rect = seekElement.getBoundingClientRect(); const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)); if (player && typeof player.getDuration === 'function') player.seekTo(pos * player.getDuration(), true); } });
+seekElement.addEventListener('touchstart', (e) => { isDragging = true; handleSeek(e); }, { passive: false });
+window.addEventListener('touchmove', (e) => { if (isDragging) { if (e.cancelable) e.preventDefault(); handleSeek(e); } }, { passive: false });
+window.addEventListener('touchend', (e) => { if (isDragging) { isDragging = false; const rect = seekElement.getBoundingClientRect(); const touch = e.changedTouches[0]; if (touch && player && typeof player.getDuration === 'function') { const pos = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width)); player.seekTo(pos * player.getDuration(), true); } } });
 </script>
-
-</body>
-</html>
