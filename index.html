@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
 <title>My Music Player</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="My Music Player">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#000000">
 
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
@@ -11,19 +18,32 @@
 <link rel="icon" type="image/png" href="logo.png">
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent
+}
 
 html,body{
-  margin:0;width:100%;height:100%;overflow:hidden;
-  background:#000;color:#fff;
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+  color:#fff;
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif
 }
 
-body{position:relative}
+body{
+  position:relative;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom)
+}
 
 #bgVideo{
-  position:fixed;inset:0;
-  width:100%;height:100%;
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
   object-fit:cover;
   object-position:center;
   z-index:0;
@@ -33,7 +53,8 @@ body{position:relative}
 }
 
 .bg-overlay{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   z-index:1;
   background:rgba(0,0,0,.12);
   pointer-events:none
@@ -41,7 +62,8 @@ body{position:relative}
 
 .top{
   position:fixed;
-  top:10px;left:50%;
+  top:calc(10px + env(safe-area-inset-top));
+  left:50%;
   transform:translateX(-50%);
   z-index:20;
   display:flex;
@@ -69,7 +91,8 @@ body{position:relative}
 }
 
 .dot{
-  width:7px;height:7px;
+  width:7px;
+  height:7px;
   border-radius:50%;
   background:#ff3b30;
   box-shadow:0 0 8px #ff3b30;
@@ -89,14 +112,23 @@ body{position:relative}
   cursor:pointer
 }
 
-.playlist-btn svg{width:14px;height:14px;fill:#fff}
+.playlist-btn svg{
+  width:14px;
+  height:14px;
+  fill:#fff
+}
 
 #yt{
   position:fixed;
-  width:2px;height:2px;
-  left:-10px;bottom:-10px;
-  opacity:.01;
-  pointer-events:none
+  width:1px;
+  height:1px;
+  left:-100px;
+  top:-100px;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  border:0;
+  overflow:hidden
 }
 
 .app{
@@ -104,10 +136,14 @@ body{position:relative}
   z-index:5;
   width:100%;
   height:100dvh;
+  min-height:100vh;
   display:flex;
   align-items:flex-end;
   justify-content:center;
-  padding:0 16px 60px
+  padding:
+    0
+    16px
+    calc(60px + env(safe-area-inset-bottom))
 }
 
 .player{
@@ -129,7 +165,8 @@ body{position:relative}
 }
 
 .cover-wrap{
-  width:84px;height:84px;
+  width:84px;
+  height:84px;
   flex-shrink:0;
   border-radius:50%;
   overflow:hidden;
@@ -139,7 +176,8 @@ body{position:relative}
 }
 
 .cover{
-  width:137%;height:137%;
+  width:137%;
+  height:137%;
   margin:-18.5%;
   border-radius:50%;
   object-fit:cover;
@@ -148,7 +186,9 @@ body{position:relative}
   animation-play-state:paused
 }
 
-.cover.spin{animation-play-state:running}
+.cover.spin{
+  animation-play-state:running
+}
 
 @keyframes spin{
   to{transform:rotate(360deg)}
@@ -157,15 +197,20 @@ body{position:relative}
 .cover-wrap:after{
   content:"";
   position:absolute;
-  width:16px;height:16px;
-  left:50%;top:50%;
+  width:16px;
+  height:16px;
+  left:50%;
+  top:50%;
   transform:translate(-50%,-50%);
   border-radius:50%;
   background:rgba(15,15,15,.82);
   border:2px solid rgba(255,255,255,.3)
 }
 
-.middle{flex:1;min-width:0}
+.middle{
+  flex:1;
+  min-width:0
+}
 
 .title{
   font-size:16px;
@@ -199,14 +244,18 @@ body{position:relative}
 .seek:before{
   content:"";
   position:absolute;
-  top:-12px;bottom:-12px;
-  left:-10px;right:-10px
+  top:-12px;
+  bottom:-12px;
+  left:-10px;
+  right:-10px
 }
 
 .fill{
   position:absolute;
-  left:0;top:0;
-  height:100%;width:0;
+  left:0;
+  top:0;
+  height:100%;
+  width:0;
   border-radius:10px;
   background:#fff;
   pointer-events:none
@@ -226,7 +275,8 @@ body{position:relative}
 }
 
 .btn,.skip{
-  width:30px;height:30px;
+  width:30px;
+  height:30px;
   border:0;
   background:transparent;
   color:#fff;
@@ -238,7 +288,8 @@ body{position:relative}
 }
 
 .btn svg,.skip svg{
-  width:19px;height:19px;
+  width:19px;
+  height:19px;
   fill:#fff
 }
 
@@ -247,7 +298,8 @@ body{position:relative}
 }
 
 .play{
-  width:45px;height:45px;
+  width:45px;
+  height:45px;
   border:0;
   border-radius:50%;
   background:#fff;
@@ -261,7 +313,8 @@ body{position:relative}
 }
 
 .play svg{
-  width:20px;height:20px;
+  width:20px;
+  height:20px;
   fill:#000
 }
 
@@ -293,7 +346,8 @@ body{position:relative}
 }
 
 .vol{
-  width:55px;height:3.5px;
+  width:55px;
+  height:3.5px;
   appearance:none;
   -webkit-appearance:none;
   background:rgba(255,255,255,.3);
@@ -304,25 +358,34 @@ body{position:relative}
 .vol::-webkit-slider-thumb{
   appearance:none;
   -webkit-appearance:none;
-  width:10px;height:10px;
+  width:10px;
+  height:10px;
   border-radius:50%;
   background:#fff
 }
 
 .overlay{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   z-index:90;
   display:none
 }
 
-.overlay.show{display:block}
+.overlay.show{
+  display:block
+}
 
 .drawer{
   position:fixed;
-  top:0;right:-190px;
-  width:180px;height:100dvh;
+  top:0;
+  right:-190px;
+  width:180px;
+  height:100dvh;
   z-index:100;
-  padding:12px 6px;
+  padding:
+    calc(12px + env(safe-area-inset-top))
+    6px
+    calc(12px + env(safe-area-inset-bottom));
   visibility:hidden;
   pointer-events:none;
   background:rgba(20,20,20,.22);
@@ -390,7 +453,8 @@ body{position:relative}
 }
 
 .song img{
-  width:28px;height:28px;
+  width:28px;
+  height:28px;
   border-radius:5px;
   object-fit:cover;
   flex-shrink:0
@@ -426,18 +490,42 @@ body{position:relative}
     gap:8px
   }
 
-  .cover-wrap{width:78px;height:78px}
+  .cover-wrap{
+    width:78px;
+    height:78px
+  }
+
   .title{font-size:15px}
   .artist{font-size:11px}
-  .play{width:42px;height:42px}
+  .play{
+    width:42px;
+    height:42px
+  }
 }
 
 @media(max-width:360px){
-  .player{gap:4px;padding-left:9px;padding-right:9px}
-  .cover-wrap{width:70px;height:70px}
+  .player{
+    gap:4px;
+    padding-left:9px;
+    padding-right:9px
+  }
+
+  .cover-wrap{
+    width:70px;
+    height:70px
+  }
+
   .controls{gap:1px}
-  .btn,.skip{width:27px;height:27px}
-  .play{width:39px;height:39px}
+
+  .btn,.skip{
+    width:27px;
+    height:27px
+  }
+
+  .play{
+    width:39px;
+    height:39px
+  }
 }
 </style>
 </head>
@@ -452,7 +540,6 @@ body{position:relative}
   loop
   playsinline
   webkit-playsinline
-  autoplay
   preload="auto">
 </video>
 
@@ -587,11 +674,13 @@ const seek = document.getElementById("seek");
 
 bgVideo.muted = true;
 bgVideo.loop = true;
-bgVideo.playsInline = true;
 
 function playBackground(){
+
   bgVideo.muted = true;
+
   const p = bgVideo.play();
+
   if(p) p.catch(()=>{});
 }
 
@@ -601,7 +690,10 @@ function pauseBackground(){
 
 bgVideo.addEventListener("ended",()=>{
   bgVideo.currentTime = 0;
-  if(playing) playBackground();
+
+  if(playing){
+    playBackground();
+  }
 });
 
 window.addEventListener("load",()=>{
@@ -609,13 +701,10 @@ window.addEventListener("load",()=>{
   playBackground();
 });
 
-document.addEventListener("touchstart",()=>{
-  if(!playing && bgVideo.paused) playBackground();
-},{once:true,passive:true});
-
 /* BD TIME */
 
 function updateBDTime(){
+
   document.getElementById("bdTime").textContent =
     new Intl.DateTimeFormat("en-US",{
       timeZone:"Asia/Dhaka",
@@ -634,6 +723,7 @@ setInterval(updateBDTime,1000);
 function onYouTubeIframeAPIReady(){
 
   player = new YT.Player("yt",{
+
     width:"2",
     height:"2",
 
@@ -645,6 +735,7 @@ function onYouTubeIframeAPIReady(){
       modestbranding:1,
       playsinline:1,
       rel:0,
+      cc_load_policy:0,
       listType:"playlist",
       list:PLAYLIST_ID
     },
@@ -697,6 +788,7 @@ function onStateChange(e){
   }
 
   if(e.data === YT.PlayerState.ENDED){
+
     setTimeout(updateInfo,50);
     setTimeout(highlightActive,50);
   }
@@ -718,7 +810,10 @@ function togglePlay(){
 /* NEXT / PREVIOUS */
 
 function getCurrentIndex(){
-  if(!player || !player.getPlaylistIndex)return 0;
+
+  if(!player || !player.getPlaylistIndex)
+    return 0;
+
   return player.getPlaylistIndex();
 }
 
@@ -805,6 +900,7 @@ function toggleVolume(){
   clearTimeout(volTimer);
 
   if(wrap.classList.contains("active")){
+
     volTimer = setTimeout(()=>{
       wrap.classList.remove("active");
     },3000);
@@ -865,8 +961,10 @@ function loadPlaylist(){
   const list = document.getElementById("songList");
 
   if(!playlistItems.length){
+
     list.innerHTML =
       '<div style="text-align:center;font-size:10px;margin-top:15px">No tracks found</div>';
+
     return;
   }
 
@@ -885,6 +983,7 @@ function loadPlaylist(){
         alt="thumb">
 
       <div class="song-info">
+
         <div class="song-title" id="title-${index}">
           Track ${index+1}
         </div>
@@ -892,10 +991,12 @@ function loadPlaylist(){
         <div class="song-artist" id="artist-${index}">
           YouTube Music
         </div>
+
       </div>
     `;
 
     item.onclick=()=>{
+
       showTrack(index);
       player.playVideoAt(index);
       toggleDrawer();
@@ -916,7 +1017,9 @@ function getDetails(id,index){
   fetch(
     `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${id}`
   )
+
   .then(r=>r.json())
+
   .then(data=>{
 
     if(!data)return;
@@ -938,6 +1041,7 @@ function getDetails(id,index){
       player.getPlaylistIndex &&
       player.getPlaylistIndex() === index
     ){
+
       if(data.title)
         document.getElementById("title").textContent=data.title;
 
@@ -946,6 +1050,7 @@ function getDetails(id,index){
     }
 
   })
+
   .catch(()=>{});
 }
 
@@ -1008,6 +1113,7 @@ function updateSeekUI(pos){
     const d=player.getDuration();
 
     if(d){
+
       document.getElementById("current").textContent =
         format(pos*d);
     }
@@ -1157,6 +1263,7 @@ document.addEventListener("click",e=>{
     volume &&
     !volume.contains(e.target)
   ){
+
     document.getElementById("volWrap")
       .classList.remove("active");
   }
