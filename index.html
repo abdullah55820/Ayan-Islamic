@@ -23,8 +23,13 @@ body{position:relative}
 
 /* BACKGROUND */
 #bgVideo{
-  position:fixed;inset:0;
-  width:100%;height:100%;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:calc(-1 * env(safe-area-inset-bottom));
+  width:100%;
+  height:calc(100% + env(safe-area-inset-bottom));
   object-fit:cover;
   object-position:center;
   z-index:0;
@@ -34,7 +39,11 @@ body{position:relative}
 }
 
 .bg-overlay{
-  position:fixed;inset:0;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:calc(-1 * env(safe-area-inset-bottom));
   z-index:1;
   background:rgba(0,0,0,.12);
   pointer-events:none
@@ -112,7 +121,9 @@ body{position:relative}
   display:flex;
   align-items:flex-end;
   justify-content:center;
-  padding:0 16px calc(95px + env(safe-area-inset-bottom))
+
+  /* আগের চেয়ে একটু নিচে */
+  padding:0 16px calc(55px + env(safe-area-inset-bottom))
 }
 
 /* PLAYER */
@@ -443,6 +454,7 @@ body{position:relative}
 
 /* MOBILE */
 @media(max-width:480px){
+
   .player{
     width:96%;
     min-height:116px;
@@ -458,18 +470,32 @@ body{position:relative}
 }
 
 @media(max-width:360px){
-  .player{gap:4px;padding-left:9px;padding-right:9px}
+
+  .player{
+    gap:4px;
+    padding-left:9px;
+    padding-right:9px
+  }
+
   .cover-wrap{width:70px;height:70px}
+
   .controls{gap:1px}
-  .btn,.skip{width:27px;height:27px}
-  .play{width:39px;height:39px}
+
+  .btn,.skip{
+    width:27px;
+    height:27px
+  }
+
+  .play{
+    width:39px;
+    height:39px
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND VIDEO -->
 <video
   id="bgVideo"
   src="bg-video.mp4"
@@ -483,7 +509,6 @@ body{position:relative}
 
 <div class="bg-overlay"></div>
 
-<!-- TOP -->
 <div class="top">
 
   <div class="bd">
@@ -501,13 +526,10 @@ body{position:relative}
 
 </div>
 
-<!-- YOUTUBE -->
 <div id="yt"></div>
 
-<!-- DRAWER OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
 
-<!-- DRAWER -->
 <div class="drawer" id="drawer">
 
   <div class="drawer-head">
@@ -523,7 +545,6 @@ body{position:relative}
 
 </div>
 
-<!-- PLAYER -->
 <div class="app">
 
   <section class="player" id="playerCard">
@@ -551,28 +572,24 @@ body{position:relative}
 
     <div class="controls">
 
-      <!-- PREVIOUS -->
       <button class="skip" onclick="previousSong()" aria-label="Previous">
         <svg viewBox="0 0 24 24">
           <path d="M6 5v14h2V5H6zm3 7l9 7V5l-9 7z"/>
         </svg>
       </button>
 
-      <!-- PLAY -->
       <button class="play" id="play" onclick="togglePlay()">
         <svg id="playIcon" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z"/>
         </svg>
       </button>
 
-      <!-- NEXT -->
       <button class="skip" onclick="nextSong()" aria-label="Next">
         <svg viewBox="0 0 24 24">
           <path d="M16 5v14h2V5h-2zM6 5v14l9 7-9-7z"/>
         </svg>
       </button>
 
-      <!-- VOLUME -->
       <div class="volume">
 
         <button class="btn" onclick="toggleVolume()">
@@ -603,38 +620,34 @@ body{position:relative}
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-/* =========================
-   SETTINGS
-========================= */
-
 const PLAYLIST_ID = "PLB9TgDHfMHmM";
 
-let player = null;
-let playing = false;
-let playlistItems = [];
-let progressTimer = null;
-let isDragging = false;
-let swipeStartX = 0;
-let swipeStartY = 0;
-let volTimer = null;
+let player=null;
+let playing=false;
+let playlistItems=[];
+let progressTimer=null;
+let isDragging=false;
+let swipeStartX=0;
+let swipeStartY=0;
+let volTimer=null;
 
-const bgVideo = document.getElementById("bgVideo");
-const seek = document.getElementById("seek");
+const bgVideo=document.getElementById("bgVideo");
+const seek=document.getElementById("seek");
 
-/* =========================
-   BACKGROUND VIDEO
-========================= */
+/* BACKGROUND */
 
 bgVideo.pause();
-bgVideo.muted = true;
-bgVideo.loop = true;
+bgVideo.muted=true;
+bgVideo.loop=true;
 
 function playBackground(){
-  bgVideo.muted = true;
 
-  const p = bgVideo.play();
+  bgVideo.muted=true;
 
-  if(p) p.catch(()=>{});
+  const p=bgVideo.play();
+
+  if(p)p.catch(()=>{});
+
 }
 
 function pauseBackground(){
@@ -642,51 +655,57 @@ function pauseBackground(){
 }
 
 bgVideo.addEventListener("ended",()=>{
+
   if(playing){
-    bgVideo.currentTime = 0;
+
+    bgVideo.currentTime=0;
+
     playBackground();
+
   }
+
 });
 
 window.addEventListener("load",()=>{
+
   bgVideo.load();
 
-  /*
-    Browser autoplay allow করলে
-    site খোলার সাথে সাথেই video শুরু হবে।
-  */
   playBackground();
+
 });
 
-/* =========================
-   BD TIME
-========================= */
+/* BD TIME */
 
 function updateBDTime(){
-  document.getElementById("bdTime").textContent =
+
+  document.getElementById("bdTime").textContent=
+
     new Intl.DateTimeFormat("en-US",{
+
       timeZone:"Asia/Dhaka",
       hour:"2-digit",
       minute:"2-digit",
       second:"2-digit",
       hour12:true
+
     }).format(new Date());
+
 }
 
 updateBDTime();
 setInterval(updateBDTime,1000);
 
-/* =========================
-   YOUTUBE API
-========================= */
+/* YOUTUBE */
 
 function onYouTubeIframeAPIReady(){
 
-  player = new YT.Player("yt",{
+  player=new YT.Player("yt",{
+
     width:"2",
     height:"2",
 
     playerVars:{
+
       autoplay:0,
       controls:0,
       disablekb:1,
@@ -694,40 +713,41 @@ function onYouTubeIframeAPIReady(){
       modestbranding:1,
       playsinline:1,
       rel:0,
-
-      /* SUBTITLE/CAPTION OFF */
       cc_load_policy:0,
       iv_load_policy:3,
-
       listType:"playlist",
       list:PLAYLIST_ID
+
     },
 
     events:{
+
       onReady:onReady,
       onStateChange:onStateChange
+
     }
+
   });
+
 }
 
 function onReady(){
 
-  progressTimer = setInterval(updateProgress,200);
+  progressTimer=setInterval(updateProgress,200);
 
   setTimeout(loadPlaylist,800);
+
 }
 
-/* =========================
-   PLAYER STATE
-========================= */
+/* STATE */
 
 function onStateChange(e){
 
-  if(e.data === YT.PlayerState.PLAYING){
+  if(e.data===YT.PlayerState.PLAYING){
 
-    playing = true;
+    playing=true;
 
-    document.getElementById("playIcon").innerHTML =
+    document.getElementById("playIcon").innerHTML=
       '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
 
     document.getElementById("cover").classList.add("spin");
@@ -736,68 +756,68 @@ function onStateChange(e){
     highlightActive();
 
     playBackground();
+
   }
 
   else if(
-    e.data === YT.PlayerState.PAUSED ||
-    e.data === YT.PlayerState.ENDED
+    e.data===YT.PlayerState.PAUSED ||
+    e.data===YT.PlayerState.ENDED
   ){
 
-    playing = false;
+    playing=false;
 
-    document.getElementById("playIcon").innerHTML =
+    document.getElementById("playIcon").innerHTML=
       '<path d="M8 5v14l11-7z"/>';
 
     document.getElementById("cover").classList.remove("spin");
 
     pauseBackground();
+
   }
 
-  if(e.data === YT.PlayerState.ENDED){
+  if(e.data===YT.PlayerState.ENDED){
+
     setTimeout(updateInfo,50);
     setTimeout(highlightActive,50);
+
   }
+
 }
 
-/* =========================
-   PLAY / PAUSE
-========================= */
+/* PLAY */
 
 function togglePlay(){
 
   if(!player)return;
 
-  if(playing){
-    player.pauseVideo();
-  }else{
-    player.playVideo();
-  }
+  playing
+    ? player.pauseVideo()
+    : player.playVideo();
+
 }
 
-/* =========================
-   NEXT / PREVIOUS
-========================= */
+/* NEXT / PREVIOUS */
 
 function getCurrentIndex(){
 
   if(!player || !player.getPlaylistIndex)
     return 0;
 
-  const index = player.getPlaylistIndex();
+  const index=player.getPlaylistIndex();
 
-  return index < 0 ? 0 : index;
+  return index<0?0:index;
+
 }
 
 function nextSong(){
 
   if(!player)return;
 
-  const current = getCurrentIndex();
+  const current=getCurrentIndex();
 
   if(playlistItems.length){
 
-    const next =
-      (current + 1) % playlistItems.length;
+    const next=(current+1)%playlistItems.length;
 
     showTrack(next);
 
@@ -809,22 +829,21 @@ function nextSong(){
 
   }
 
-  setTimeout(()=>{
-    updateInfo();
-    highlightActive();
-  },100);
+  setTimeout(updateInfo,100);
+  setTimeout(highlightActive,100);
+
 }
 
 function previousSong(){
 
   if(!player)return;
 
-  const current = getCurrentIndex();
+  const current=getCurrentIndex();
 
   if(playlistItems.length){
 
-    const prev =
-      (current - 1 + playlistItems.length) %
+    const prev=
+      (current-1+playlistItems.length)%
       playlistItems.length;
 
     showTrack(prev);
@@ -837,60 +856,47 @@ function previousSong(){
 
   }
 
-  setTimeout(()=>{
-    updateInfo();
-    highlightActive();
-  },100);
+  setTimeout(updateInfo,100);
+  setTimeout(highlightActive,100);
+
 }
 
-/* =========================
-   SHOW TRACK
-========================= */
+/* SHOW TRACK */
 
 function showTrack(index){
 
   if(!playlistItems[index])return;
 
-  const id = playlistItems[index];
+  const id=playlistItems[index];
 
-  document.getElementById("cover").src =
+  document.getElementById("cover").src=
     `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
-  const title =
+  const title=
     document.querySelector(`#title-${index}`);
 
-  const artist =
+  const artist=
     document.querySelector(`#artist-${index}`);
 
-  if(title){
-    document.getElementById("title").textContent =
-      title.textContent;
-  }else{
-    document.getElementById("title").textContent =
-      "Loading...";
-  }
+  document.getElementById("title").textContent=
+    title ? title.textContent : "Loading...";
 
-  if(artist){
-    document.getElementById("artist").textContent =
-      artist.textContent;
-  }else{
-    document.getElementById("artist").textContent =
-      "YouTube Music";
-  }
+  document.getElementById("artist").textContent=
+    artist ? artist.textContent : "YouTube Music";
 
   document.querySelectorAll(".song").forEach((el,i)=>{
-    el.classList.toggle("active",i === index);
+
+    el.classList.toggle("active",i===index);
+
   });
+
 }
 
-/* =========================
-   VOLUME
-========================= */
+/* VOLUME */
 
 function toggleVolume(){
 
-  const wrap =
-    document.getElementById("volWrap");
+  const wrap=document.getElementById("volWrap");
 
   wrap.classList.toggle("active");
 
@@ -898,95 +904,89 @@ function toggleVolume(){
 
   if(wrap.classList.contains("active")){
 
-    volTimer = setTimeout(()=>{
+    volTimer=setTimeout(()=>{
+
       wrap.classList.remove("active");
+
     },3000);
 
   }
+
 }
 
 function changeVolume(value){
 
-  if(player && player.setVolume){
+  if(player && player.setVolume)
     player.setVolume(Number(value));
-  }
 
   clearTimeout(volTimer);
 
-  volTimer = setTimeout(()=>{
+  volTimer=setTimeout(()=>{
+
     document.getElementById("volWrap")
       .classList.remove("active");
-  },3000);
-}
 
-/* Hide ONLY iPhone/iPad */
+  },3000);
+
+}
 
 (function(){
 
-  const ios =
+  const ios=
     /iPhone|iPad|iPod/.test(navigator.userAgent) ||
     (
-      navigator.platform === "MacIntel" &&
-      navigator.maxTouchPoints > 1
+      navigator.platform==="MacIntel" &&
+      navigator.maxTouchPoints>1
     );
 
-  if(ios){
+  if(ios)
     document.querySelector(".volume").style.display="none";
-  }
 
 })();
 
-/* =========================
-   PLAYLIST DRAWER
-========================= */
+/* DRAWER */
 
 function toggleDrawer(){
 
-  const drawer =
-    document.getElementById("drawer");
+  const drawer=document.getElementById("drawer");
+  const overlay=document.getElementById("overlay");
 
-  const overlay =
-    document.getElementById("overlay");
-
-  const open =
-    drawer.classList.toggle("open");
+  const open=drawer.classList.toggle("open");
 
   overlay.classList.toggle("show",open);
+
 }
 
-/* =========================
-   LOAD PLAYLIST
-========================= */
+/* PLAYLIST */
 
 function loadPlaylist(){
 
   if(!player || !player.getPlaylist)return;
 
-  playlistItems =
-    player.getPlaylist() || [];
+  playlistItems=player.getPlaylist()||[];
 
-  const list =
-    document.getElementById("songList");
+  const list=document.getElementById("songList");
 
   if(!playlistItems.length){
 
-    list.innerHTML =
+    list.innerHTML=
       '<div style="text-align:center;font-size:10px;margin-top:15px">No tracks found</div>';
 
     return;
+
   }
 
   list.innerHTML="";
 
   playlistItems.forEach((id,index)=>{
 
-    const item =
-      document.createElement("div");
+    const item=document.createElement("div");
 
     item.className="song";
     item.id="track-"+index;
 
     item.innerHTML=`
+
       <img
         src="https://i.ytimg.com/vi/${id}/hqdefault.jpg"
         alt="thumb">
@@ -1006,6 +1006,7 @@ function loadPlaylist(){
         </div>
 
       </div>
+
     `;
 
     item.onclick=()=>{
@@ -1025,11 +1026,10 @@ function loadPlaylist(){
   });
 
   showTrack(getCurrentIndex());
+
 }
 
-/* =========================
-   SONG DETAILS
-========================= */
+/* DETAILS */
 
 function getDetails(id,index){
 
@@ -1043,10 +1043,10 @@ function getDetails(id,index){
 
     if(!data)return;
 
-    const title =
+    const title=
       document.getElementById("title-"+index);
 
-    const artist =
+    const artist=
       document.getElementById("artist-"+index);
 
     if(data.title && title)
@@ -1058,16 +1058,17 @@ function getDetails(id,index){
     if(
       player &&
       player.getPlaylistIndex &&
-      player.getPlaylistIndex() === index
+      player.getPlaylistIndex()===index
     ){
 
       if(data.title)
-        document.getElementById("title").textContent =
+        document.getElementById("title").textContent=
           data.title;
 
       if(data.author_name)
-        document.getElementById("artist").textContent =
+        document.getElementById("artist").textContent=
           data.author_name;
+
     }
 
   })
@@ -1076,9 +1077,7 @@ function getDetails(id,index){
 
 }
 
-/* =========================
-   CURRENT SONG INFO
-========================= */
+/* CURRENT INFO */
 
 function updateInfo(){
 
@@ -1086,36 +1085,32 @@ function updateInfo(){
 
   try{
 
-    const data =
-      player.getVideoData();
+    const data=player.getVideoData();
 
     if(!data || !data.video_id)return;
 
-    document.getElementById("cover").src =
+    document.getElementById("cover").src=
       `https://i.ytimg.com/vi/${data.video_id}/hqdefault.jpg`;
 
     if(data.title)
-      document.getElementById("title").textContent =
+      document.getElementById("title").textContent=
         data.title;
 
     if(data.author)
-      document.getElementById("artist").textContent =
+      document.getElementById("artist").textContent=
         data.author;
 
   }catch(e){}
 
 }
 
-/* =========================
-   ACTIVE SONG
-========================= */
+/* ACTIVE */
 
 function highlightActive(){
 
   if(!player || !player.getPlaylistIndex)return;
 
-  const current =
-    player.getPlaylistIndex();
+  const current=player.getPlaylistIndex();
 
   document.querySelectorAll(".song").forEach((item,index)=>{
 
@@ -1128,9 +1123,7 @@ function highlightActive(){
 
 }
 
-/* =========================
-   SEEK BAR
-========================= */
+/* SEEK */
 
 function seekPosition(x){
 
@@ -1143,25 +1136,24 @@ function seekPosition(x){
       (x-r.left)/r.width
     )
   );
+
 }
 
 function updateSeekUI(pos){
 
-  document.getElementById("fill").style.width =
+  document.getElementById("fill").style.width=
     (pos*100)+"%";
 
   if(player && player.getDuration){
 
     const d=player.getDuration();
 
-    if(d){
-
-      document.getElementById("current").textContent =
+    if(d)
+      document.getElementById("current").textContent=
         format(pos*d);
 
-    }
-
   }
+
 }
 
 seek.addEventListener("pointerdown",e=>{
@@ -1206,9 +1198,8 @@ seek.addEventListener("pointerup",e=>{
 
   const duration=player.getDuration();
 
-  if(duration){
+  if(duration)
     player.seekTo(pos*duration,true);
-  }
 
 });
 
@@ -1222,15 +1213,12 @@ seek.addEventListener("pointercancel",e=>{
 
   const duration=player.getDuration();
 
-  if(duration){
+  if(duration)
     player.seekTo(pos*duration,true);
-  }
 
 });
 
-/* =========================
-   PROGRESS
-========================= */
+/* PROGRESS */
 
 function updateProgress(){
 
@@ -1241,12 +1229,11 @@ function updateProgress(){
   try{
 
     const current=player.getCurrentTime();
-
     const duration=player.getDuration();
 
     if(!duration)return;
 
-    const percent =
+    const percent=
       Math.min(
         100,
         Math.max(
@@ -1255,13 +1242,13 @@ function updateProgress(){
         )
       );
 
-    document.getElementById("fill").style.width =
+    document.getElementById("fill").style.width=
       percent+"%";
 
-    document.getElementById("current").textContent =
+    document.getElementById("current").textContent=
       format(current);
 
-    document.getElementById("duration").textContent =
+    document.getElementById("duration").textContent=
       format(duration);
 
   }catch(e){}
@@ -1275,16 +1262,15 @@ function format(seconds){
 
   seconds=Math.floor(seconds);
 
-  return (
+  return(
     Math.floor(seconds/60)+
     ":"+
     String(seconds%60).padStart(2,"0")
   );
+
 }
 
-/* =========================
-   SWIPE
-========================= */
+/* SWIPE */
 
 const card=document.getElementById("playerCard");
 
@@ -1309,21 +1295,14 @@ card.addEventListener("touchend",e=>{
 
   if(Math.abs(dx)<=Math.abs(dy))return;
 
-  if(dx<-50){
-
+  if(dx<-50)
     nextSong();
-
-  }else if(dx>50){
-
+  else if(dx>50)
     previousSong();
-
-  }
 
 },{passive:true});
 
-/* =========================
-   OUTSIDE VOLUME CLICK
-========================= */
+/* OUTSIDE VOLUME */
 
 document.addEventListener("click",e=>{
 
@@ -1340,7 +1319,6 @@ document.addEventListener("click",e=>{
   }
 
 });
-
 </script>
 
 </body>
