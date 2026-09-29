@@ -694,43 +694,40 @@ transform:scale(.90);
 
 
 /* =================================================
-   SIDEBAR PLAYLIST (Balanced Right Side View)
+   SIDEBAR PLAYLIST (Transparent BG, Only Songs Blurred)
    ================================================= */
 
 .sidebar-playlist{
 position:fixed;
-top:50px;
+top:55px;
 right:14px;
-bottom:130px;
+bottom:135px;
 
 width:180px;
 
-background:rgba(15,15,15,0.25)!important;
-backdrop-filter:blur(20px) saturate(160%)!important;
--webkit-backdrop-filter:blur(20px) saturate(160%)!important;
+background:transparent!important;
+backdrop-filter:none!important;
+-webkit-backdrop-filter:none!important;
 
-border:1px solid rgba(255,255,255,0.15)!important;
-border-radius:16px;
+border:none!important;
+box-shadow:none!important;
 
 z-index:10;
 
 display:flex;
 flex-direction:column;
 
-padding:10px 8px;
-
-box-shadow:0 10px 30px rgba(0,0,0,0.3)!important;
+padding:4px 0;
 }
 
 .sidebar-header{
-font-size:11px;
+font-size:10px;
 font-weight:700;
-color:rgba(255,255,255,0.9);
-padding:4px 6px 8px 6px;
-border-bottom:1px solid rgba(255,255,255,0.12);
-margin-bottom:6px;
-letter-spacing:0.3px;
+color:rgba(255,255,255,0.8);
+padding:2px 6px 6px 6px;
+letter-spacing:0.4px;
 text-transform:uppercase;
+text-shadow:0 1px 3px rgba(0,0,0,0.8);
 }
 
 .song-list{
@@ -752,20 +749,24 @@ border-radius:3px;
 }
 
 
-/* SONG ITEM (Premium Vibe) */
+/* SONG ITEM (Individual Blur & Glass Effect) */
 
 .song-item{
 display:flex;
 align-items:center;
 gap:7px;
 padding:6px;
-border-radius:10px;
+border-radius:12px;
 
-background:rgba(255,255,255,0.04);
-border:1px solid rgba(255,255,255,0.08);
+background:rgba(20, 20, 20, 0.45);
+backdrop-filter:blur(16px) saturate(150%);
+-webkit-backdrop-filter:blur(16px) saturate(150%);
+
+border:1px solid rgba(255,255,255,0.15);
 
 cursor:pointer;
 transition:all 0.2s ease;
+box-shadow:0 4px 15px rgba(0,0,0,0.25);
 }
 
 .song-item:active{
@@ -773,15 +774,17 @@ transform:scale(0.96);
 }
 
 .song-item:hover{
-background:rgba(255,255,255,0.12);
-border-color:rgba(255,255,255,0.2);
+background:rgba(40, 40, 40, 0.6);
+border-color:rgba(255,255,255,0.3);
 }
 
 /* ACTIVE HIGHLIGHT SONG */
 .song-item.active{
-background:rgba(255,255,255,0.25)!important;
-border-color:rgba(255,255,255,0.5)!important;
-box-shadow:0 0 12px rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.28)!important;
+backdrop-filter:blur(20px) saturate(180%)!important;
+-webkit-backdrop-filter:blur(20px) saturate(180%)!important;
+border-color:rgba(255,255,255,0.6)!important;
+box-shadow:0 0 15px rgba(255,255,255,0.25);
 }
 
 .song-item img{
@@ -811,7 +814,7 @@ letter-spacing:0.2px;
 .song-item-artist{
 font-size:8.5px;
 font-weight:400;
-color:rgba(255,255,255,0.6);
+color:rgba(255,255,255,0.65);
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
@@ -866,10 +869,9 @@ padding:4px 9px;
 /* Sidebar sizing on small phones */
 .sidebar-playlist{
 width:150px;
-top:45px;
+top:48px;
 right:8px;
 bottom:135px;
-padding:8px 6px;
 }
 
 .song-item-title{
@@ -1081,7 +1083,7 @@ M3 9v6h4l5 5V4L7 9H3
 zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05
 c1.48-.73 2.5-2.25 2.5-4.02z
 M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71
-v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z
+v2.06c4.01-.91 7-4.49 7-8.77z
 "/>
 
 </svg>
