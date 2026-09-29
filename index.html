@@ -65,7 +65,7 @@ background:rgba(0,0,0,.15);
 
 .top-widgets{
 position:fixed;
-top:14px;
+top:10px;
 left:50%;
 
 transform:translateX(-50%);
@@ -82,23 +82,23 @@ gap:8px;
 /* BD TIME */
 
 .bd-time{
-padding:5px 11px;
+padding:4px 10px;
 
 border-radius:20px;
 
-background:rgba(0,0,0,.45);
+background:rgba(0,0,0,.4);
 
-border:1px solid rgba(255,255,255,.18);
+border:1px solid rgba(255,255,255,.15);
 
 color:rgba(255,255,255,.9);
 
-font-size:11px;
+font-size:10.5px;
 font-weight:600;
 
 letter-spacing:.3px;
 
-backdrop-filter:blur(12px);
--webkit-backdrop-filter:blur(12px);
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
 
 display:flex;
 align-items:center;
@@ -107,8 +107,8 @@ gap:6px;
 
 
 .live-dot{
-width:7px;
-height:7px;
+width:6px;
+height:6px;
 
 background:#ff3b30;
 
@@ -116,7 +116,7 @@ border-radius:50%;
 
 display:inline-block;
 
-box-shadow:0 0 8px #ff3b30;
+box-shadow:0 0 6px #ff3b30;
 
 animation:pulse 1.5s infinite;
 }
@@ -178,7 +178,7 @@ display:flex;
 align-items:flex-end;
 justify-content:center;
 
-padding:0 16px 65px;
+padding:0 16px 20px;
 }
 
 
@@ -694,16 +694,16 @@ transform:scale(.90);
 
 
 /* =================================================
-   SIDEBAR PLAYLIST (Transparent BG, Only Songs Blurred)
+   SIDEBAR PLAYLIST (Higher, Fully Transparent BG, Minimal Blur Cards)
    ================================================= */
 
 .sidebar-playlist{
 position:fixed;
-top:55px;
+top:42px;
 right:14px;
-bottom:135px;
+bottom:145px;
 
-width:180px;
+width:175px;
 
 background:transparent!important;
 backdrop-filter:none!important;
@@ -717,17 +717,17 @@ z-index:10;
 display:flex;
 flex-direction:column;
 
-padding:4px 0;
+padding:0;
 }
 
 .sidebar-header{
-font-size:10px;
+font-size:9.5px;
 font-weight:700;
-color:rgba(255,255,255,0.8);
-padding:2px 6px 6px 6px;
-letter-spacing:0.4px;
+color:rgba(255,255,255,0.75);
+padding:2px 4px 4px 4px;
+letter-spacing:0.5px;
 text-transform:uppercase;
-text-shadow:0 1px 3px rgba(0,0,0,0.8);
+text-shadow:0 1px 2px rgba(0,0,0,0.8);
 }
 
 .song-list{
@@ -735,38 +735,37 @@ flex:1;
 overflow-y:auto;
 display:flex;
 flex-direction:column;
-gap:6px;
+gap:5px;
 padding-right:2px;
 }
 
 .song-list::-webkit-scrollbar{
-width:3px;
+width:2px;
 }
 
 .song-list::-webkit-scrollbar-thumb{
-background:rgba(255,255,255,0.25);
-border-radius:3px;
+background:rgba(255,255,255,0.2);
+border-radius:2px;
 }
 
 
-/* SONG ITEM (Individual Blur & Glass Effect) */
+/* SONG ITEM (Very Low Blur & Light Glass Effect) */
 
 .song-item{
 display:flex;
 align-items:center;
-gap:7px;
-padding:6px;
-border-radius:12px;
+gap:6px;
+padding:5px 6px;
+border-radius:10px;
 
-background:rgba(20, 20, 20, 0.45);
-backdrop-filter:blur(16px) saturate(150%);
--webkit-backdrop-filter:blur(16px) saturate(150%);
+background:rgba(10, 10, 10, 0.22);
+backdrop-filter:blur(8px) saturate(120%);
+-webkit-backdrop-filter:blur(8px) saturate(120%);
 
-border:1px solid rgba(255,255,255,0.15);
+border:1px solid rgba(255,255,255,0.1);
 
 cursor:pointer;
 transition:all 0.2s ease;
-box-shadow:0 4px 15px rgba(0,0,0,0.25);
 }
 
 .song-item:active{
@@ -774,26 +773,26 @@ transform:scale(0.96);
 }
 
 .song-item:hover{
-background:rgba(40, 40, 40, 0.6);
-border-color:rgba(255,255,255,0.3);
+background:rgba(30, 30, 30, 0.4);
+border-color:rgba(255,255,255,0.25);
 }
 
-/* ACTIVE HIGHLIGHT SONG */
+/* ACTIVE HIGHLIGHT SONG WITH EQUALIZER */
 .song-item.active{
-background:rgba(255,255,255,0.28)!important;
-backdrop-filter:blur(20px) saturate(180%)!important;
--webkit-backdrop-filter:blur(20px) saturate(180%)!important;
-border-color:rgba(255,255,255,0.6)!important;
-box-shadow:0 0 15px rgba(255,255,255,0.25);
+background:rgba(255,255,255,0.2)!important;
+backdrop-filter:blur(10px) saturate(140%)!important;
+-webkit-backdrop-filter:blur(10px) saturate(140%)!important;
+border-color:rgba(255,255,255,0.5)!important;
+box-shadow:0 0 10px rgba(255,255,255,0.2);
 }
 
 .song-item img{
-width:28px;
-height:28px;
-border-radius:6px;
+width:26px;
+height:26px;
+border-radius:5px;
 object-fit:cover;
 flex-shrink:0;
-box-shadow:0 2px 5px rgba(0,0,0,0.3);
+box-shadow:0 1px 3px rgba(0,0,0,0.3);
 }
 
 .song-item-info{
@@ -802,7 +801,7 @@ min-width:0;
 }
 
 .song-item-title{
-font-size:10px;
+font-size:9.5px;
 font-weight:700;
 color:#fff;
 white-space:nowrap;
@@ -812,9 +811,9 @@ letter-spacing:0.2px;
 }
 
 .song-item-artist{
-font-size:8.5px;
+font-size:8px;
 font-weight:400;
-color:rgba(255,255,255,0.65);
+color:rgba(255,255,255,0.6);
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
@@ -823,14 +822,60 @@ margin-top:1px;
 
 
 /* =========================
+   MINI EQUALIZER
+   ========================= */
+
+.equalizer{
+display:none;
+align-items:flex-end;
+gap:2px;
+width:12px;
+height:10px;
+flex-shrink:0;
+margin-left:2px;
+}
+
+.song-item.active .equalizer{
+display:flex;
+}
+
+.bar{
+width:2.5px;
+background:#fff;
+border-radius:1px;
+animation:eqAnim 0.8s ease-in-out infinite alternate;
+}
+
+.bar:nth-child(1){
+animation-delay:0.1s;
+height:6px;
+}
+
+.bar:nth-child(2){
+animation-delay:0.4s;
+height:10px;
+}
+
+.bar:nth-child(3){
+animation-delay:0.2s;
+height:4px;
+}
+
+@keyframes eqAnim{
+0% {
+height:3px;
+}
+100% {
+height:10px;
+}
+}
+
+
+/* =========================
    MOBILE RESPONSIVE
    ========================= */
 
 @media(max-width:480px){
-
-.app{
-padding-bottom:60px;
-}
 
 .player{
 height:116px;
@@ -858,28 +903,28 @@ height:42px;
 }
 
 .top-widgets{
-top:10px;
+top:8px;
 }
 
 .bd-time{
 font-size:10px;
-padding:4px 9px;
+padding:3px 8px;
 }
 
 /* Sidebar sizing on small phones */
 .sidebar-playlist{
 width:150px;
-top:48px;
+top:38px;
 right:8px;
-bottom:135px;
+bottom:140px;
 }
 
 .song-item-title{
-font-size:9.5px;
+font-size:9px;
 }
 
 .song-item-artist{
-font-size:8px;
+font-size:7.5px;
 }
 
 }
@@ -1513,6 +1558,11 @@ item.innerHTML=`
 <div class="song-item-info">
 <div class="song-item-title" id="title-${index}">Track #${index+1}</div>
 <div class="song-item-artist" id="artist-${index}">YouTube Music</div>
+</div>
+<div class="equalizer">
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
 </div>
 `;
 
