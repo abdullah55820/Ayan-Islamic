@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -9,16 +11,25 @@ content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
-<link rel="preload" as="image" href="background.jpg">
 
-<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-<link rel="icon" type="image/png" href="logo.png">
+<link rel="preload"
+as="image"
+href="background.jpg">
+
+<link rel="apple-touch-icon"
+sizes="180x180"
+href="logo.png">
+
+<link rel="icon"
+type="image/png"
+href="logo.png">
+
 
 <style>
 
-/* =========================================================
+/* =====================================================
    RESET
-   ========================================================= */
+===================================================== */
 
 *{
 box-sizing:border-box;
@@ -27,12 +38,18 @@ box-sizing:border-box;
 
 html,
 body{
+
 margin:0;
+
 width:100%;
 height:100%;
+
 overflow:hidden;
+
 background:#050505;
+
 color:#fff;
+
 font-family:
 -apple-system,
 BlinkMacSystemFont,
@@ -43,104 +60,123 @@ sans-serif;
 
 body{
 position:relative;
-overflow-x:hidden!important;
 }
 
 
-/* =========================================================
+/* =====================================================
    BACKGROUND
-   ========================================================= */
+===================================================== */
 
 .bg{
+
 position:fixed;
+
 inset:0;
 
-background-image:url("background.jpg");
+background-image:
+url("background.jpg");
+
 background-position:center center;
+
 background-size:cover;
+
 background-repeat:no-repeat;
 
 z-index:0;
 }
 
 .bg::after{
+
 content:"";
+
 position:absolute;
+
 inset:0;
 
 background:
-linear-gradient(
-180deg,
-rgba(0,0,0,.30),
-rgba(0,0,0,.10) 35%,
-rgba(0,0,0,.50)
-);
-
+rgba(0,0,0,.16);
 }
 
 
-/* =========================================================
+/* =====================================================
    TOP
-   ========================================================= */
+===================================================== */
 
 .top-widgets{
 
 position:fixed;
 
 top:12px;
+
 left:50%;
 
-transform:translateX(-50%);
+transform:
+translateX(-50%);
 
 z-index:20;
 
 display:flex;
-align-items:center;
-justify-content:center;
 
+align-items:center;
+
+justify-content:center;
 }
+
+
+/* BD TIME */
 
 .bd-time{
 
-padding:6px 12px;
+padding:
+5px 11px;
 
-border-radius:22px;
+border-radius:20px;
 
-background:rgba(0,0,0,.40);
+background:
+rgba(0,0,0,.42);
 
-border:1px solid rgba(255,255,255,.18);
+border:
+1px solid
+rgba(255,255,255,.17);
 
-box-shadow:
-0 8px 30px rgba(0,0,0,.20);
+color:
+rgba(255,255,255,.9);
 
-color:rgba(255,255,255,.92);
+font-size:10px;
 
-font-size:11px;
 font-weight:600;
 
 letter-spacing:.3px;
 
-backdrop-filter:blur(18px);
--webkit-backdrop-filter:blur(18px);
+backdrop-filter:
+blur(14px);
+
+-webkit-backdrop-filter:
+blur(14px);
 
 display:flex;
+
 align-items:center;
+
 gap:6px;
 }
 
+
 .live-dot{
 
-width:7px;
-height:7px;
+width:6px;
 
-border-radius:50%;
+height:6px;
 
 background:#ff3b30;
 
-box-shadow:
-0 0 10px rgba(255,59,48,.8);
+border-radius:50%;
 
-animation:pulse 1.5s infinite;
+box-shadow:
+0 0 8px #ff3b30;
+
+animation:
+pulse 1.5s infinite;
 }
 
 @keyframes pulse{
@@ -163,9 +199,9 @@ transform:scale(1);
 }
 
 
-/* =========================================================
+/* =====================================================
    YOUTUBE
-   ========================================================= */
+===================================================== */
 
 #yt{
 
@@ -180,13 +216,12 @@ bottom:-10px;
 opacity:.01;
 
 pointer-events:none;
-
 }
 
 
-/* =========================================================
-   MAIN AREA
-   ========================================================= */
+/* =====================================================
+   MAIN
+===================================================== */
 
 .app{
 
@@ -195,6 +230,7 @@ position:relative;
 z-index:2;
 
 height:100dvh;
+
 width:100%;
 
 display:flex;
@@ -204,18 +240,15 @@ flex-direction:column;
 align-items:center;
 
 padding:
-62px
-16px
-24px;
-
+50px 14px 18px;
 }
 
 
-/* =========================================================
-   PLAYLIST LIBRARY
-   ========================================================= */
+/* =====================================================
+   CLEAN PLAYLIST
+===================================================== */
 
-.music-library{
+.playlist{
 
 width:min(440px,94%);
 
@@ -227,88 +260,56 @@ display:flex;
 
 flex-direction:column;
 
-margin-bottom:16px;
-
+margin-bottom:10px;
 }
 
 
-/* HEADER */
+/* -----------------------------------------------------
+   PLAYLIST HEADER
+----------------------------------------------------- */
 
-.library-header{
+.playlist-header{
 
 display:flex;
 
-align-items:flex-end;
+align-items:center;
 
 justify-content:space-between;
 
 padding:
-0 8px
-10px;
+4px 7px 9px;
 
 flex-shrink:0;
 }
 
-.library-left{
 
-display:flex;
+.playlist-name{
 
-flex-direction:column;
+font-size:12px;
 
-gap:2px;
+font-weight:700;
+
+letter-spacing:.2px;
+
+color:
+rgba(255,255,255,.88);
 }
 
-.library-title{
 
-font-size:21px;
+.playlist-count{
 
-font-weight:750;
-
-letter-spacing:-.4px;
-
-color:#fff;
-
-text-shadow:
-0 2px 15px rgba(0,0,0,.4);
-}
-
-.library-subtitle{
-
-font-size:10px;
+font-size:9px;
 
 font-weight:500;
 
-color:rgba(255,255,255,.58);
-
-letter-spacing:.2px;
-}
-
-.song-count{
-
-font-size:10px;
-
-font-weight:600;
-
-color:rgba(255,255,255,.65);
-
-background:rgba(0,0,0,.30);
-
-border:
-1px solid
-rgba(255,255,255,.13);
-
-padding:5px 9px;
-
-border-radius:15px;
-
-backdrop-filter:blur(12px);
--webkit-backdrop-filter:blur(12px);
+color:
+rgba(255,255,255,.48);
 }
 
 
-/* =========================================================
+/* -----------------------------------------------------
    SONG LIST
-   ========================================================= */
+----------------------------------------------------- */
 
 .song-list{
 
@@ -322,12 +323,8 @@ display:flex;
 
 flex-direction:column;
 
-gap:8px;
-
 padding:
-2px
-3px
-8px;
+0 3px 5px;
 
 scroll-behavior:smooth;
 
@@ -349,79 +346,57 @@ border-radius:10px;
 }
 
 
-/* =========================================================
-   SONG CARD
-   ========================================================= */
+/* =====================================================
+   SONG
+===================================================== */
 
 .song-item{
 
 position:relative;
 
+height:54px;
+
+min-height:54px;
+
 display:flex;
 
 align-items:center;
 
-gap:11px;
+padding:
+5px 7px;
 
-width:100%;
+gap:10px;
 
-min-height:64px;
-
-padding:8px 10px;
-
-border-radius:18px;
+border-radius:13px;
 
 background:
-rgba(255,255,255,.075);
+rgba(255,255,255,.035);
 
 border:
 1px solid
-rgba(255,255,255,.10);
-
-box-shadow:
-0 8px 25px rgba(0,0,0,.13);
-
-backdrop-filter:blur(18px) saturate(120%);
--webkit-backdrop-filter:blur(18px) saturate(120%);
+transparent;
 
 cursor:pointer;
 
-overflow:hidden;
-
 transition:
-transform .25s cubic-bezier(.2,.8,.2,1),
-background .25s ease,
-border .25s ease,
-box-shadow .25s ease;
-
-animation:
-songAppear .45s ease both;
-}
-
-@keyframes songAppear{
-
-from{
-opacity:0;
-transform:translateY(12px) scale(.98);
-}
-
-to{
-opacity:1;
-transform:translateY(0) scale(1);
-}
-
+background .2s ease,
+border .2s ease,
+transform .15s ease;
 }
 
 
-/* TOUCH */
+.song-item + .song-item{
+margin-top:3px;
+}
+
 
 .song-item:active{
 
 transform:
-scale(.965);
+scale(.985);
 
 background:
-rgba(255,255,255,.13);
+rgba(255,255,255,.08);
 }
 
 
@@ -430,19 +405,14 @@ rgba(255,255,255,.13);
 .song-item.active{
 
 background:
-rgba(255,255,255,.17);
+rgba(255,255,255,.105);
 
 border-color:
-rgba(255,255,255,.30);
-
-box-shadow:
-0 10px 35px rgba(0,0,0,.22),
-inset 0 0 25px rgba(255,255,255,.035);
-
+rgba(255,255,255,.16);
 }
 
 
-/* CURRENT LIGHT */
+/* SMALL ACTIVE LINE */
 
 .song-item.active::before{
 
@@ -451,142 +421,87 @@ content:"";
 position:absolute;
 
 left:0;
-top:12px;
-bottom:12px;
 
-width:3px;
+top:15px;
 
-border-radius:5px;
+bottom:15px;
+
+width:2px;
+
+border-radius:4px;
 
 background:#fff;
 
 box-shadow:
-0 0 12px rgba(255,255,255,.9);
-
+0 0 8px
+rgba(255,255,255,.65);
 }
 
 
-/* =========================================================
+/* =====================================================
    NUMBER
-   ========================================================= */
+===================================================== */
 
 .song-number{
 
-width:19px;
+width:18px;
 
-font-size:9px;
+font-size:8px;
 
-font-weight:700;
+color:
+rgba(255,255,255,.38);
 
 text-align:center;
-
-color:rgba(255,255,255,.42);
 
 flex-shrink:0;
 }
 
 .song-item.active .song-number{
 
-color:#fff;
+color:
+rgba(255,255,255,.8);
 }
 
 
-/* =========================================================
+/* =====================================================
    THUMB
-   ========================================================= */
+===================================================== */
 
-.song-thumb-wrap{
+.song-thumb{
 
-position:relative;
+width:40px;
 
-width:48px;
-height:48px;
+height:40px;
 
-border-radius:12px;
+border-radius:8px;
 
 overflow:hidden;
 
 flex-shrink:0;
 
-background:#111;
+background:#222;
 
 box-shadow:
-0 5px 14px rgba(0,0,0,.30);
+0 2px 8px
+rgba(0,0,0,.3);
 }
 
-.song-item img{
+.song-thumb img{
 
 width:100%;
 height:100%;
 
-display:block;
-
 object-fit:cover;
 
-transition:
-transform .4s ease;
-}
-
-.song-item:active img{
-
-transform:scale(1.06);
+display:block;
 }
 
 
-/* PLAY OVERLAY */
-
-.thumb-play{
-
-position:absolute;
-
-inset:0;
-
-display:flex;
-
-align-items:center;
-justify-content:center;
-
-background:
-rgba(0,0,0,.18);
-
-opacity:0;
-
-transition:opacity .2s ease;
-}
-
-.song-item:hover .thumb-play{
-
-opacity:1;
-}
-
-.thumb-play svg{
-
-width:18px;
-height:18px;
-
-fill:#fff;
-
-filter:
-drop-shadow(0 2px 5px rgba(0,0,0,.5));
-}
-
-
-/* CURRENT THUMB */
-
-.song-item.active .thumb-play{
-
-opacity:1;
-
-background:
-rgba(0,0,0,.28);
-}
-
-
-/* =========================================================
+/* =====================================================
    SONG INFO
-   ========================================================= */
+===================================================== */
 
-.song-item-info{
+.song-info{
 
 flex:1;
 
@@ -597,15 +512,14 @@ display:flex;
 flex-direction:column;
 
 justify-content:center;
-
-gap:3px;
 }
 
-.song-item-title{
 
-font-size:12px;
+.song-title{
 
-font-weight:700;
+font-size:11px;
+
+font-weight:650;
 
 color:#fff;
 
@@ -614,89 +528,96 @@ white-space:nowrap;
 overflow:hidden;
 
 text-overflow:ellipsis;
-
-letter-spacing:.05px;
 }
 
-.song-item-artist{
 
-font-size:9.5px;
+.song-artist{
 
-font-weight:500;
+font-size:8.5px;
 
-color:rgba(255,255,255,.55);
+color:
+rgba(255,255,255,.48);
 
 white-space:nowrap;
 
 overflow:hidden;
 
 text-overflow:ellipsis;
+
+margin-top:3px;
 }
 
 
-/* =========================================================
-   EQUALIZER
-   ========================================================= */
+/* =====================================================
+   MINI EQUALIZER
+===================================================== */
 
 .equalizer{
 
-width:20px;
-height:22px;
+width:18px;
+
+height:17px;
 
 display:flex;
 
 align-items:flex-end;
 
-justify-content:center;
+justify-content:flex-end;
 
 gap:2px;
 
-margin-right:2px;
-
 opacity:0;
+
+margin-right:3px;
 
 flex-shrink:0;
 }
 
 .equalizer span{
 
-width:3px;
+width:2px;
 
-height:6px;
+height:5px;
 
-border-radius:4px;
+border-radius:3px;
 
 background:#fff;
 }
+
 
 .song-item.active .equalizer{
 
 opacity:1;
 }
 
+
 .song-item.active .equalizer span:nth-child(1){
 
-animation:eq1 .7s ease-in-out infinite alternate;
+animation:
+eq1 .7s infinite alternate ease-in-out;
 }
 
 .song-item.active .equalizer span:nth-child(2){
 
-animation:eq2 .55s ease-in-out infinite alternate;
+animation:
+eq2 .5s infinite alternate ease-in-out;
 }
 
 .song-item.active .equalizer span:nth-child(3){
 
-animation:eq3 .8s ease-in-out infinite alternate;
+animation:
+eq3 .8s infinite alternate ease-in-out;
 }
+
 
 @keyframes eq1{
 
 from{
-height:5px;
+height:4px;
 }
 
 to{
-height:17px;
+height:12px;
 }
 
 }
@@ -704,11 +625,11 @@ height:17px;
 @keyframes eq2{
 
 from{
-height:9px;
+height:7px;
 }
 
 to{
-height:21px;
+height:16px;
 }
 
 }
@@ -716,87 +637,55 @@ height:21px;
 @keyframes eq3{
 
 from{
-height:4px;
+height:3px;
 }
 
 to{
-height:14px;
+height:10px;
 }
 
 }
 
 
-/* =========================================================
-   LOADING
-   ========================================================= */
-
-.loading{
-
-display:flex;
-
-align-items:center;
-justify-content:center;
-
-height:100%;
-
-color:rgba(255,255,255,.65);
-
-font-size:11px;
-}
-
-.loading-dot{
-
-width:5px;
-height:5px;
-
-border-radius:50%;
-
-background:#fff;
-
-margin-left:7px;
-
-animation:pulse 1s infinite;
-}
-
-
-/* =========================================================
-   MUSIC PLAYER
-   ========================================================= */
+/* =====================================================
+   PLAYER
+===================================================== */
 
 .player{
 
 width:min(440px,94%);
 
-height:116px;
+height:120px;
 
-padding:13px 15px;
+padding:
+14px 18px;
 
 border:
 1px solid
-rgba(255,255,255,.20);
+rgba(255,255,255,.18);
 
 border-radius:60px;
 
 background:
-rgba(20,20,20,.38);
+rgba(255,255,255,.06);
 
 backdrop-filter:
-blur(28px)
-saturate(130%);
+blur(25px)
+saturate(115%);
 
 -webkit-backdrop-filter:
-blur(28px)
-saturate(130%);
+blur(25px)
+saturate(115%);
 
 box-shadow:
-0 18px 50px rgba(0,0,0,.38),
-inset 0 1px 0 rgba(255,255,255,.08);
+0 20px 50px
+rgba(0,0,0,.35);
 
 display:flex;
 
 align-items:center;
 
-gap:10px;
+gap:12px;
 
 position:relative;
 
@@ -808,42 +697,16 @@ touch-action:pan-y;
 }
 
 
-/* TOP SHINE */
-
-.player::before{
-
-content:"";
-
-position:absolute;
-
-top:0;
-left:15%;
-
-width:70%;
-height:1px;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.45),
-transparent
-);
-
-opacity:.7;
-}
-
-
-/* =========================================================
+/* =====================================================
    COVER
-   ========================================================= */
+===================================================== */
 
 .cover-wrapper{
 
 position:relative;
 
-width:78px;
-height:78px;
+width:84px;
+height:84px;
 
 flex-shrink:0;
 
@@ -858,11 +721,9 @@ overflow:hidden;
 
 border:
 1px solid
-rgba(255,255,255,.28);
-
-box-shadow:
-0 5px 20px rgba(0,0,0,.35);
+rgba(255,255,255,.3);
 }
+
 
 .cover{
 
@@ -890,21 +751,22 @@ animation-play-state:paused;
 animation-play-state:running;
 }
 
+
 .cover-wrapper::after{
 
 content:"";
 
 position:absolute;
 
-width:15px;
-height:15px;
+width:16px;
+height:16px;
 
 background:
-rgba(15,15,15,.9);
+rgba(20,20,20,.85);
 
 border:
 2px solid
-rgba(255,255,255,.32);
+rgba(255,255,255,.3);
 
 border-radius:50%;
 
@@ -916,6 +778,7 @@ translate(-50%,-50%);
 
 z-index:2;
 }
+
 
 @keyframes spin{
 
@@ -930,9 +793,9 @@ transform:rotate(360deg);
 }
 
 
-/* =========================================================
-   INFO
-   ========================================================= */
+/* =====================================================
+   PLAYER INFO
+===================================================== */
 
 .middle{
 
@@ -947,11 +810,12 @@ flex-direction:column;
 justify-content:center;
 }
 
+
 .title{
 
-font-size:15px;
+font-size:16px;
 
-font-weight:750;
+font-weight:700;
 
 white-space:nowrap;
 
@@ -960,13 +824,17 @@ overflow:hidden;
 text-overflow:ellipsis;
 
 color:#fff;
+
+letter-spacing:.2px;
 }
+
 
 .artist{
 
-font-size:10.5px;
+font-size:12px;
 
-color:rgba(255,255,255,.58);
+color:
+rgba(255,255,255,.65);
 
 white-space:nowrap;
 
@@ -976,13 +844,13 @@ text-overflow:ellipsis;
 
 margin-top:2px;
 
-margin-bottom:7px;
+margin-bottom:8px;
 }
 
 
-/* =========================================================
+/* =====================================================
    SEEK
-   ========================================================= */
+===================================================== */
 
 .seek{
 
@@ -990,16 +858,16 @@ position:relative;
 
 width:100%;
 
-height:4px;
+height:5px;
 
 border-radius:10px;
 
 background:
-rgba(255,255,255,.20);
+rgba(255,255,255,.2);
 
 cursor:pointer;
 
-margin-bottom:5px;
+margin-bottom:6px;
 
 touch-action:none;
 
@@ -1023,6 +891,7 @@ right:-10px;
 z-index:1;
 }
 
+
 .fill{
 
 position:absolute;
@@ -1041,24 +910,23 @@ border-radius:10px;
 pointer-events:none;
 
 z-index:2;
-
-box-shadow:
-0 0 7px rgba(255,255,255,.45);
 }
+
 
 .time-display{
 
-font-size:9px;
+font-size:11px;
 
-color:rgba(255,255,255,.55);
+color:
+rgba(255,255,255,.65);
 
 font-variant-numeric:tabular-nums;
 }
 
 
-/* =========================================================
+/* =====================================================
    CONTROLS
-   ========================================================= */
+===================================================== */
 
 .controls{
 
@@ -1066,15 +934,49 @@ display:flex;
 
 align-items:center;
 
-gap:5px;
+gap:8px;
 
 flex-shrink:0;
 }
 
+
+.btn{
+
+width:28px;
+height:28px;
+
+border:0;
+
+background:transparent;
+
+color:
+rgba(255,255,255,.9);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+cursor:pointer;
+
+padding:0;
+}
+
+
+.btn svg{
+
+width:20px;
+height:20px;
+
+fill:#fff;
+}
+
+
 .skip-btn{
 
-width:26px;
-height:30px;
+width:28px;
+height:28px;
 
 border:0;
 
@@ -1085,27 +987,32 @@ color:#fff;
 display:flex;
 
 align-items:center;
+
 justify-content:center;
 
 cursor:pointer;
 
 padding:0;
 
+flex-shrink:0;
+
 transition:
-transform .15s ease;
+transform .15s;
 }
+
 
 .skip-btn svg{
 
-width:18px;
-height:18px;
+width:19px;
+height:19px;
 
 fill:#fff;
 }
 
 .skip-btn:active{
 
-transform:scale(.82);
+transform:
+scale(.88);
 }
 
 
@@ -1113,8 +1020,8 @@ transform:scale(.82);
 
 .play{
 
-width:43px;
-height:43px;
+width:44px;
+height:44px;
 
 border-radius:50%;
 
@@ -1127,23 +1034,23 @@ color:#000;
 display:flex;
 
 align-items:center;
+
 justify-content:center;
 
 box-shadow:
-0 5px 18px rgba(0,0,0,.35);
+0 4px 15px
+rgba(0,0,0,.3);
 
 cursor:pointer;
 
 flex-shrink:0;
-
-transition:
-transform .15s ease;
 }
+
 
 .play svg{
 
-width:19px;
-height:19px;
+width:20px;
+height:20px;
 
 fill:#000;
 
@@ -1151,19 +1058,20 @@ margin-left:2px;
 }
 
 .play.playing svg{
-
 margin-left:0;
 }
 
+
 .play:active{
 
-transform:scale(.88);
+transform:
+scale(.90);
 }
 
 
-/* =========================================================
+/* =====================================================
    VOLUME
-   ========================================================= */
+===================================================== */
 
 .vol-container{
 
@@ -1174,49 +1082,24 @@ align-items:center;
 gap:4px;
 
 background:
-rgba(0,0,0,.22);
+rgba(0,0,0,.25);
 
 border:
 1px solid
-rgba(255,255,255,.13);
+rgba(255,255,255,.15);
 
-padding:3px 5px;
+padding:
+4px 6px;
 
 border-radius:20px;
 
-backdrop-filter:blur(10px);
+backdrop-filter:
+blur(10px);
 
--webkit-backdrop-filter:blur(10px);
+-webkit-backdrop-filter:
+blur(10px);
 }
 
-.btn{
-
-width:27px;
-height:27px;
-
-border:0;
-
-background:transparent;
-
-color:#fff;
-
-display:flex;
-
-align-items:center;
-justify-content:center;
-
-cursor:pointer;
-
-padding:0;
-}
-
-.btn svg{
-
-width:18px;
-height:18px;
-
-fill:#fff;
-}
 
 .vol-slider-wrapper{
 
@@ -1235,14 +1118,16 @@ width .28s cubic-bezier(.2,.8,.2,1),
 opacity .2s ease;
 }
 
+
 .vol-slider-wrapper.active{
 
-width:52px;
+width:55px;
 
 opacity:1;
 
 margin-left:2px;
 }
+
 
 .vol-slider{
 
@@ -1250,9 +1135,9 @@ margin-left:2px;
 
 appearance:none;
 
-width:52px;
+width:55px;
 
-height:3px;
+height:3.5px;
 
 background:
 rgba(255,255,255,.3);
@@ -1263,6 +1148,7 @@ outline:none;
 
 cursor:pointer;
 }
+
 
 .vol-slider::-webkit-slider-thumb{
 
@@ -1281,193 +1167,196 @@ cursor:pointer;
 }
 
 
-/* IOS */
-
-@supports (-webkit-touch-callout:none){
-
-.vol-container{
-display:none!important;
-}
-
-}
-
-
-/* =========================================================
+/* =====================================================
    MOBILE
-   ========================================================= */
+===================================================== */
 
 @media(max-width:480px){
 
 .app{
 
 padding:
-58px
+48px
 10px
-16px;
+12px;
 }
 
-.music-library{
+
+.playlist{
 
 width:96%;
 
-margin-bottom:11px;
+margin-bottom:8px;
 }
 
-.library-header{
+
+.playlist-header{
 
 padding:
-0 7px
-8px;
+4px 6px 7px;
 }
 
-.library-title{
 
-font-size:19px;
+.playlist-name{
+
+font-size:11px;
 }
 
-.library-subtitle{
 
-font-size:9px;
+.playlist-count{
+
+font-size:8px;
 }
 
-.song-count{
-
-font-size:9px;
-
-padding:4px 8px;
-}
 
 .song-list{
 
-gap:6px;
-
 padding:
-2px
-2px
-5px;
+0 2px 4px;
 }
+
 
 .song-item{
 
-min-height:59px;
+height:51px;
 
-padding:7px 8px;
+min-height:51px;
 
-border-radius:16px;
+padding:
+5px 6px;
 
-gap:9px;
-}
-
-.song-thumb-wrap{
-
-width:44px;
-height:44px;
+gap:8px;
 
 border-radius:11px;
 }
+
+
+.song-item + .song-item{
+
+margin-top:2px;
+}
+
+
+.song-thumb{
+
+width:37px;
+height:37px;
+
+border-radius:7px;
+}
+
 
 .song-number{
 
 width:15px;
 
-font-size:8px;
+font-size:7.5px;
 }
 
-.song-item-title{
+
+.song-title{
+
+font-size:10px;
+}
+
+
+.song-artist{
+
+font-size:8px;
+
+margin-top:2px;
+}
+
+
+.player{
+
+height:116px;
+
+padding:
+12px 14px;
+
+border-radius:58px;
+
+gap:10px;
+}
+
+
+.cover-wrapper{
+
+width:76px;
+height:76px;
+}
+
+
+.title{
+
+font-size:15px;
+}
+
+
+.artist{
 
 font-size:11px;
 }
 
-.song-item-artist{
-
-font-size:8.5px;
-}
-
-.player{
-
-width:96%;
-
-height:112px;
-
-padding:
-11px 12px;
-
-gap:8px;
-
-border-radius:58px;
-}
-
-.cover-wrapper{
-
-width:74px;
-height:74px;
-}
-
-.title{
-
-font-size:14px;
-}
-
-.artist{
-
-font-size:10px;
-
-margin-bottom:6px;
-}
 
 .play{
 
-width:40px;
-height:40px;
-}
-
-.skip-btn{
-
-width:24px;
-}
-
-.controls{
-
-gap:2px;
-}
-
+width:42px;
+height:42px;
 }
 
 
-/* =========================================================
-   VERY SMALL SCREEN
-   ========================================================= */
+.top-widgets{
 
-@media(max-height:650px){
+top:8px;
+}
+
+
+.bd-time{
+
+font-size:10px;
+
+padding:
+4px 9px;
+}
+
+}
+
+
+/* =====================================================
+   SMALL HEIGHT
+===================================================== */
+
+@media(max-height:700px) and (max-width:480px){
 
 .app{
 
-padding-top:55px;
-padding-bottom:10px;
+padding-top:46px;
+padding-bottom:8px;
 }
 
-.library-header{
-
-padding-bottom:5px;
-}
 
 .song-item{
 
-min-height:53px;
+height:47px;
 
-padding:6px 8px;
+min-height:47px;
 }
 
-.song-thumb-wrap{
 
-width:40px;
-height:40px;
+.song-thumb{
+
+width:34px;
+height:34px;
 }
+
 
 .player{
 
-height:102px;
+height:105px;
 }
+
 
 .cover-wrapper{
 
@@ -1478,22 +1367,34 @@ height:68px;
 }
 
 
+/* =====================================================
+   IOS
+===================================================== */
+
+@supports (-webkit-touch-callout:none){
+
+.vol-container{
+
+display:none!important;
+
+}
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
 
-<!-- ======================================================
-     BACKGROUND
-     ====================================================== -->
+<!-- BACKGROUND -->
 
 <div class="bg"></div>
 
 
-<!-- ======================================================
-     TOP TIME
-     ====================================================== -->
+<!-- TOP -->
 
 <div class="top-widgets">
 
@@ -1512,43 +1413,31 @@ height:68px;
 </div>
 
 
-<!-- ======================================================
-     YOUTUBE
-     ====================================================== -->
+<!-- YOUTUBE -->
 
 <div id="yt"></div>
 
 
-<!-- ======================================================
-     APP
-     ====================================================== -->
+<!-- APP -->
 
 <div class="app">
 
 
-<!-- ====================================================
-     MUSIC LIBRARY
-     ==================================================== -->
+<!-- =================================================
+     PLAYLIST
+================================================= -->
 
-<section class="music-library">
+<section class="playlist">
 
 
-<div class="library-header">
+<div class="playlist-header">
 
-<div class="library-left">
-
-<div class="library-title">
-My Playlist
-</div>
-
-<div class="library-subtitle">
-Your music collection
-</div>
-
+<div class="playlist-name">
+Playlist
 </div>
 
 <div
-class="song-count"
+class="playlist-count"
 id="songCount"
 >
 0 Songs
@@ -1562,12 +1451,15 @@ class="song-list"
 id="songList"
 >
 
-<div class="loading">
-
-Loading songs
-
-<span class="loading-dot"></span>
-
+<div
+style="
+text-align:center;
+color:rgba(255,255,255,.55);
+font-size:10px;
+padding-top:20px;
+"
+>
+Loading songs...
 </div>
 
 </div>
@@ -1575,9 +1467,9 @@ Loading songs
 </section>
 
 
-<!-- ====================================================
+<!-- =================================================
      PLAYER
-     ==================================================== -->
+================================================= -->
 
 <section
 class="player"
@@ -1609,6 +1501,7 @@ class="title"
 >
 My Playlist
 </div>
+
 
 <div
 id="artist"
@@ -1679,7 +1572,6 @@ M20 6.5v11L10 12z
 class="play"
 id="play"
 onclick="togglePlay()"
-aria-label="Play"
 >
 
 <svg
@@ -1723,7 +1615,6 @@ M4 6.5v11l10-5.5z
 <button
 class="btn"
 onclick="toggleVolume()"
-aria-label="Volume"
 >
 
 <svg viewBox="0 0 24 24">
@@ -1772,9 +1663,9 @@ oninput="changeVolume(this.value)"
 
 <script>
 
-/* =========================================================
+/* =====================================================
    PLAYLIST
-   ========================================================= */
+===================================================== */
 
 const PLAYLIST_ID="PLB9TgDHfMHmM";
 
@@ -1785,9 +1676,9 @@ let playing=false;
 let playlistItems=[];
 
 
-/* =========================================================
+/* =====================================================
    BD TIME
-   ========================================================= */
+===================================================== */
 
 function updateBDTime(){
 
@@ -1822,9 +1713,9 @@ updateBDTime,
 );
 
 
-/* =========================================================
+/* =====================================================
    YOUTUBE API
-   ========================================================= */
+===================================================== */
 
 function onYouTubeIframeAPIReady(){
 
@@ -1833,6 +1724,7 @@ player=new YT.Player(
 {
 
 width:"2",
+
 height:"2",
 
 playerVars:{
@@ -1870,9 +1762,9 @@ onStateChange:state
 }
 
 
-/* =========================================================
+/* =====================================================
    READY
-   ========================================================= */
+===================================================== */
 
 function ready(){
 
@@ -1886,9 +1778,9 @@ updateProgress,
 }
 
 
-/* =========================================================
+/* =====================================================
    STATE
-   ========================================================= */
+===================================================== */
 
 function state(e){
 
@@ -1924,8 +1816,6 @@ cover.classList.add("spinning");
 
 updateInfo();
 
-highlightActiveTrack();
-
 }
 
 
@@ -1955,9 +1845,9 @@ cover.classList.remove("spinning");
 }
 
 
-/* =========================================================
+/* =====================================================
    PLAY / PAUSE
-   ========================================================= */
+===================================================== */
 
 function togglePlay(){
 
@@ -1979,16 +1869,133 @@ player.playVideo();
 }
 
 
-/* =========================================================
+/* =====================================================
+   NEXT
+===================================================== */
+
+function nextSong(){
+
+if(
+!player ||
+playlistItems.length===0
+)
+return;
+
+
+const current=
+player.getPlaylistIndex();
+
+
+const next=
+(current+1)%
+playlistItems.length;
+
+
+forceUpdateUI(next);
+
+player.playVideoAt(next);
+
+}
+
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
+
+function previousSong(){
+
+if(
+!player ||
+playlistItems.length===0
+)
+return;
+
+
+const current=
+player.getPlaylistIndex();
+
+
+const previous=
+(current-1+
+playlistItems.length)%
+playlistItems.length;
+
+
+forceUpdateUI(previous);
+
+player.playVideoAt(previous);
+
+}
+
+
+/* =====================================================
+   FORCE UI
+===================================================== */
+
+function forceUpdateUI(index){
+
+if(
+!playlistItems[index]
+)
+return;
+
+
+const id=
+playlistItems[index];
+
+
+document.getElementById("cover").src=
+
+`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+
+
+const title=
+document.getElementById(
+`title-${index}`
+);
+
+
+const artist=
+document.getElementById(
+`artist-${index}`
+);
+
+
+if(title){
+
+document.getElementById("title")
+.textContent=
+title.textContent;
+
+}
+
+
+if(artist){
+
+document.getElementById("artist")
+.textContent=
+artist.textContent;
+
+}
+
+
+highlightActiveTrack();
+
+}
+
+
+/* =====================================================
    VOLUME
-   ========================================================= */
+===================================================== */
 
 let volTimer=null;
+
 
 function resetVolTimer(){
 
 if(volTimer)
 clearTimeout(volTimer);
+
 
 volTimer=setTimeout(()=>{
 
@@ -2005,6 +2012,7 @@ function toggleVolume(){
 
 const wrapper=
 document.getElementById("volWrapper");
+
 
 if(
 wrapper.classList.contains("active")
@@ -2044,241 +2052,17 @@ resetVolTimer();
 }
 
 
-/* =========================================================
-   NEXT
-   ========================================================= */
-
-function nextSong(){
-
-if(
-!player ||
-playlistItems.length===0
-)
-return;
-
-const current=
-player.getPlaylistIndex();
-
-const next=
-(current+1)%
-playlistItems.length;
-
-forceUpdateUI(next);
-
-player.playVideoAt(next);
-
-}
-
-
-/* =========================================================
-   PREVIOUS
-   ========================================================= */
-
-function previousSong(){
-
-if(
-!player ||
-playlistItems.length===0
-)
-return;
-
-const current=
-player.getPlaylistIndex();
-
-const previous=
-(current-1+
-playlistItems.length)%
-playlistItems.length;
-
-forceUpdateUI(previous);
-
-player.playVideoAt(previous);
-
-}
-
-
-/* =========================================================
-   FORCE UI
-   ========================================================= */
-
-function forceUpdateUI(index){
-
-if(
-!playlistItems[index]
-)
-return;
-
-const id=
-playlistItems[index];
-
-document.getElementById("cover").src=
-
-`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-
-const title=
-document.getElementById(
-`title-${index}`
-);
-
-const artist=
-document.getElementById(
-`artist-${index}`
-);
-
-if(title){
-
-document.getElementById("title")
-.textContent=
-title.textContent;
-
-}
-
-if(artist){
-
-document.getElementById("artist")
-.textContent=
-artist.textContent;
-
-}
-
-highlightActiveTrack();
-
-}
-
-
-/* =========================================================
-   SWIPE
-   ========================================================= */
-
-let swipeStartX=0;
-
-let swipeStartY=0;
-
-let swipeActive=false;
-
-let swipeFromSeek=false;
-
-const playerCard=
-document.getElementById("playerCard");
-
-const seekElement=
-document.getElementById("seek");
-
-
-playerCard.addEventListener(
-"pointerdown",
-e=>{
-
-swipeStartX=e.clientX;
-
-swipeStartY=e.clientY;
-
-swipeFromSeek=
-!!e.target.closest("#seek");
-
-swipeActive=true;
-
-if(swipeFromSeek){
-
-e.stopPropagation();
-
-}
-
-});
-
-
-playerCard.addEventListener(
-"pointermove",
-e=>{
-
-if(!swipeActive)
-return;
-
-if(swipeFromSeek){
-
-e.stopPropagation();
-
-}
-
-});
-
-
-playerCard.addEventListener(
-"pointerup",
-e=>{
-
-if(!swipeActive)
-return;
-
-const dx=
-e.clientX-swipeStartX;
-
-const dy=
-e.clientY-swipeStartY;
-
-if(swipeFromSeek){
-
-swipeActive=false;
-
-return;
-
-}
-
-if(
-Math.abs(dx)<50
-){
-
-swipeActive=false;
-
-return;
-
-}
-
-if(
-Math.abs(dy)>
-Math.abs(dx)
-){
-
-swipeActive=false;
-
-return;
-
-}
-
-if(dx<-50){
-
-nextSong();
-
-}
-
-else if(dx>50){
-
-previousSong();
-
-}
-
-swipeActive=false;
-
-});
-
-
-playerCard.addEventListener(
-"pointercancel",
-()=>{
-
-swipeActive=false;
-
-}
-);
-
-
-/* =========================================================
+/* =====================================================
    SEEK
-   ========================================================= */
+===================================================== */
 
 let isDragging=false;
 
 let seekPointerId=null;
+
+
+const seekElement=
+document.getElementById("seek");
 
 
 function getSeekPosition(clientX){
@@ -2286,8 +2070,10 @@ function getSeekPosition(clientX){
 const rect=
 seekElement.getBoundingClientRect();
 
+
 if(!rect.width)
 return 0;
+
 
 return Math.max(
 0,
@@ -2307,6 +2093,7 @@ document.getElementById("fill")
 .style.width=
 (pos*100)+"%";
 
+
 if(
 player &&
 typeof player.getDuration==="function"
@@ -2314,6 +2101,7 @@ typeof player.getDuration==="function"
 
 const duration=
 player.getDuration();
+
 
 if(duration){
 
@@ -2332,7 +2120,7 @@ format(duration);
 }
 
 
-/* SEEK START */
+/* START */
 
 seekElement.addEventListener(
 "pointerdown",
@@ -2346,6 +2134,7 @@ isDragging=true;
 
 seekPointerId=e.pointerId;
 
+
 try{
 
 seekElement.setPointerCapture(
@@ -2354,10 +2143,10 @@ e.pointerId
 
 }catch(err){}
 
-const pos=
-getSeekPosition(e.clientX);
 
-updateSeekVisual(pos);
+updateSeekVisual(
+getSeekPosition(e.clientX)
+);
 
 },
 {
@@ -2366,7 +2155,7 @@ passive:false
 );
 
 
-/* SEEK MOVE */
+/* MOVE */
 
 seekElement.addEventListener(
 "pointermove",
@@ -2375,14 +2164,15 @@ e=>{
 if(!isDragging)
 return;
 
+
 e.preventDefault();
 
 e.stopPropagation();
 
-const pos=
-getSeekPosition(e.clientX);
 
-updateSeekVisual(pos);
+updateSeekVisual(
+getSeekPosition(e.clientX)
+);
 
 },
 {
@@ -2391,7 +2181,7 @@ passive:false
 );
 
 
-/* SEEK END */
+/* END */
 
 seekElement.addEventListener(
 "pointerup",
@@ -2400,14 +2190,18 @@ e=>{
 if(!isDragging)
 return;
 
+
 e.preventDefault();
 
 e.stopPropagation();
 
+
 const pos=
 getSeekPosition(e.clientX);
 
+
 updateSeekVisual(pos);
+
 
 if(
 player &&
@@ -2416,6 +2210,7 @@ typeof player.getDuration==="function"
 
 const duration=
 player.getDuration();
+
 
 if(duration){
 
@@ -2428,9 +2223,11 @@ true
 
 }
 
+
 isDragging=false;
 
 seekPointerId=null;
+
 
 try{
 
@@ -2447,20 +2244,22 @@ passive:false
 );
 
 
-/* =========================================================
+/* =====================================================
    PROGRESS
-   ========================================================= */
+===================================================== */
 
 function updateProgress(){
 
 if(isDragging)
 return;
 
+
 if(
 !player ||
 typeof player.getCurrentTime!=="function"
 )
 return;
+
 
 try{
 
@@ -2470,8 +2269,10 @@ player.getCurrentTime();
 const duration=
 player.getDuration();
 
+
 if(!duration)
 return;
+
 
 const pos=
 Math.max(
@@ -2482,26 +2283,30 @@ current/duration
 )
 );
 
+
 document.getElementById("fill")
 .style.width=
 (pos*100)+"%";
+
 
 document.getElementById("current")
 .textContent=
 format(current);
 
+
 document.getElementById("duration")
 .textContent=
 format(duration);
+
 
 }catch(e){}
 
 }
 
 
-/* =========================================================
+/* =====================================================
    FORMAT
-   ========================================================= */
+===================================================== */
 
 function format(s){
 
@@ -2511,7 +2316,9 @@ isNaN(s)
 )
 return "0:00";
 
+
 s=Math.floor(s);
+
 
 return Math.floor(s/60)
 +
@@ -2524,9 +2331,9 @@ s%60
 }
 
 
-/* =========================================================
+/* =====================================================
    LOAD PLAYLIST
-   ========================================================= */
+===================================================== */
 
 function loadPlaylistItems(){
 
@@ -2536,11 +2343,14 @@ typeof player.getPlaylist!=="function"
 )
 return;
 
+
 playlistItems=
 player.getPlaylist();
 
+
 const list=
 document.getElementById("songList");
+
 
 const count=
 document.getElementById("songCount");
@@ -2553,12 +2363,18 @@ playlistItems.length===0
 
 list.innerHTML=
 `
-<div class="loading">
-No tracks found
+<div style="
+text-align:center;
+color:rgba(255,255,255,.55);
+font-size:10px;
+padding-top:20px;
+">
+No songs found
 </div>
 `;
 
-count.textContent="0 Songs";
+count.textContent=
+"0 Songs";
 
 return;
 
@@ -2585,14 +2401,13 @@ playlistItems.forEach(
 const item=
 document.createElement("div");
 
+
 item.className=
 "song-item";
 
+
 item.id=
 `track-${index}`;
-
-item.style.animationDelay=
-(index*0.035)+"s";
 
 
 item.onclick=()=>{
@@ -2606,44 +2421,34 @@ item.innerHTML=
 `
 
 <div class="song-number">
-${String(index+1).padStart(2,"0")}
+
+${index+1}
+
 </div>
 
 
-<div class="song-thumb-wrap">
+<div class="song-thumb">
 
 <img
 src="https://i.ytimg.com/vi/${id}/hqdefault.jpg"
-alt="Song"
+alt=""
 loading="lazy"
 >
 
-<div class="thumb-play">
-
-<svg viewBox="0 0 24 24">
-
-<path d="
-M8 5v14l11-7z
-"/>
-
-</svg>
-
-</div>
-
 </div>
 
 
-<div class="song-item-info">
+<div class="song-info">
 
 <div
-class="song-item-title"
+class="song-title"
 id="title-${index}"
 >
 Track #${index+1}
 </div>
 
 <div
-class="song-item-artist"
+class="song-artist"
 id="artist-${index}"
 >
 YouTube Music
@@ -2681,9 +2486,9 @@ updateInfo();
 }
 
 
-/* =========================================================
-   FETCH SONG DETAILS
-   ========================================================= */
+/* =====================================================
+   SONG DETAILS
+===================================================== */
 
 function fetchSongDetails(
 id,
@@ -2704,15 +2509,18 @@ data=>{
 if(!data)
 return;
 
+
 const title=
 document.getElementById(
 `title-${index}`
 );
 
+
 const artist=
 document.getElementById(
 `artist-${index}`
 );
+
 
 if(
 title &&
@@ -2723,6 +2531,7 @@ title.textContent=
 data.title;
 
 }
+
 
 if(
 artist &&
@@ -2743,14 +2552,19 @@ data.author_name;
 }
 
 
-/* =========================================================
+/* =====================================================
    PLAY SPECIFIC
-   ========================================================= */
+===================================================== */
 
 function playSpecificTrack(index){
 
 if(
-!player ||
+!player
+)
+return;
+
+
+if(
 !playlistItems[index]
 )
 return;
@@ -2758,21 +2572,22 @@ return;
 
 forceUpdateUI(index);
 
+
 player.playVideoAt(index);
 
 
-/* Scroll selected song into view */
+/* Keep selected song visible */
 
 setTimeout(()=>{
 
-const selected=
+const item=
 document.getElementById(
 `track-${index}`
 );
 
-if(selected){
+if(item){
 
-selected.scrollIntoView({
+item.scrollIntoView({
 
 behavior:"smooth",
 
@@ -2782,14 +2597,14 @@ block:"nearest"
 
 }
 
-},120);
+},100);
 
 }
 
 
-/* =========================================================
-   ACTIVE SONG
-   ========================================================= */
+/* =====================================================
+   ACTIVE
+===================================================== */
 
 function highlightActiveTrack(){
 
@@ -2799,8 +2614,10 @@ typeof player.getPlaylistIndex!=="function"
 )
 return;
 
+
 const current=
 player.getPlaylistIndex();
+
 
 document
 .querySelectorAll(".song-item")
@@ -2817,9 +2634,9 @@ index===current
 }
 
 
-/* =========================================================
-   SONG INFO
-   ========================================================= */
+/* =====================================================
+   INFO
+===================================================== */
 
 function updateInfo(){
 
@@ -2829,10 +2646,12 @@ typeof player.getVideoData!=="function"
 )
 return;
 
+
 try{
 
 const d=
 player.getVideoData();
+
 
 if(
 !d ||
@@ -2849,7 +2668,8 @@ document.getElementById("cover").src=
 if(d.title){
 
 document.getElementById("title")
-.textContent=d.title;
+.textContent=
+d.title;
 
 }
 
@@ -2857,15 +2677,129 @@ document.getElementById("title")
 if(d.author){
 
 document.getElementById("artist")
-.textContent=d.author;
+.textContent=
+d.author;
 
 }
-
-highlightActiveTrack();
 
 }catch(e){}
 
 }
+
+
+/* =====================================================
+   SWIPE
+===================================================== */
+
+let swipeStartX=0;
+
+let swipeStartY=0;
+
+let swipeActive=false;
+
+let swipeFromSeek=false;
+
+
+const playerCard=
+document.getElementById("playerCard");
+
+
+playerCard.addEventListener(
+"pointerdown",
+e=>{
+
+swipeStartX=e.clientX;
+
+swipeStartY=e.clientY;
+
+swipeFromSeek=
+!!e.target.closest("#seek");
+
+swipeActive=true;
+
+
+if(swipeFromSeek){
+
+e.stopPropagation();
+
+}
+
+});
+
+
+playerCard.addEventListener(
+"pointerup",
+e=>{
+
+if(!swipeActive)
+return;
+
+
+const dx=
+e.clientX-swipeStartX;
+
+
+const dy=
+e.clientY-swipeStartY;
+
+
+if(swipeFromSeek){
+
+swipeActive=false;
+
+return;
+
+}
+
+
+if(
+Math.abs(dx)<50
+){
+
+swipeActive=false;
+
+return;
+
+}
+
+
+if(
+Math.abs(dy)>
+Math.abs(dx)
+){
+
+swipeActive=false;
+
+return;
+
+}
+
+
+if(dx<0){
+
+nextSong();
+
+}
+
+else{
+
+previousSong();
+
+}
+
+
+swipeActive=false;
+
+});
+
+
+playerCard.addEventListener(
+"pointercancel",
+()=>{
+
+swipeActive=false;
+
+});
 
 </script>
 
