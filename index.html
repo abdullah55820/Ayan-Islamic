@@ -465,37 +465,6 @@ flex-shrink:0;
 }
 
 
-.btn{
-
-width:28px;
-height:28px;
-
-border:0;
-
-background:transparent;
-
-color:rgba(255,255,255,.9);
-
-display:flex;
-
-align-items:center;
-justify-content:center;
-
-cursor:pointer;
-
-padding:0;
-}
-
-
-.btn svg{
-
-width:20px;
-height:20px;
-
-fill:#fff;
-}
-
-
 /* =========================
    PREVIOUS / NEXT
    ========================= */
@@ -536,108 +505,6 @@ fill:#fff;
 .skip-btn:active{
 
 transform:scale(.88);
-
-}
-
-
-/* VOLUME */
-
-.vol-container{
-
-display:flex;
-
-align-items:center;
-
-gap:4px;
-
-background:rgba(0,0,0,.25);
-
-border:1px solid rgba(255,255,255,.15);
-
-padding:4px 6px;
-
-border-radius:20px;
-
-backdrop-filter:blur(10px);
-
--webkit-backdrop-filter:blur(10px);
-}
-
-
-.vol-slider-wrapper{
-
-width:0;
-
-overflow:hidden;
-
-opacity:0;
-
-display:flex;
-
-align-items:center;
-
-transition:
-width .28s cubic-bezier(.2,.8,.2,1),
-opacity .2s ease;
-}
-
-
-.vol-slider-wrapper.active{
-
-width:55px;
-
-opacity:1;
-
-margin-left:2px;
-}
-
-
-.vol-slider{
-
--webkit-appearance:none;
-
-appearance:none;
-
-width:55px;
-
-height:3.5px;
-
-background:rgba(255,255,255,.3);
-
-border-radius:10px;
-
-outline:none;
-
-cursor:pointer;
-}
-
-
-.vol-slider::-webkit-slider-thumb{
-
--webkit-appearance:none;
-
-appearance:none;
-
-width:10px;
-height:10px;
-
-border-radius:50%;
-
-background:#fff;
-
-cursor:pointer;
-
-box-shadow:0 0 5px rgba(0,0,0,.5);
-}
-
-
-/* HIDE VOLUME ON IOS */
-
-@supports (-webkit-touch-callout:none){
-
-.vol-container{
-display:none!important;
-}
 
 }
 
@@ -686,7 +553,6 @@ margin-left:0;
 }
 
 
-.btn:active,
 .play:active{
 
 transform:scale(.90);
@@ -1112,46 +978,6 @@ M4 6.5v11l10-5.5z
 
 </button>
 
-
-<div class="vol-container">
-
-
-<button
-class="btn"
-onclick="toggleVolume()"
->
-
-<svg viewBox="0 0 24 24">
-
-<path d="
-M3 9v6h4l5 5V4L7 9H3
-zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05
-c1.48-.73 2.5-2.25 2.5-4.02z
-M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71
-v2.06c4.01-.91 7-4.49 7-8.77z
-"/>
-
-</svg>
-
-</button>
-
-
-<div class="vol-slider-wrapper" id="volWrapper">
-
-<input
-type="range"
-class="vol-slider"
-id="volSlider"
-min="0"
-max="100"
-value="100"
-oninput="changeVolume(this.value)"
->
-
-</div>
-
-</div>
-
 </div>
 
 </section>
@@ -1277,38 +1103,6 @@ player.pauseVideo();
 }else{
 player.playVideo();
 }
-}
-
-
-/* =========================
-   VOLUME
-   ========================= */
-
-let volTimer=null;
-
-function resetVolTimer(){
-if(volTimer)clearTimeout(volTimer);
-volTimer=setTimeout(()=>{
-document.getElementById("volWrapper").classList.remove("active");
-},3000);
-}
-
-function toggleVolume(){
-const wrapper=document.getElementById("volWrapper");
-if(wrapper.classList.contains("active")){
-wrapper.classList.remove("active");
-if(volTimer)clearTimeout(volTimer);
-}else{
-wrapper.classList.add("active");
-resetVolTimer();
-}
-}
-
-function changeVolume(val){
-if(player && typeof player.setVolume==="function"){
-player.setVolume(val);
-}
-resetVolTimer();
 }
 
 
